@@ -76,6 +76,7 @@ Check that these display:
 - map
 - charts
 - news/log
+- AI communications log
 - command input
 
 Result:
@@ -113,6 +114,8 @@ Test these simple commands:
 Check:
 
 - command is accepted
+- press conference commands create a communications log entry where relevant
+- AI Communications panel shows latest press and leader-call entries
 - response appears
 - action cost applies where relevant
 - policy/history/log updates
@@ -185,6 +188,9 @@ Check:
 - House and Senate data display
 - party totals remain valid
 - bills pass/fail/pending based on logic if implemented
+- pending bills show estimated whip counts and vote timing
+- pending-bill negotiation buttons consume one action and update coalition relations
+- pending bills resolve after weekly advancement without appearing as enacted until passed
 - Congress effects influence legislation
 - midterms trigger around Week 104 if implemented
 - investigations/impeachment/shutdown systems do not crash if implemented
@@ -204,6 +210,7 @@ Check:
 - relation/conflict/alliance layers still work if present
 - clicking a country opens modal if implemented
 - country command-prefill buttons work if implemented
+- leader-call commands are logged in the country modal after a call resolves
 - US click opens domestic map if implemented
 
 Result:

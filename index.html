@@ -148,6 +148,12 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 .bill-title{font-size:.68rem;color:var(--text);font-weight:500;margin-bottom:.15rem}
 .bill-status{font-size:.6rem;color:var(--text3)}
 .bill-chance{font-size:.6rem;font-family:var(--fm)}
+.bill-actions{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem}
+.bill-action{background:rgba(201,168,76,.08);border:1px solid var(--gold3);color:var(--gold2);font-size:.55rem;font-family:var(--fh);letter-spacing:.8px;border-radius:2px;padding:.22rem .35rem;cursor:pointer;text-transform:uppercase}
+.bill-action:hover{background:rgba(201,168,76,.16);border-color:var(--gold);color:var(--gold)}
+.bill-meter{height:5px;background:var(--bg1);border-radius:2px;overflow:hidden;margin-top:.28rem}
+.bill-meter-fill{height:100%;background:linear-gradient(90deg,var(--red2),var(--gold),var(--green2));transition:width .4s}
+.bill-whip{font-size:.56rem;color:var(--text3);line-height:1.45;margin-top:.25rem}
 
 /* CENTER PANEL */
 .cpanel{display:flex;flex-direction:column;overflow:hidden;background:var(--bg0)}
@@ -598,6 +604,10 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
         <div class="loghead">Decision Log</div>
         <div id="log-list"><div class="nodata">No decisions yet.</div></div>
       </div>
+      <div class="logsec">
+        <div class="loghead">AI Communications</div>
+        <div id="communications-log"><div class="nodata">No leader calls or press conferences yet.</div></div>
+      </div>
     </div>
   </div>
 
@@ -992,6 +1002,7 @@ function openCountryModal(id){
       <div class="country-stat"><div class="country-stat-label">Map Layer</div><div class="country-stat-value">${humanizeLabel(G.mapLayer||'relations')}</div></div>
     </div>
     <div class="policy-route-note">Clicking a country now gives the player actionable diplomatic choices. These prefill the command box so AI adjudication and deterministic policy history can process the move.</div>
+    ${renderCountryRecentDiplomacy(id)}
     <div class="country-actions">
       <button class="country-action" onclick="countryCommand('${id}','Negotiate a trade deal with {country} that protects US workers while reducing strategic tensions')"><strong>Negotiate trade deal</strong>Seek market access with domestic political costs.</button>
       <button class="country-action" onclick="countryCommand('${id}','Offer targeted aid to {country} in exchange for diplomatic cooperation')"><strong>Offer aid</strong>Improve relations but worsen fiscal pressure.</button>
@@ -1010,6 +1021,69 @@ function countryInfoById(id,feature){const meta=COUNTRY_META[id]||{};return {id,
 function isCountryAtWar(id,name){const lcName=String(name||'').toLowerCase();const metaName=String(COUNTRY_META[id]?.n||'').toLowerCase();return G.wars.some(w=>{const x=String(w).toLowerCase();return x.includes(lcName)||x.includes(metaName)||x.includes(id);});}
 function relationLabel(rel){return rel>60?'Strong Ally':rel>30?'Friendly':rel>0?'Neutral+':rel>-30?'Neutral':rel>-60?'Hostile':'Enemy';}
 function relationColor(rel){return rel>30?'#6dcc9a':rel>-30?'#aaa':rel>-60?'#e8a87c':'#e07070';}
+
+function detectCountryIdFromText(text='',result={}){
+  const combined=`${text} ${result.headline||''} ${result.narrative||''} ${Object.keys(result.relation_changes||{}).join(' ')}`.toLowerCase();
+  const relKeys=Object.keys(result.relation_changes||{});
+  if(relKeys.length)return resolveCountryRelationId(relKeys[0]);
+  const entries=Object.entries(COUNTRY_META).sort((a,b)=>b[1].n.length-a[1].n.length);
+  for(const [id,meta] of entries){
+    if(combined.includes(String(meta.n).toLowerCase()))return id;
+  }
+  for(const [name,id] of Object.entries(COUNTRY_ALIASES)){
+    if(name.length>3&&combined.includes(name))return id;
+  }
+  return null;
+}
+
+function renderCountryRecentDiplomacy(id){
+  const calls=(G.leaderCallLog||[]).filter(c=>c.countryId===id).slice(0,3);
+  if(!calls.length)return '<div class="nodata" style="text-align:left;margin-bottom:.55rem">No recent leader calls logged for this country.</div>';
+  return `<div style="background:var(--bg0);border:1px solid var(--b1);border-radius:2px;padding:.55rem;margin-bottom:.6rem">
+    <div style="font-family:var(--fh);font-size:.58rem;color:var(--gold);letter-spacing:1.3px;text-transform:uppercase;margin-bottom:.3rem">Recent Leader Calls</div>
+    ${calls.map(call=>`<div style="border-top:1px solid var(--b1);padding-top:.35rem;margin-top:.35rem">
+      <div style="font-size:.65rem;color:var(--text2)">Week ${call.week} · ${call.leader}</div>
+      <div style="font-size:.7rem;color:var(--text);line-height:1.45;margin-top:.15rem">${call.summary}</div>
+      <div style="font-size:.56rem;color:${call.relationDelta>=0?'#6dcc9a':'#e07070'};font-family:var(--fm);margin-top:.15rem">Relation ${call.relationBefore>0?'+':''}${call.relationBefore} → ${call.relationAfter>0?'+':''}${call.relationAfter}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function recordLeaderCall(command,result,policyRecord){
+  const countryId=detectCountryIdFromText(command,result);
+  if(!countryId)return;
+  const info=COUNTRY_META[countryId]||{n:countryId};
+  const strategic=countryStrategicInfo(countryId);
+  const before=policyRecord?.before?.relations?.[countryId]??G.relations[countryId]??0;
+  const after=G.relations[countryId]??before;
+  const summary=result.narrative||result.headline||`Call with ${strategic.leader} on bilateral priorities.`;
+  const entry={
+    id:`call-${G.week}-${Date.now().toString(36)}`,
+    week:G.week,month:G.month,year:G.year,countryId,country:info.n,leader:strategic.leader,
+    command,summary:summary.slice(0,260),relationBefore:before,relationAfter:after,relationDelta:after-before,
+    policyId:policyRecord?.id||null
+  };
+  G.leaderCallLog=[entry,...(G.leaderCallLog||[])].slice(0,30);
+  addLogItem(`Leader call logged: ${strategic.leader} (${info.n})`);
+}
+
+function recordPressConference(command,result,policyRecord){
+  const text=`${command} ${result.headline||''}`.toLowerCase();
+  if(!/press conference|briefing|reporter|journalist|media availability/.test(text))return;
+  const mediaDelta=Number(result.approval_changes?.media||0);
+  const overallDelta=Number(result.approval_changes?.overall||0);
+  const reaction=mediaDelta>=2?'Disciplined performance improves coverage':mediaDelta<=-2?'Combative answers trigger hostile coverage':overallDelta>=1?'Message lands with the public':'Mixed coverage; reporters keep pressing for details';
+  const entry={
+    id:`press-${G.week}-${Date.now().toString(36)}`,
+    week:G.week,month:G.month,year:G.year,command,
+    headline:result.headline||'White House press availability',reaction,
+    mediaDelta,overallDelta,policyId:policyRecord?.id||null,
+    summary:(result.narrative||'The administration faced questions from the press corps.').slice(0,260)
+  };
+  G.pressConferenceLog=[entry,...(G.pressConferenceLog||[])].slice(0,25);
+  addLogItem(`Press conference logged: ${reaction}`);
+}
+
 
 // ============================================================
 // POLITICIANS
@@ -1133,6 +1207,9 @@ function initState(party,leader,diff){
     history:{weeks:[],approval:[],gdp:[],unemp:[],inf:[],debt:[]},
     gameOver:false,mapLayer:'relations',
     pendingBills:[],
+    congressionalRelations:{leadership:50,moderates:50,opposition:35,partyUnity:62},
+    leaderCallLog:[],
+    pressConferenceLog:[],
     // ----- TERM SYSTEM -----
     // term: which presidential term we're in (1 = first term, 2 = second term)
     // termStartWeek: absolute week the current term began (1 for term 1, 209 for term 2)
@@ -1679,6 +1756,9 @@ function migrateGameState(rawGame){
   if(!rawGame.policyHistory)rawGame.policyHistory=[];
   if(!rawGame.failedPolicies)rawGame.failedPolicies=[];
   if(!rawGame.pendingBills)rawGame.pendingBills=[];
+  if(!rawGame.congressionalRelations)rawGame.congressionalRelations={leadership:50,moderates:50,opposition:35,partyUnity:62};
+  if(!Array.isArray(rawGame.leaderCallLog))rawGame.leaderCallLog=[];
+  if(!Array.isArray(rawGame.pressConferenceLog))rawGame.pressConferenceLog=[];
   if(!rawGame.legacyReports)rawGame.legacyReports=[];
   
   // Term fields
@@ -1733,6 +1813,9 @@ function migrateGameState(rawGame){
   if(!Array.isArray(rawGame.policyHistory))rawGame.policyHistory=[];
   if(!Array.isArray(rawGame.failedPolicies))rawGame.failedPolicies=[];
   if(!Array.isArray(rawGame.pendingBills))rawGame.pendingBills=[];
+  if(!rawGame.congressionalRelations)rawGame.congressionalRelations={leadership:50,moderates:50,opposition:35,partyUnity:62};
+  if(!Array.isArray(rawGame.leaderCallLog))rawGame.leaderCallLog=[];
+  if(!Array.isArray(rawGame.pressConferenceLog))rawGame.pressConferenceLog=[];
   rawGame.policies.forEach((policy,idx)=>{
     const name=typeof policy==='string'?policy:(policy?.name||String(policy));
     if(!rawGame.policyHistory.some(rec=>(rec.name||rec.policy)===name)){
@@ -1938,6 +2021,11 @@ function createPolicyRecord(result,command,before,after,outcome){
     name,
     week:G.week,month:G.month,year:G.year,
     route,status,command:command||'',
+    passChance:outcome?.passChance??result.passChance??null,
+    introducedWeek:G.week,
+    voteWeek:status==='pending'?G.week+2:null,
+    negotiationScore:0,
+    chamberProgress:status==='pending'?{house:false,senate:false}:null,
     isPolicy:!!result.policy,
     narrative:result.narrative||'',
     headline:result.headline||name,
@@ -1976,6 +2064,11 @@ function normalizePolicyRecord(rec,idx=0,rawGame=G){
     budgetEffects:rec.budgetEffects||rec.budget_changes||{},
     congressResult:rec.congressResult||rec.congress_result||'Not tracked.',
     relationEffects:rec.relationEffects||rec.relation_changes||{},
+    passChance:rec.passChance??rec.pass_chance??null,
+    introducedWeek:rec.introducedWeek||rec.week||1,
+    voteWeek:rec.voteWeek||null,
+    negotiationScore:rec.negotiationScore||0,
+    chamberProgress:rec.chamberProgress||null,
     legalRisk:rec.legalRisk||rec.legal_risk||'Unknown',
     scandalRisk:rec.scandalRisk||rec.scandal_risk||'Unknown',
     legacyImpact:rec.legacyImpact||rec.legacy_impact||''
@@ -2025,7 +2118,11 @@ function applyResult(r,command=''){
   if(!r)return;
   const route=classifyCommandRoute(command,r);
   const congressOutcome=evaluateCongressOutcome(route,command,r);
-  const desiredStatus=normalizePolicyStatus(r.status||r.policy_status||congressOutcome.status);
+  // Congress is a deterministic constraint: AI may describe the politics, but it cannot
+  // unilaterally declare a bill enacted when the whip count says pending or failed.
+  const desiredStatus=routeNeedsCongress(route)
+    ? normalizePolicyStatus(congressOutcome.status)
+    : normalizePolicyStatus(r.status||r.policy_status||congressOutcome.status);
   const statusForEffects=desiredStatus;
   const originalResult=r;
   r=scaleResultForNonEnacted(r,statusForEffects);
@@ -2143,6 +2240,8 @@ function applyResult(r,command=''){
       G.policySnapshots[originalResult.policy] = {...pendingSnapshot,...policyRecord};
     }
     registerPolicyRecord(policyRecord);
+    if(route==='leader call')recordLeaderCall(command,originalResult,policyRecord);
+    if(route==='communication/speech')recordPressConference(command,originalResult,policyRecord);
     if(statusForEffects==='pending')addLogItem(`Pending in Congress: ${policyRecord.name}`);
     if(statusForEffects==='failed')addLogItem(`Failed in Congress: ${policyRecord.name}`);
   }
@@ -2173,12 +2272,137 @@ function applyResult(r,command=''){
   recalculateOverallApproval();
 }
 
+
+function stableHash(text){
+  let h=2166136261;
+  String(text||'').split('').forEach(ch=>{h^=ch.charCodeAt(0);h=Math.imul(h,16777619);});
+  return Math.abs(h>>>0);
+}
+
+function estimateBillPassChance(record){
+  if(!record)return 0;
+  const c=G.congress||{senate:{dem:50,rep:50},house:{dem:218,rep:217}};
+  const partyDem=G.party==='Democrat';
+  const senateOwn=partyDem?c.senate.dem>=50:c.senate.rep>=50;
+  const houseOwn=partyDem?c.house.dem>=218:c.house.rep>=218;
+  const cr=G.congressionalRelations||{leadership:50,moderates:50,opposition:35,partyUnity:62};
+  const base=Number(record.passChance??50);
+  const relationScore=(cr.leadership-50)*0.22+(cr.moderates-50)*0.30+(cr.partyUnity-50)*0.18+(cr.opposition-35)*0.08;
+  const chamberScore=(senateOwn?6:-8)+(houseOwn?6:-8);
+  const age=Math.max(0,(G.week||1)-(record.introducedWeek||record.week||1));
+  const fatigue=age>5?-(age-5)*3:age*1.5;
+  return Math.max(3,Math.min(97,base+relationScore+chamberScore+(record.negotiationScore||0)+fatigue));
+}
+
+function applyTrackedEffectSet(effects,factor=1){
+  Object.entries(effects?.approvalEffects||{}).forEach(([k,v])=>{
+    if(G.approval[k]!==undefined)G.approval[k]=Math.max(0,Math.min(100,G.approval[k]+(Number(v)||0)*factor));
+  });
+  Object.entries(effects?.economyEffects||{}).forEach(([k,v])=>{
+    const n=(Number(v)||0)*factor;
+    if(k==='gdpGrowth')G.economy.gdpGrowth=Math.max(-12,Math.min(12,G.economy.gdpGrowth+n));
+    else if(k==='unemployment')G.economy.unemployment=Math.max(0,Math.min(25,G.economy.unemployment+n));
+    else if(k==='inflation')G.economy.inflation=Math.max(0,Math.min(25,G.economy.inflation+n));
+    else if(k==='nationalDebt')G.economy.nationalDebt=Math.max(0,G.economy.nationalDebt+Math.max(-3000,Math.min(3000,n)));
+    else if(k==='deficit')G.economy.deficit+=Math.max(-500,Math.min(500,n));
+    else if(k==='tradeBalance')G.economy.tradeBalance+=n;
+    else if(k==='stockMarket')G.economy.stockMarket=Math.max(10,G.economy.stockMarket+n);
+    else if(k==='bondYield')G.economy.bondYield=Math.max(0,Math.min(20,G.economy.bondYield+n));
+  });
+  Object.entries(effects?.budgetEffects||{}).forEach(([k,v])=>{if(G.budget[k]!==undefined)G.budget[k]+=(Number(v)||0)*factor;});
+  G.budget.total=G.budget.defense+G.budget.healthcare+G.budget.socialSecurity+G.budget.education+G.budget.infrastructure+G.budget.science+G.budget.foreignAid+G.budget.other;
+  G.budget.revenue=G.budget.total+G.economy.deficit;
+  Object.entries(effects?.relationEffects||{}).forEach(([k,v])=>{
+    const cid=resolveCountryRelationId(k);
+    if(G.relations[cid]===undefined)G.relations[cid]=0;
+    G.relations[cid]=Math.max(-100,Math.min(100,G.relations[cid]+(Number(v)||0)*factor));
+  });
+}
+
+function updatePolicyRecordStatus(record,status,summary){
+  record.status=status;
+  record.congressResult=summary||record.congressResult;
+  record.after=cloneCoreStats();
+  G.policyHistory=(G.policyHistory||[]).map(r=>r.id===record.id?record:r);
+  if(status==='enacted'){
+    G.pendingBills=(G.pendingBills||[]).filter(r=>r.id!==record.id);
+    G.failedPolicies=(G.failedPolicies||[]).filter(r=>r.id!==record.id);
+    if(record.isPolicy!==false&&!G.policies.includes(record.name))G.policies.push(record.name);
+  }else if(['failed','blocked','struck down','vetoed'].includes(status)){
+    G.pendingBills=(G.pendingBills||[]).filter(r=>r.id!==record.id);
+    G.failedPolicies=[record,...(G.failedPolicies||[]).filter(r=>r.id!==record.id)].slice(0,12);
+  }
+  G.policySnapshots=G.policySnapshots||{};
+  G.policySnapshots[record.name]={...(G.policySnapshots[record.name]||{}),...record};
+}
+
+function processPendingBills(){
+  G.pendingBills=Array.isArray(G.pendingBills)?G.pendingBills.map(normalizePolicyRecord).filter(Boolean):[];
+  if(!G.pendingBills.length)return;
+  const still=[];
+  G.pendingBills.forEach(record=>{
+    const age=Math.max(0,G.week-(record.introducedWeek||record.week||1));
+    const chance=estimateBillPassChance(record);
+    record.passChance=chance;
+    const forcedVote=age>=4||chance>=72||chance<=22;
+    if(!forcedVote){
+      still.push(record);
+      return;
+    }
+    const roll=stableHash(`${record.id}-${G.week}-${record.negotiationScore||0}`)%100;
+    if(roll<chance){
+      applyTrackedEffectSet(record,0.65);
+      recalculateOverallApproval();
+      updatePolicyRecordStatus(record,'enacted',`Congress passes after ${age} week${age===1?'':'s'} of bargaining (${Math.round(chance)}% whip count, roll ${roll}).`);
+      addNewsItem(`Congress passes ${record.name}`,'policy');
+      addLogItem(`Bill enacted: ${record.name}`);
+    }else{
+      G.approval.independents=Math.max(0,G.approval.independents-1.2);
+      G.approval.media=Math.max(0,G.approval.media-0.8);
+      recalculateOverallApproval();
+      updatePolicyRecordStatus(record,'failed',`Congressional vote fails after ${age} week${age===1?'':'s'} (${Math.round(chance)}% whip count, roll ${roll}).`);
+      addNewsItem(`Congress rejects ${record.name}`,'breaking');
+      addLogItem(`Bill failed: ${record.name}`);
+    }
+  });
+  G.pendingBills=still.filter(r=>r.status==='pending');
+}
+
+function negotiatePendingBill(id,strategy='moderates'){
+  const record=(G.pendingBills||[]).find(r=>r.id===id);
+  if(!record||G.actionsLeft<=0)return;
+  const cr=G.congressionalRelations||(G.congressionalRelations={leadership:50,moderates:50,opposition:35,partyUnity:62});
+  const before=estimateBillPassChance(record);
+  if(strategy==='leadership'){
+    cr.leadership=Math.min(100,cr.leadership+6);cr.partyUnity=Math.min(100,cr.partyUnity+3);record.negotiationScore=(record.negotiationScore||0)+4;
+    G.approval.independents=Math.max(0,G.approval.independents-0.5);
+  }else if(strategy==='moderates'){
+    cr.moderates=Math.min(100,cr.moderates+7);record.negotiationScore=(record.negotiationScore||0)+5;
+    cr.partyUnity=Math.max(0,cr.partyUnity-2);G.approval.labor=Math.max(0,G.approval.labor-0.4);
+  }else{
+    cr.opposition=Math.min(100,cr.opposition+5);record.negotiationScore=(record.negotiationScore||0)+3;
+    G.approval.democrats=Math.max(0,G.approval.democrats-(G.party==='Democrat'?0.8:0));
+    G.approval.republicans=Math.max(0,G.approval.republicans-(G.party==='Republican'?0.8:0));
+  }
+  record.passChance=estimateBillPassChance(record);
+  G.actionsLeft--;
+  recalculateOverallApproval();
+  addMsg('ai',`Congressional affairs reports ${record.name} moved from ${Math.round(before)}% to ${Math.round(record.passChance)}% estimated support. The ${strategy} strategy consumed one action and created visible coalition trade-offs.`);
+  addLogItem(`Whip operation on ${record.name}: ${strategy}`);
+  autoSaveGame();
+  renderAll();
+  if(G.actionsLeft===0)addMsg('ai',`No more actions this week. Click END WEEK → to advance to Week ${G.week+1}.`);
+}
+
 function weeklyDrift(){
   const e=G.economy;
   const debtT=e.nationalDebt/1000;
   const deficitT=Math.abs(e.deficit)/1000;
   const atWar=G.wars.length>0;
   const scandalLoad=G.scandals.length;
+
+  // ----- CONGRESSIONAL BILL MOVEMENT -----
+  processPendingBills();
 
   // ----- DEBT & BOND YIELDS -----
   // High debt -> higher bond yields, compounding cost of borrowing
@@ -2500,6 +2724,7 @@ function renderAll(changes={}){
   renderCongress();
   renderScandals();
   renderPolicies();
+  renderCommunicationsLog();
   updateCharts();
   refreshMap();
 }
@@ -2773,6 +2998,24 @@ function renderCongress(){
   const majS=c.senate.dem>c.senate.rep?'D':'R';
   const majH=c.house.dem>c.house.rep?'D':'R';
   const passable=G.party==='Democrat'?(majS==='D'&&majH==='D'):( majS==='R'&&majH==='R');
+  const cr=G.congressionalRelations||{leadership:50,moderates:50,opposition:35,partyUnity:62};
+  const pending=(G.pendingBills||[]).map(normalizePolicyRecord).filter(Boolean).slice(0,5);
+  const pendingHtml=pending.length?pending.map(b=>{
+    const chance=estimateBillPassChance(b);
+    const age=Math.max(0,G.week-(b.introducedWeek||b.week||1));
+    const eta=age>=4||chance>=72||chance<=22?'vote imminent':`vote in ~${Math.max(1,4-age)} wk`;
+    return `<div class="congress-bill">
+      <div class="bill-title">${b.name}</div>
+      <div class="bill-status">${formatRoute(b.route)} · introduced W${b.introducedWeek||b.week} · ${eta}</div>
+      <div class="bill-meter"><div class="bill-meter-fill" style="width:${Math.round(chance)}%"></div></div>
+      <div class="bill-whip">Whip count: <span class="bill-chance" style="color:${chance>=60?'#6dcc9a':chance>=40?'var(--gold2)':'#e07070'}">${Math.round(chance)}%</span> · Negotiation score ${b.negotiationScore||0}</div>
+      <div class="bill-actions">
+        <button class="bill-action" onclick="negotiatePendingBill('${b.id}','leadership')">Lean on leaders</button>
+        <button class="bill-action" onclick="negotiatePendingBill('${b.id}','moderates')">Court moderates</button>
+        <button class="bill-action" onclick="negotiatePendingBill('${b.id}','opposition')">Opposition deal</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="nodata">No pending bills. Legislative commands can create bills that move over future weeks.</div>';
   document.getElementById('congress-display').innerHTML=`
     <div class="congress-bar">
       <div class="cbrow"><span class="cbname">U.S. Senate (100)</span><span class="cbseats">${c.senate.dem}D – ${c.senate.rep}R</span></div>
@@ -2785,6 +3028,13 @@ function renderCongress(){
       <div class="cbleg"><div class="cbld"><div class="cbdot" style="background:#2980b9"></div>Dem ${c.house.dem}</div><div class="cbld"><div class="cbdot" style="background:#c0392b"></div>Rep ${c.house.rep}</div><div class="cbld"><div class="cbdot" style="background:#c9a84c"></div>Majority: ${majH==='D'?'Democrat':'Republican'}</div></div>
     </div>
     <div style="margin-top:.5rem;background:var(--bg0);border:1px solid var(--b1);border-radius:2px;padding:.45rem;font-size:.65rem;color:${passable?'#6dcc9a':'#e07070'}">${passable?'✓ Your party controls Congress — legislation can pass':'✗ Divided Congress — expect resistance to major legislation'}</div>
+    <div style="margin-top:.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.35rem">
+      ${[['Leadership',cr.leadership],['Moderates',cr.moderates],['Opposition',cr.opposition],['Party Unity',cr.partyUnity]].map(([label,val])=>`<div style="background:var(--bg0);border:1px solid var(--b1);border-radius:2px;padding:.35rem"><div style="font-size:.54rem;color:var(--text3);text-transform:uppercase;letter-spacing:.6px">${label}</div><div style="font-family:var(--fm);color:${val>=60?'#6dcc9a':val>=40?'var(--gold2)':'#e07070'}">${Math.round(val)}%</div></div>`).join('')}
+    </div>
+    <div style="margin-top:.6rem">
+      <div style="font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Pending Legislation</div>
+      ${pendingHtml}
+    </div>
     <div style="margin-top:.5rem">
       <div style="font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Military Overview</div>
       <div style="font-size:.65rem;color:var(--text2);line-height:1.8">
@@ -2863,6 +3113,17 @@ function effectList(obj,unit=''){
   return entries.map(([k,v])=>`${humanizeLabel(k)}: <span style="color:${v>=0?'#6dcc9a':'#e07070'};font-family:var(--fm)">${v>0?'+':''}${Number(v).toFixed(Math.abs(v)<1?1:0)}${unit}</span>`).join('<br>');
 }
 
+function renderPolicyLinkedComms(policyId){
+  const calls=(G.leaderCallLog||[]).filter(c=>c.policyId===policyId);
+  const presses=(G.pressConferenceLog||[]).filter(p=>p.policyId===policyId);
+  if(!calls.length&&!presses.length)return '';
+  return `<div style="margin-top:.65rem;background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem">
+    <div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.35rem">AI COMMUNICATIONS LOG</div>
+    ${calls.map(c=>`<div style="font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:.35rem"><strong>${c.leader}</strong>: ${c.summary}<br><span style="font-family:var(--fm);color:${c.relationDelta>=0?'#6dcc9a':'#e07070'}">Relation ${c.relationBefore>0?'+':''}${c.relationBefore} → ${c.relationAfter>0?'+':''}${c.relationAfter}</span></div>`).join('')}
+    ${presses.map(p=>`<div style="font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:.35rem"><strong>Press room:</strong> ${p.reaction}<br>${p.summary}</div>`).join('')}
+  </div>`;
+}
+
 function openPolicyRecord(record){
   const rec=normalizePolicyRecord(record);
   if(!rec)return;
@@ -2903,7 +3164,8 @@ function openPolicyRecord(record){
       <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Budget</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.budgetEffects,'B')}</span></div>
       <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Foreign relations</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.relationEffects,'')}</span></div>
     </div>
-    ${rec.narrative?`<div style="background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem"><div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.3rem">SITUATION ROOM ASSESSMENT</div><div style="font-size:.75rem;color:var(--text2);line-height:1.6">${rec.narrative}</div></div>`:''}`;
+    ${rec.narrative?`<div style="background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem"><div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.3rem">SITUATION ROOM ASSESSMENT</div><div style="font-size:.75rem;color:var(--text2);line-height:1.6">${rec.narrative}</div></div>`:''}
+    ${renderPolicyLinkedComms(rec.id)}`;
   openModal('expmodal');
 }
 
@@ -3121,6 +3383,20 @@ function addNewsItem(text,type='breaking'){
   // Fix 6: cap G.news so saves don't bloat. UI already shows ≤10; the in-memory
   // array can keep a longer tail (50) for save/load context without unbounded growth.
   if(G.news.length>50)G.news.length=50;
+}
+
+function renderCommunicationsLog(){
+  const el=document.getElementById('communications-log');
+  if(!el)return;
+  const items=[
+    ...(G.leaderCallLog||[]).map(c=>({type:'CALL',week:c.week,title:c.country||c.leader,body:c.summary,delta:c.relationDelta,id:c.id})),
+    ...(G.pressConferenceLog||[]).map(p=>({type:'PRESS',week:p.week,title:p.headline,body:p.reaction,delta:p.mediaDelta,id:p.id}))
+  ].sort((a,b)=>b.week-a.week).slice(0,6);
+  if(!items.length){el.innerHTML='<div class="nodata">No leader calls or press conferences yet.</div>';return;}
+  el.innerHTML=items.map(item=>`<div class="litem">
+    <span class="ltext"><span class="ntag ${item.type==='PRESS'?'world':'policy'}">${item.type}</span> ${item.title}: ${item.body}</span>
+    <span class="ldate" style="color:${item.delta>=0?'#6dcc9a':'#e07070'}">W${item.week}</span>
+  </div>`).join('');
 }
 
 function addLogItem(text){
