@@ -294,3 +294,215 @@ Create `docs/TEST_PLAN.md`, then ask Codex to begin its first autonomous improve
 
 **Next recommended task**
 - Add a real pending-bill workflow: weekly Congress movement, negotiation commands, votes, amendments and visible whip counts.
+
+## 2026-05-17 — Autonomous Development Sprint 2
+
+### Cycle 6 — Pending-bill workflow and congressional bargaining
+
+**Task chosen**
+- Add a real pending-bill lifecycle with weekly movement, visible whip counts and negotiation actions.
+
+**Why it mattered**
+- The previous cycle could create pending bills, but they did not yet behave like live political objects. Legislation needed time pressure, coalition work and a future vote so Congress felt like a governing constraint rather than a label.
+
+**Files changed**
+- `index.html`
+
+**What changed**
+- Added persistent `congressionalRelations` state for leadership, moderates, opposition and party unity.
+- Added pass-chance estimation for pending bills using chamber control, approval context, congressional relationships, bill age and negotiation score.
+- Added weekly pending-bill processing that can enact or fail bills after votes.
+- Added action-consuming negotiation buttons: lean on leaders, court moderates and cut an opposition deal.
+- Added deterministic vote rolls so pending bills resolve without relying on browser randomness alone.
+- Hardened legislative adjudication so AI cannot mark a congressional bill enacted when deterministic whip-count logic says pending or failed.
+
+**Gameplay effect**
+- A pending bill now creates an actual decision: spend scarce actions whipping support, compromise with moderates, bargain with the opposition or risk a failed vote.
+
+**AI effect**
+- AI-generated legislative commands still create structured records, but deterministic congressional logic now controls whether those records become enacted law.
+
+**Political simulation effect**
+- Congress now acts as a veto point with coalition management, party-unity costs and delayed outcomes.
+
+**Checks run**
+- PASS — `npm test`
+
+**Bugs found**
+- None during static smoke testing.
+
+**Bugs fixed**
+- Prevented AI-provided enacted statuses from bypassing deterministic congressional outcomes for legislation and budget packages.
+
+**Known risks**
+- Vote resolution still needs browser playtesting to validate pacing and UI feel.
+- The current model is chamber-level and relationship-level, not committee/caucus-level.
+
+**Next recommended task**
+- Add visible AI/diplomatic logs so leader calls become persistent state, not just one-off command responses.
+
+### Cycle 7 — Leader-call persistence and country diplomacy history
+
+**Task chosen**
+- Persist AI leader calls and show recent call history inside the country diplomacy modal.
+
+**Why it mattered**
+- The map already prefills leader-call commands, but the result disappeared into generic policy/log history. Foreign policy needs continuity: recent calls should shape how the player reads relations.
+
+**Files changed**
+- `index.html`
+
+**What changed**
+- Added `leaderCallLog` state and save migration backfill.
+- Added country detection for leader-call commands using relation effects, country metadata and aliases.
+- Logged leader-call summaries, target leaders, relation before/after and linked policy IDs.
+- Added recent leader calls to each country's diplomacy modal.
+
+**Gameplay effect**
+- Players can return to a country and see recent diplomatic contact, making repeated calls and relationship management more legible.
+
+**AI effect**
+- AI narrative from a leader-call command is now retained as structured diplomatic history tied to a country.
+
+**Political simulation effect**
+- Foreign relations have memory: diplomatic moves now leave visible records and relation deltas.
+
+**Checks run**
+- PASS — `npm test`
+
+**Bugs found**
+- None during static smoke testing.
+
+**Bugs fixed**
+- None in this cycle.
+
+**Known risks**
+- Country detection is heuristic and should later be replaced by explicit AI structured output for `country_id`.
+
+**Next recommended task**
+- Add press-conference logging and a unified communications surface.
+
+### Cycle 8 — Press-conference logs and linked communications records
+
+**Task chosen**
+- Add structured press-conference logging and link communications records to policy detail views.
+
+**Why it mattered**
+- Press conferences are a key AI-first gameplay direction. Even before full reporter dialogue, media-facing commands should create persistent political consequences.
+
+**Files changed**
+- `index.html`
+
+**What changed**
+- Added `pressConferenceLog` state and migration backfill.
+- Detected press conference/media-availability commands.
+- Stored press reaction, media/overall approval deltas, summary text and linked policy IDs.
+- Added an AI communications section to policy detail views when a policy/decision has an associated leader call or press conference.
+
+**Gameplay effect**
+- Press actions now leave behind a readable media record instead of being absorbed into generic chat.
+
+**AI effect**
+- AI narrative from press commands is retained and framed as a press-room reaction.
+
+**Political simulation effect**
+- Media approval deltas and public messaging outcomes are now visible as part of decision history.
+
+**Checks run**
+- PASS — `npm test`
+
+**Bugs found**
+- The first insertion left `renderPolicyLinkedComms` referenced before it existed.
+
+**Bugs fixed**
+- Added the missing `renderPolicyLinkedComms` function and reran the smoke test successfully.
+
+**Known risks**
+- This is a logged press-conference mode, not yet a full reporter question/follow-up dialogue system.
+
+**Next recommended task**
+- Surface communications history outside individual policy modals so players can monitor calls and press events at a glance.
+
+### Cycle 9 — AI communications panel
+
+**Task chosen**
+- Add a right-panel AI communications feed for recent leader calls and press conferences.
+
+**Why it mattered**
+- Communications are now structured, but players should not need to open individual policies or country modals to discover recent calls and press events.
+
+**Files changed**
+- `index.html`
+
+**What changed**
+- Added an `AI Communications` panel below the decision log.
+- Added `renderCommunicationsLog()` to combine recent leader calls and press conferences into a compact feed.
+- Wired the communications feed into `renderAll()`.
+
+**Gameplay effect**
+- The player gets a live operational memory of diplomatic calls and press events during the governing week.
+
+**AI effect**
+- AI-generated communications now have a dedicated persistent presentation surface.
+
+**Political simulation effect**
+- Diplomatic and media actions are easier to compare against approval and relation changes over time.
+
+**Checks run**
+- PASS — `npm test`
+
+**Bugs found**
+- None during static smoke testing.
+
+**Bugs fixed**
+- None in this cycle.
+
+**Known risks**
+- The right panel may become crowded on small screens; needs browser layout testing.
+
+**Next recommended task**
+- Strengthen smoke tests so future cycles protect the new legislative and communications systems.
+
+### Cycle 10 — Smoke-test and manual test-plan hardening
+
+**Task chosen**
+- Extend automated and manual checks for the new sprint systems.
+
+**Why it mattered**
+- GOVERN is still a single-file browser app. Static smoke tests are not enough, but they can catch missing functions, missing DOM anchors and accidental duplicate declarations before a browser test pass.
+
+**Files changed**
+- `scripts/smoke-check.mjs`
+- `docs/TEST_PLAN.md`
+
+**What changed**
+- Added required function checks for pending-bill processing, bill negotiation, leader-call logging, press logging and communications rendering.
+- Added required state-snippet checks for pending bills, congressional relationships, leader-call logs and press-conference logs.
+- Added required UI/gameplay snippet checks for pending legislation, recent leader calls, communications logs and whip operations.
+- Added duplicate function declaration detection to the smoke check.
+- Updated the manual test plan with pending-bill negotiation, communications panel, leader-call history and press-conference log checks.
+
+**Gameplay effect**
+- No direct gameplay change, but future gameplay changes now have stronger regression protection.
+
+**AI effect**
+- AI communications surfaces are now protected by automated smoke checks.
+
+**Political simulation effect**
+- Congressional and communications systems are now explicitly covered in the testing checklist.
+
+**Checks run**
+- PASS — `npm test`
+- PASS — `git diff --check`
+
+**Bugs found**
+- The expanded smoke test initially failed because it correctly detected the missing communications-log helper from Cycle 8.
+
+**Bugs fixed**
+- Added the missing helper and reran `npm test` successfully.
+
+**Known risks**
+- No browser automation is available in this environment; the manual paths in `docs/TEST_PLAN.md` still need real browser execution.
+
+**Next recommended task**
+- Build fuller AI press-conference mode with generated reporter questions, follow-ups and stateful media consequences.
