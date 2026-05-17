@@ -636,3 +636,68 @@ The new systems make actions less one-dimensional: aggressive diplomacy can crea
 ### Next recommended task
 
 Split the growing single-file app into modules (`src/state.js`, `src/communications.js`, `src/covert.js`, `src/ui.js`) and add browser-level smoke tests when a browser binary is available.
+
+---
+
+## Development Cycle: Political identity, living diplomacy, press, and US state map
+
+**Date:** 2026-05-17
+**Agent:** Codex
+**Branch:** current working branch
+**Starting point:** GOVERN already had a world SVG map, a basic country modal, AI Communications tab, cabinet profiles, policy history, migration helpers, save/load, autosave, and smoke checks.
+
+### Goal
+
+Make countries and politicians feel more alive without removing existing gameplay systems. The cycle prioritized country identity cards with flags and leader profiles, simulated leader calls, press conferences, and a US state strategy board.
+
+### Why this mattered
+
+The world map was already clickable but still felt closer to a command shortcut than a living diplomatic surface. GOVERN needs the player to think like a president: who leads a country, what its government wants, what trade/security risks exist, how conversations affect relations, and how domestic state politics shape national power.
+
+### Files changed
+
+- `index.html`
+- `docs/DEVLOG.md`
+
+### What changed
+
+- Added structured world-leader identity data keyed by country code, including role, country, faction/party, ideology estimate, fallback portrait, relationship, temperament, negotiation style, interests, red lines, biography, voice style, source note, and last-updated metadata.
+- Added flag helpers and safe portrait fallbacks so country cards, tooltips, leader profiles, and cabinet cards do not rely on broken hotlinked images.
+- Rebuilt the country click modal into a full diplomatic briefing card with flag, capital, leader, government type, relation meter, GDP/population where seeded, military alignment, trade exposure, stability, threat and opportunity.
+- Added country actions for call leader, message, trade negotiation, security negotiation, sanctions, aid, intelligence briefing, regional strategy, and a US-specific state-map button.
+- Added `generateLeaderResponse(leader, playerMessage, gameState)` and wired leader-call replies to leader temperament, relation score, trade/security keywords, threats, conciliatory language, interests, red lines, and follow-up offers/demands.
+- Added diplomatic outcome application so sanctions, aid, formal offers, trade and other call outcomes can move relationships, budget/economy pressure, logs and news.
+- Added a press-conference flow from the Home quick action with generated reporter questions, freeform typed answers, tone analysis, approval/media/market effects, reaction text, history, and logging.
+- Added seeded US state political data for all states plus DC, state approval values, party lean, importance, key issue, economy snippets, House split, electoral votes and safe pending officeholder fields.
+- Added a US state strategy board with colored state tiles, hover titles, click-through state detail cards, and state actions that update state approval, budget pressure or congressional relations.
+- Added save/load and old-save migration defaults for selected country/state, active map view, leader conversations, diplomatic history, press history, country relationships, politician profiles, world leader data, state approvals and state political data.
+
+### Gameplay effect
+
+Country clicks now create a decision surface instead of only a tooltip. The player can inspect a country's leader profile, understand the diplomatic/economic context, start a call, and push outcomes that touch relations, news and logs. Press conferences and US state actions also now use typed or clickable player decisions with explicit political consequences.
+
+### AI effect
+
+Leader calls remain compatible with the existing AI-first communications philosophy, but the deterministic fallback is stronger: different leader temperaments produce different tones and bargaining frames, so China, Russia, allies, neutral states and pending-data countries do not all sound identical.
+
+### Political simulation effect
+
+Diplomacy now exposes trade-offs: sanctions can strengthen a pressure posture while hurting relations and inflation; aid costs money but improves relations; conciliatory leader calls can open working trust; evasive press answers can worsen media trust and scandal pressure; state actions can improve local approval while adding fiscal or institutional costs.
+
+### Checks run
+
+- `npm test` passed and confirmed inline JavaScript parses with required gameplay anchors still present.
+- Manual source review covered startup-sensitive paths: `initState`, `migrateGameState`, `buildMap`, country click handling, communications, press flow, state map flow, save/load, and autosave calls.
+- Browser screenshot/manual click testing could not be completed because the container has no installed Chromium/Chrome browser binary.
+
+### Known limitations
+
+- Many world leader names intentionally remain title-based or “Leader data pending” to avoid asserting unstable live facts without a verified source. The data structure is ready to fill later.
+- Portraits use safe initials/fallback cards rather than hotlinked real photos.
+- The US state board is a compact electoral grid rather than a geographic TopoJSON map in this cycle; all states are present and interactive, but geographic shapes should be added later.
+- US governors/senators are marked pending where exact current officeholder data was not verified.
+- External AI is not called directly from the new leader-response function; it stays rule-based and safe unless future work routes it through the existing wrapper.
+
+### Next recommended task
+
+Deepen diplomacy with treaties, sanctions packages, summits, alliance structures, trade deals, military incidents, intelligence warnings and regional blocs. Deepen US politics with verified governors/senators, elections, swing-state polling, campaign visits, state scandals, and policy popularity by state.

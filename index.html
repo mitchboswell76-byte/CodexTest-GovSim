@@ -325,6 +325,17 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 .country-action{background:var(--bg1);border:1px solid var(--b2);color:var(--text2);padding:.5rem;border-radius:2px;text-align:left;cursor:pointer;font-size:.72rem;line-height:1.4;transition:all .2s}
 .country-action:hover{border-color:var(--gold3);color:var(--gold2);background:rgba(201,168,76,.05)}
 .country-action strong{display:block;color:var(--gold);font-family:var(--fh);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:.15rem}
+
+.country-header-grid{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;margin-bottom:.75rem}
+.country-flag{font-size:2rem;line-height:1;filter:drop-shadow(0 0 8px rgba(201,168,76,.18))}
+.leader-brief{display:grid;grid-template-columns:72px 1fr;gap:.7rem;align-items:center;background:rgba(6,12,20,.45);border:1px solid var(--b1);border-radius:3px;padding:.55rem;margin-bottom:.75rem}
+.leader-portrait{width:72px;height:72px;border-radius:4px;border:1px solid var(--gold3);background:linear-gradient(135deg,rgba(201,168,76,.16),rgba(26,74,138,.22));display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:var(--fh);font-size:1.1rem;letter-spacing:1px;overflow:hidden}
+.leader-portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.leader-name{font-family:var(--fh);font-size:.9rem;color:var(--text);letter-spacing:.8px;text-transform:uppercase}
+.leader-meta{font-size:.66rem;color:var(--text2);line-height:1.45;margin-top:.2rem}
+.meter-line{height:6px;background:var(--bg0);border-radius:2px;overflow:hidden;margin-top:.35rem}.meter-line span{display:block;height:100%;background:linear-gradient(90deg,var(--red2),var(--gold),var(--green2))}
+.call-panel{display:grid;grid-template-columns:220px 1fr;gap:.75rem}.secure-transcript{background:var(--bg0);border:1px solid var(--b1);border-radius:3px;padding:.65rem;max-height:42vh;overflow:auto}.secure-msg{border-bottom:1px solid var(--b1);padding:.45rem 0}.secure-msg:last-child{border-bottom:0}.secure-role{font-family:var(--fh);font-size:.58rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:.2rem}.secure-text{font-size:.73rem;color:var(--text2);line-height:1.48}
+.us-map-grid{display:grid;grid-template-columns:repeat(11,1fr);gap:.25rem;margin-top:.65rem}.state-tile{min-height:42px;border:1px solid var(--b1);border-radius:2px;background:#28313f;color:var(--text);font-size:.58rem;font-family:var(--fm);cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;padding:.2rem;transition:all .15s}.state-tile:hover{border-color:var(--gold);transform:translateY(-1px)}.state-dem{background:rgba(26,74,138,.78)}.state-rep{background:rgba(138,38,38,.78)}.state-swing{background:rgba(112,74,145,.78)}.state-unknown{background:#29313a}.press-question{background:var(--bg0);border:1px solid var(--b1);border-radius:3px;padding:.55rem;margin:.35rem 0;cursor:pointer}.press-question:hover{border-color:var(--gold3)}
 .polgrid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.75rem}
 .polcard{background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem;cursor:pointer;transition:all .2s}
 .polcard:hover{border-color:var(--gold3)}
@@ -660,7 +671,7 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
         <button class="qbtn" onclick="qa('Propose a major defense budget increase')">⚔️ Defense Bill</button>
         <button class="qbtn" onclick="qa('Announce a major trade deal')">🤝 Trade Deal</button>
         <button class="qbtn" onclick="qa('Propose universal healthcare legislation')">🏥 Healthcare</button>
-        <button class="qbtn" onclick="qa('Hold emergency press conference about current crises')">🔴 Press Conf.</button>
+        <button class="qbtn" onclick="openPressConference()">🔴 Press Conf.</button>
         <button class="qbtn" onclick="qa('Propose raising the minimum wage')">🛠 Min. Wage</button>
         <button class="qbtn" onclick="qa('Announce a major infrastructure spending plan')">🏗 Infrastructure</button>
         <button class="qbtn" onclick="qa('Impose new tariffs on imported goods')">📦 Tariffs</button>
@@ -1071,6 +1082,54 @@ const COUNTRY_STRATEGIC_META={
   australia:{leader:'Australian Prime Minister',alignment:'Treaty ally',trade:'US surplus $18B',tradeBalance:18,dependence:'AUKUS, Indo-Pacific posture and critical minerals.'}
 };
 
+
+const COUNTRY_FLAGS={usa:'🇺🇸',canada:'🇨🇦',mexico:'🇲🇽',uk:'🇬🇧',france:'🇫🇷',germany:'🇩🇪',spain:'🇪🇸',italy:'🇮🇹',portugal:'🇵🇹',netherlands:'🇳🇱',belgium:'🇧🇪',norway:'🇳🇴',sweden:'🇸🇪',finland:'🇫🇮',denmark:'🇩🇰',poland:'🇵🇱',ukraine:'🇺🇦',russia:'🇷🇺',china:'🇨🇳',japan:'🇯🇵',skorea:'🇰🇷',india:'🇮🇳',brazil:'🇧🇷',australia:'🇦🇺',newzealand:'🇳🇿',israel:'🇮🇱',saudi:'🇸🇦',iran:'🇮🇷',turkey:'🇹🇷',egypt:'🇪🇬',southafrica:'🇿🇦',nigeria:'🇳🇬',kenya:'🇰🇪',argentina:'🇦🇷',chile:'🇨🇱',colombia:'🇨🇴',venezuela:'🇻🇪',cuba:'🇨🇺',taiwan:'🇹🇼',philippines:'🇵🇭',thailand:'🇹🇭',vietnam:'🇻🇳',indonesia:'🇮🇩',malaysia:'🇲🇾',pakistan:'🇵🇰',iraq:'🇮🇶',afghanistan:'🇦🇫',belarus:'🇧🇾',ireland:'🇮🇪',greece:'🇬🇷',switzerland:'🇨🇭',austria:'🇦🇹',czechia:'🇨🇿',romania:'🇷🇴',hungary:'🇭🇺',bulgaria:'🇧🇬',serbia:'🇷🇸'};
+
+const WORLD_LEADER_DATA={
+  usa:{id:'us-president-player',name:'Player Administration',role:'President',country:'United States',party:'Player party',ideology:'Player-defined',portraitUrl:'',fallbackPortrait:'US',relationshipWithPlayer:100,temperament:['domestic','strategic'],negotiationStyle:'executive',keyInterests:['domestic mandate','Congress','economic performance'],redLines:['constitutional crisis','national security breach'],biographyShort:'The sitting US administration controlled by the player.',voiceStyle:'presidential command tone',governmentType:'Federal presidential republic',sourceNote:'Player-generated officeholder',lastUpdated:'2026-05-17'},
+  uk:{id:'uk-prime-minister',name:'UK Prime Minister',role:'Prime Minister',country:'United Kingdom',party:'Government pending',ideology:'Atlanticist center',portraitUrl:'',fallbackPortrait:'UK',relationshipWithPlayer:75,temperament:['pragmatic','democratic','internationalist'],negotiationStyle:'alliance-first bargaining',keyInterests:['NATO cohesion','Ukraine support','trade access','intelligence cooperation'],redLines:['undermining NATO','financial instability'],biographyShort:'Leader data is intentionally title-based until verified; the game models the office and government rather than asserting live biographical details.',voiceStyle:'measured ally focused on burden-sharing',governmentType:'Parliamentary constitutional monarchy',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  france:{id:'fr-president',name:'French President',role:'President',country:'France',party:'Government pending',ideology:'Pro-European strategic autonomy',portraitUrl:'',fallbackPortrait:'FR',relationshipWithPlayer:68,temperament:['technocratic','internationalist','cautious'],negotiationStyle:'principled coalition bargaining',keyInterests:['European security','industrial policy','climate diplomacy'],redLines:['US unilateralism in Europe'],biographyShort:'Title-based French head of state profile with strategic-autonomy priorities.',voiceStyle:'formal, strategic and policy-heavy',governmentType:'Semi-presidential republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  germany:{id:'de-chancellor',name:'German Chancellor',role:'Chancellor',country:'Germany',party:'Government pending',ideology:'Cautious pro-European institutionalism',portraitUrl:'',fallbackPortrait:'DE',relationshipWithPlayer:70,temperament:['cautious','technocratic','democratic'],negotiationStyle:'data-driven incrementalism',keyInterests:['exports','energy security','Ukraine','EU unity'],redLines:['trade shock','NATO fracture'],biographyShort:'Title-based German executive profile shaped by coalition politics and export exposure.',voiceStyle:'precise, restrained and numbers-conscious',governmentType:'Federal parliamentary republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  china:{id:'cn-president',name:'Chinese President',role:'President',country:'China',party:'Chinese Communist Party',ideology:'Authoritarian nationalist state capitalism',portraitUrl:'',fallbackPortrait:'CN',relationshipWithPlayer:-25,temperament:['nationalist','authoritarian','transactional','cautious'],negotiationStyle:'long-horizon leverage bargaining',keyInterests:['tariffs','technology controls','Taiwan','market access'],redLines:['Taiwan independence support','regime legitimacy challenges'],biographyShort:'Strategic-rival leadership profile for simulated diplomacy; responses emphasize sovereignty, leverage and stability.',voiceStyle:'controlled, firm, sovereignty-focused',governmentType:'One-party socialist republic',sourceNote:'Simulation profile; avoid treating dialogue as real communication.',lastUpdated:'2026-05-17'},
+  russia:{id:'ru-president',name:'Russian President',role:'President',country:'Russia',party:'Government bloc',ideology:'Authoritarian nationalist',portraitUrl:'',fallbackPortrait:'RU',relationshipWithPlayer:-65,temperament:['aggressive','nationalist','transactional','authoritarian'],negotiationStyle:'pressure-and-concession bargaining',keyInterests:['sanctions relief','NATO divisions','regional leverage'],redLines:['NATO expansion pressure','regime-threatening sanctions'],biographyShort:'Adversarial great-power profile with escalation risk and sanctions sensitivity.',voiceStyle:'cold, hard-edged and coercive',governmentType:'Federal semi-presidential republic',sourceNote:'Simulation profile; avoid treating dialogue as real communication.',lastUpdated:'2026-05-17'},
+  ukraine:{id:'ua-president',name:'Ukrainian President',role:'President',country:'Ukraine',party:'Government pending',ideology:'Pro-Western wartime democratic',portraitUrl:'',fallbackPortrait:'UA',relationshipWithPlayer:72,temperament:['urgent','democratic','reformist','internationalist'],negotiationStyle:'security-guarantee focused',keyInterests:['air defense','budget aid','sanctions on Russia','reconstruction'],redLines:['forced territorial concessions','aid collapse'],biographyShort:'Wartime partner profile focused on survival, guarantees and reconstruction.',voiceStyle:'urgent, moral and specific',governmentType:'Semi-presidential republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  canada:{id:'ca-prime-minister',name:'Canadian Prime Minister',role:'Prime Minister',country:'Canada',party:'Government pending',ideology:'Liberal democratic ally',portraitUrl:'',fallbackPortrait:'CA',relationshipWithPlayer:78,temperament:['pragmatic','democratic','conciliatory'],negotiationStyle:'neighborly issue-linkage',keyInterests:['border flow','energy','autos','defense coordination'],redLines:['punitive tariffs','border disruption'],biographyShort:'Close-neighbor profile shaped by integrated North American supply chains.',voiceStyle:'cooperative but protective of domestic industries',governmentType:'Federal parliamentary constitutional monarchy',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  mexico:{id:'mx-president',name:'Mexican President',role:'President',country:'Mexico',party:'Government pending',ideology:'National development-oriented',portraitUrl:'',fallbackPortrait:'MX',relationshipWithPlayer:55,temperament:['nationalist','pragmatic','populist'],negotiationStyle:'migration-trade linkage',keyInterests:['border management','manufacturing','remittances','security'],redLines:['sovereignty violations','one-sided tariffs'],biographyShort:'Neighbor profile balancing sovereignty, migration pressure and manufacturing integration.',voiceStyle:'direct, sovereignty-conscious and practical',governmentType:'Federal presidential republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  japan:{id:'jp-prime-minister',name:'Japanese Prime Minister',role:'Prime Minister',country:'Japan',party:'Government pending',ideology:'Conservative democratic ally',portraitUrl:'',fallbackPortrait:'JP',relationshipWithPlayer:80,temperament:['cautious','technocratic','democratic'],negotiationStyle:'alliance coordination',keyInterests:['Indo-Pacific deterrence','semiconductors','auto trade'],redLines:['security abandonment','supply chain coercion'],biographyShort:'Treaty ally profile focused on deterrence and industrial supply chains.',voiceStyle:'formal, careful and alliance-centered',governmentType:'Parliamentary constitutional monarchy',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  skorea:{id:'kr-president',name:'South Korean President',role:'President',country:'South Korea',party:'Government pending',ideology:'Democratic security ally',portraitUrl:'',fallbackPortrait:'KR',relationshipWithPlayer:78,temperament:['cautious','technocratic','democratic'],negotiationStyle:'deterrence-and-industry bargaining',keyInterests:['North Korea deterrence','chips','battery supply chains'],redLines:['weak deterrence','sudden tariff shocks'],biographyShort:'Treaty ally profile balancing security threats and high-tech trade.',voiceStyle:'precise, urgent on deterrence, pragmatic on trade',governmentType:'Presidential republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  india:{id:'in-prime-minister',name:'Indian Prime Minister',role:'Prime Minister',country:'India',party:'Government pending',ideology:'Nationalist democratic strategic autonomy',portraitUrl:'',fallbackPortrait:'IN',relationshipWithPlayer:60,temperament:['nationalist','pragmatic','transactional'],negotiationStyle:'strategic-autonomy bargaining',keyInterests:['technology','defense cooperation','China balance','energy'],redLines:['public lectures on sovereignty','Pakistan imbalance'],biographyShort:'Strategic partner profile that cooperates on China while protecting autonomy.',voiceStyle:'confident, sovereignty-first and transactional',governmentType:'Federal parliamentary republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  iran:{id:'ir-president',name:'Iranian President',role:'President',country:'Iran',party:'Government pending',ideology:'Theocratic revolutionary state',portraitUrl:'',fallbackPortrait:'IR',relationshipWithPlayer:-72,temperament:['ideological','cautious','authoritarian'],negotiationStyle:'sanctions-for-security bargaining',keyInterests:['sanctions relief','regional influence','nuclear constraints'],redLines:['regime change pressure','military strikes'],biographyShort:'Hostile-state profile shaped by sanctions, nuclear pressure and regional proxies.',voiceStyle:'formal, resistant and grievance-focused',governmentType:'Islamic republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  israel:{id:'il-prime-minister',name:'Israeli Prime Minister',role:'Prime Minister',country:'Israel',party:'Government pending',ideology:'Security-focused parliamentary democracy',portraitUrl:'',fallbackPortrait:'IL',relationshipWithPlayer:72,temperament:['security-focused','transactional','democratic'],negotiationStyle:'security-assurance bargaining',keyInterests:['military aid','regional deterrence','Iran'],redLines:['arms cutoff during crisis','security guarantees weakened'],biographyShort:'Security partner profile with intense domestic and regional pressure.',voiceStyle:'urgent, security-centric and politically direct',governmentType:'Parliamentary republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  saudi:{id:'sa-crown-prince',name:'Saudi Crown Prince',role:'Crown Prince / Prime Minister',country:'Saudi Arabia',party:'Royal court',ideology:'Authoritarian monarchy / modernization',portraitUrl:'',fallbackPortrait:'SA',relationshipWithPlayer:48,temperament:['transactional','authoritarian','pragmatic'],negotiationStyle:'oil-security bargain',keyInterests:['oil markets','arms sales','regional security','investment'],redLines:['royal legitimacy attacks','security abandonment'],biographyShort:'Security partner profile linking energy markets, arms and regional diplomacy.',voiceStyle:'controlled, transactional and investment-focused',governmentType:'Absolute monarchy',sourceNote:'Simulation profile; avoid treating dialogue as real communication.',lastUpdated:'2026-05-17'},
+  brazil:{id:'br-president',name:'Brazilian President',role:'President',country:'Brazil',party:'Government pending',ideology:'Regional developmental democracy',portraitUrl:'',fallbackPortrait:'BR',relationshipWithPlayer:45,temperament:['pragmatic','populist','internationalist'],negotiationStyle:'regional-leadership bargaining',keyInterests:['climate finance','agriculture','energy','hemispheric diplomacy'],redLines:['Amazon sovereignty threats','farm export shocks'],biographyShort:'Regional power profile balancing climate, agriculture and autonomy.',voiceStyle:'political, regional and bargaining-oriented',governmentType:'Federal presidential republic',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'},
+  australia:{id:'au-prime-minister',name:'Australian Prime Minister',role:'Prime Minister',country:'Australia',party:'Government pending',ideology:'Liberal democratic treaty ally',portraitUrl:'',fallbackPortrait:'AU',relationshipWithPlayer:82,temperament:['pragmatic','democratic','internationalist'],negotiationStyle:'security-and-minerals coordination',keyInterests:['AUKUS','critical minerals','Indo-Pacific posture'],redLines:['alliance ambiguity','China coercion without support'],biographyShort:'Treaty ally profile focused on Indo-Pacific security and critical minerals.',voiceStyle:'plainspoken, cooperative and security-minded',governmentType:'Federal parliamentary constitutional monarchy',sourceNote:'Unverified live leader field; use title fallback.',lastUpdated:'2026-05-17'}
+};
+
+const POLITICIAN_IDENTITY_DATA={};
+
+const US_STATE_DATA={
+  AL:{name:'Alabama',capital:'Montgomery',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 6R',ev:9,population:'5.1M',gdp:'$314B',unemployment:'3.0%',lean:'Republican',approval:42,importance:45,issue:'manufacturing jobs',industries:['aerospace','autos','agriculture']},AK:{name:'Alaska',capital:'Juneau',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 0R',ev:3,population:'0.7M',gdp:'$69B',unemployment:'4.6%',lean:'Republican',approval:44,importance:35,issue:'energy and federal lands',industries:['oil','fishing','defense']},AZ:{name:'Arizona',capital:'Phoenix',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'3D / 6R',ev:11,population:'7.4M',gdp:'$509B',unemployment:'3.7%',lean:'Swing',approval:49,importance:95,issue:'border and water',industries:['semiconductors','construction','tourism']},AR:{name:'Arkansas',capital:'Little Rock',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 4R',ev:6,population:'3.1M',gdp:'$180B',unemployment:'3.4%',lean:'Republican',approval:40,importance:35,issue:'rural healthcare',industries:['retail logistics','agriculture','food']},CA:{name:'California',capital:'Sacramento',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'43D / 9R',ev:54,population:'39M',gdp:'$3.9T',unemployment:'5.2%',lean:'Democratic',approval:58,importance:88,issue:'housing costs',industries:['technology','entertainment','agriculture']},CO:{name:'Colorado',capital:'Denver',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'5D / 3R',ev:10,population:'5.9M',gdp:'$520B',unemployment:'3.8%',lean:'Democratic',approval:54,importance:70,issue:'housing and water',industries:['aerospace','energy','tourism']},CT:{name:'Connecticut',capital:'Hartford',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'5D / 0R',ev:7,population:'3.6M',gdp:'$346B',unemployment:'3.9%',lean:'Democratic',approval:56,importance:45,issue:'taxes and finance',industries:['finance','insurance','defense']},DE:{name:'Delaware',capital:'Dover',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'1D / 0R',ev:3,population:'1.0M',gdp:'$93B',unemployment:'4.0%',lean:'Democratic',approval:55,importance:30,issue:'coastal resilience',industries:['finance','chemicals','ports']},FL:{name:'Florida',capital:'Tallahassee',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'8D / 20R',ev:30,population:'22.6M',gdp:'$1.6T',unemployment:'3.2%',lean:'Republican',approval:46,importance:92,issue:'insurance and immigration',industries:['tourism','retirement','aerospace']},GA:{name:'Georgia',capital:'Atlanta',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'5D / 9R',ev:16,population:'11M',gdp:'$779B',unemployment:'3.4%',lean:'Swing',approval:50,importance:96,issue:'voting rights and jobs',industries:['logistics','film','autos']},HI:{name:'Hawaii',capital:'Honolulu',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'2D / 0R',ev:4,population:'1.4M',gdp:'$104B',unemployment:'3.0%',lean:'Democratic',approval:60,importance:36,issue:'defense and cost of living',industries:['tourism','defense','agriculture']},ID:{name:'Idaho',capital:'Boise',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 2R',ev:4,population:'2.0M',gdp:'$119B',unemployment:'3.4%',lean:'Republican',approval:39,importance:32,issue:'growth and land use',industries:['agriculture','tech','timber']},IL:{name:'Illinois',capital:'Springfield',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'14D / 3R',ev:19,population:'12.5M',gdp:'$1.1T',unemployment:'4.8%',lean:'Democratic',approval:55,importance:70,issue:'urban safety and pensions',industries:['finance','manufacturing','logistics']},IN:{name:'Indiana',capital:'Indianapolis',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'2D / 7R',ev:11,population:'6.9M',gdp:'$510B',unemployment:'3.8%',lean:'Republican',approval:43,importance:48,issue:'manufacturing wages',industries:['manufacturing','pharma','agriculture']},IA:{name:'Iowa',capital:'Des Moines',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 4R',ev:6,population:'3.2M',gdp:'$242B',unemployment:'3.1%',lean:'Republican',approval:42,importance:50,issue:'farm economy',industries:['agriculture','insurance','biofuels']},KS:{name:'Kansas',capital:'Topeka',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'1D / 3R',ev:6,population:'2.9M',gdp:'$225B',unemployment:'2.9%',lean:'Republican',approval:43,importance:40,issue:'farm exports',industries:['aviation','agriculture','energy']},KY:{name:'Kentucky',capital:'Frankfort',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'1D / 5R',ev:8,population:'4.5M',gdp:'$260B',unemployment:'4.5%',lean:'Republican',approval:41,importance:42,issue:'opioids and jobs',industries:['autos','bourbon','coal']},LA:{name:'Louisiana',capital:'Baton Rouge',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 5R',ev:8,population:'4.6M',gdp:'$295B',unemployment:'4.2%',lean:'Republican',approval:41,importance:42,issue:'storms and energy',industries:['energy','ports','chemicals']},ME:{name:'Maine',capital:'Augusta',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'2D / 0R',ev:4,population:'1.4M',gdp:'$91B',unemployment:'3.2%',lean:'Swing',approval:51,importance:55,issue:'fisheries and healthcare',industries:['tourism','fishing','paper']},MD:{name:'Maryland',capital:'Annapolis',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'7D / 1R',ev:10,population:'6.2M',gdp:'$560B',unemployment:'2.9%',lean:'Democratic',approval:58,importance:50,issue:'federal workforce',industries:['biotech','defense','government']},MA:{name:'Massachusetts',capital:'Boston',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'9D / 0R',ev:11,population:'7.0M',gdp:'$740B',unemployment:'3.8%',lean:'Democratic',approval:61,importance:58,issue:'healthcare and universities',industries:['education','biotech','finance']},MI:{name:'Michigan',capital:'Lansing',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'7D / 6R',ev:15,population:'10M',gdp:'$675B',unemployment:'4.3%',lean:'Swing',approval:50,importance:100,issue:'auto transition',industries:['autos','advanced manufacturing','agriculture']},MN:{name:'Minnesota',capital:'Saint Paul',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'4D / 4R',ev:10,population:'5.8M',gdp:'$490B',unemployment:'3.2%',lean:'Democratic',approval:54,importance:72,issue:'healthcare and farms',industries:['medical devices','agriculture','retail']},MS:{name:'Mississippi',capital:'Jackson',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 3R',ev:6,population:'2.9M',gdp:'$141B',unemployment:'3.3%',lean:'Republican',approval:39,importance:34,issue:'rural poverty',industries:['agriculture','shipbuilding','energy']},MO:{name:'Missouri',capital:'Jefferson City',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'2D / 6R',ev:10,population:'6.2M',gdp:'$430B',unemployment:'3.7%',lean:'Republican',approval:43,importance:52,issue:'crime and wages',industries:['agriculture','aerospace','logistics']},MT:{name:'Montana',capital:'Helena',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 2R',ev:4,population:'1.1M',gdp:'$70B',unemployment:'3.1%',lean:'Republican',approval:44,importance:46,issue:'public lands',industries:['mining','tourism','agriculture']},NE:{name:'Nebraska',capital:'Lincoln',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 3R',ev:5,population:'2.0M',gdp:'$176B',unemployment:'2.7%',lean:'Republican',approval:41,importance:40,issue:'farm exports',industries:['agriculture','insurance','rail']},NV:{name:'Nevada',capital:'Carson City',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'3D / 1R',ev:6,population:'3.2M',gdp:'$244B',unemployment:'5.1%',lean:'Swing',approval:49,importance:96,issue:'housing and tourism jobs',industries:['tourism','mining','logistics']},NH:{name:'New Hampshire',capital:'Concord',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'2D / 0R',ev:4,population:'1.4M',gdp:'$112B',unemployment:'2.6%',lean:'Swing',approval:51,importance:65,issue:'taxes and opioids',industries:['manufacturing','tourism','tech']},NJ:{name:'New Jersey',capital:'Trenton',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'9D / 3R',ev:14,population:'9.3M',gdp:'$806B',unemployment:'4.4%',lean:'Democratic',approval:56,importance:62,issue:'property taxes',industries:['pharma','ports','finance']},NM:{name:'New Mexico',capital:'Santa Fe',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'3D / 0R',ev:5,population:'2.1M',gdp:'$131B',unemployment:'4.0%',lean:'Democratic',approval:54,importance:52,issue:'energy and border',industries:['energy','labs','tourism']},NY:{name:'New York',capital:'Albany',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'19D / 7R',ev:28,population:'19.6M',gdp:'$2.2T',unemployment:'4.2%',lean:'Democratic',approval:57,importance:85,issue:'migration and finance',industries:['finance','media','healthcare']},NC:{name:'North Carolina',capital:'Raleigh',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'7D / 7R',ev:16,population:'10.8M',gdp:'$775B',unemployment:'3.6%',lean:'Swing',approval:49,importance:99,issue:'manufacturing and education',industries:['banking','biotech','manufacturing']},ND:{name:'North Dakota',capital:'Bismarck',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 1R',ev:3,population:'0.8M',gdp:'$76B',unemployment:'2.0%',lean:'Republican',approval:39,importance:28,issue:'energy prices',industries:['oil','agriculture','utilities']},OH:{name:'Ohio',capital:'Columbus',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'5D / 10R',ev:17,population:'11.8M',gdp:'$875B',unemployment:'4.0%',lean:'Republican',approval:45,importance:78,issue:'factory towns',industries:['manufacturing','healthcare','logistics']},OK:{name:'Oklahoma',capital:'Oklahoma City',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 5R',ev:7,population:'4.0M',gdp:'$248B',unemployment:'3.4%',lean:'Republican',approval:38,importance:32,issue:'energy and schools',industries:['energy','aerospace','agriculture']},OR:{name:'Oregon',capital:'Salem',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'5D / 1R',ev:8,population:'4.2M',gdp:'$326B',unemployment:'4.2%',lean:'Democratic',approval:56,importance:56,issue:'housing and forests',industries:['semiconductors','timber','tourism']},PA:{name:'Pennsylvania',capital:'Harrisburg',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'9D / 8R',ev:19,population:'13M',gdp:'$1.0T',unemployment:'3.4%',lean:'Swing',approval:50,importance:100,issue:'energy and suburbs',industries:['energy','healthcare','manufacturing']},RI:{name:'Rhode Island',capital:'Providence',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'2D / 0R',ev:4,population:'1.1M',gdp:'$78B',unemployment:'4.1%',lean:'Democratic',approval:57,importance:30,issue:'coastal economy',industries:['healthcare','tourism','education']},SC:{name:'South Carolina',capital:'Columbia',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 6R',ev:9,population:'5.4M',gdp:'$333B',unemployment:'3.6%',lean:'Republican',approval:43,importance:52,issue:'ports and autos',industries:['autos','ports','aerospace']},SD:{name:'South Dakota',capital:'Pierre',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 1R',ev:3,population:'0.9M',gdp:'$73B',unemployment:'2.0%',lean:'Republican',approval:39,importance:25,issue:'agriculture',industries:['agriculture','tourism','finance']},TN:{name:'Tennessee',capital:'Nashville',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 8R',ev:11,population:'7.1M',gdp:'$548B',unemployment:'3.2%',lean:'Republican',approval:42,importance:54,issue:'growth and healthcare',industries:['autos','music','logistics']},TX:{name:'Texas',capital:'Austin',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'13D / 25R',ev:40,population:'30.5M',gdp:'$2.6T',unemployment:'4.0%',lean:'Republican',approval:46,importance:94,issue:'border and energy',industries:['energy','technology','logistics']},UT:{name:'Utah',capital:'Salt Lake City',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 4R',ev:6,population:'3.4M',gdp:'$284B',unemployment:'2.8%',lean:'Republican',approval:42,importance:40,issue:'growth and water',industries:['tech','mining','tourism']},VT:{name:'Vermont',capital:'Montpelier',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'1D / 0R',ev:3,population:'0.6M',gdp:'$45B',unemployment:'2.2%',lean:'Democratic',approval:59,importance:28,issue:'rural healthcare',industries:['tourism','dairy','education']},VA:{name:'Virginia',capital:'Richmond',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'6D / 5R',ev:13,population:'8.7M',gdp:'$715B',unemployment:'3.0%',lean:'Democratic',approval:54,importance:76,issue:'federal workforce',industries:['defense','tech','ports']},WA:{name:'Washington',capital:'Olympia',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'8D / 2R',ev:12,population:'7.8M',gdp:'$845B',unemployment:'4.6%',lean:'Democratic',approval:57,importance:68,issue:'trade and housing',industries:['software','aerospace','ports']},WV:{name:'West Virginia',capital:'Charleston',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 2R',ev:4,population:'1.8M',gdp:'$98B',unemployment:'4.2%',lean:'Republican',approval:37,importance:32,issue:'coal transition',industries:['energy','chemicals','healthcare']},WI:{name:'Wisconsin',capital:'Madison',governor:'Data pending',governorParty:'Democratic',senators:['Data pending','Data pending'],house:'2D / 6R',ev:10,population:'5.9M',gdp:'$440B',unemployment:'3.0%',lean:'Swing',approval:50,importance:100,issue:'dairy and manufacturing',industries:['manufacturing','agriculture','paper']},WY:{name:'Wyoming',capital:'Cheyenne',governor:'Data pending',governorParty:'Republican',senators:['Data pending','Data pending'],house:'0D / 1R',ev:3,population:'0.6M',gdp:'$51B',unemployment:'2.9%',lean:'Republican',approval:36,importance:22,issue:'energy and lands',industries:['energy','mining','tourism']},DC:{name:'District of Columbia',capital:'Washington',governor:'Mayor data pending',governorParty:'Democratic',senators:['No voting senators','No voting senators'],house:'1D delegate',ev:3,population:'0.7M',gdp:'$178B',unemployment:'5.1%',lean:'Democratic',approval:70,importance:30,issue:'home rule',industries:['government','tourism','services']}
+};
+const US_STATE_ORDER=['AK','ME','VT','NH','WA','ID','MT','ND','MN','IL','NY','MA','OR','NV','WY','SD','IA','IN','OH','PA','NJ','CT','CA','UT','CO','NE','MO','KY','WV','VA','MD','DE','AZ','NM','KS','AR','TN','NC','SC','DC','HI','OK','LA','MS','AL','GA','FL','TX','WI','MI','RI'];
+
+function countryFlag(id){return COUNTRY_FLAGS[id]||'🏳️';}
+function leaderForCountry(id){
+  const base=WORLD_LEADER_DATA[id];
+  const meta=COUNTRY_META[id]||{};
+  if(base)return {...base,relationshipWithPlayer:G.relations?.[id]??base.relationshipWithPlayer??0};
+  return {id:`${id}-leader-pending`,name:'Leader data pending',role:'Head of government',country:meta.n||id,party:'Data pending',ideology:'Data pending',portraitUrl:'',fallbackPortrait:(meta.n||id).split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase(),relationshipWithPlayer:G.relations?.[id]??0,temperament:['pragmatic'],negotiationStyle:'standard diplomatic protocol',keyInterests:['bilateral stability','trade access','domestic legitimacy'],redLines:['sovereignty violations','unpredictable escalation'],biographyShort:'Leader identity data has not been verified for this country. The simulator uses a safe placeholder until a profile is filled.',voiceStyle:'cautious diplomatic language',governmentType:'Government type pending',sourceNote:'Data pending',lastUpdated:'2026-05-17'};
+}
+function leaderPortraitHtml(leader){
+  const fallback=htmlEscape(leader.fallbackPortrait||leader.name?.split(/\s+/).map(x=>x[0]).slice(0,2).join('')||'—');
+  return leader.portraitUrl?`<div class="leader-portrait"><img src="${htmlEscape(leader.portraitUrl)}" alt="${htmlEscape(leader.name)} portrait" onerror="this.parentElement.textContent='${fallback}'"></div>`:`<div class="leader-portrait">${fallback}</div>`;
+}
+function formatCountryMetric(v,fallback='Data pending'){return v===undefined||v===null||v===''?fallback:v;}
+function countryEconomyStats(id){
+  const defaults={gdp:'Data pending',population:'Data pending',militaryStrength:'Medium',stability:62,threat:35,opportunity:55,governmentType:leaderForCountry(id).governmentType||'Data pending'};
+  const table={usa:{gdp:'$27T',population:'335M',militaryStrength:'Global superpower',stability:70,threat:10,opportunity:80},china:{gdp:'$17.7T',population:'1.4B',militaryStrength:'Peer competitor',stability:72,threat:78,opportunity:54},russia:{gdp:'$2.0T',population:'144M',militaryStrength:'Nuclear great power',stability:48,threat:82,opportunity:20},uk:{gdp:'$3.3T',population:'67M',militaryStrength:'NATO high-end ally',stability:76,threat:12,opportunity:74},france:{gdp:'$3.0T',population:'68M',militaryStrength:'NATO nuclear ally',stability:72,threat:14,opportunity:70},germany:{gdp:'$4.5T',population:'84M',militaryStrength:'Major NATO economy',stability:78,threat:10,opportunity:78},canada:{gdp:'$2.1T',population:'40M',militaryStrength:'NATO ally',stability:82,threat:8,opportunity:82},mexico:{gdp:'$1.8T',population:'129M',militaryStrength:'Regional partner',stability:58,threat:35,opportunity:68},japan:{gdp:'$4.2T',population:'124M',militaryStrength:'Treaty ally',stability:82,threat:18,opportunity:75},skorea:{gdp:'$1.8T',population:'52M',militaryStrength:'Frontline treaty ally',stability:74,threat:36,opportunity:72},india:{gdp:'$3.7T',population:'1.4B',militaryStrength:'Major regional power',stability:66,threat:30,opportunity:80},ukraine:{gdp:'$180B',population:'37M',militaryStrength:'Wartime partner',stability:42,threat:75,opportunity:60},iran:{gdp:'$400B',population:'89M',militaryStrength:'Regional adversary',stability:45,threat:70,opportunity:22},israel:{gdp:'$520B',population:'9.8M',militaryStrength:'Advanced regional power',stability:58,threat:48,opportunity:55},saudi:{gdp:'$1.1T',population:'36M',militaryStrength:'Regional security partner',stability:65,threat:32,opportunity:62},brazil:{gdp:'$2.2T',population:'216M',militaryStrength:'Regional power',stability:64,threat:18,opportunity:74},australia:{gdp:'$1.7T',population:'27M',militaryStrength:'Treaty ally',stability:84,threat:10,opportunity:78}};
+  return {...defaults,...(table[id]||{})};
+}
+
 function countryStrategicInfo(id){
   const rel=G.relations?.[id]??0;
   const meta=COUNTRY_STRATEGIC_META[id]||{};
@@ -1092,36 +1151,115 @@ function countryCommand(id,template){
 }
 
 function openCountryModal(id){
+  ensureAdvancedState();
+  G.selectedCountry=id;
   const feature=WORLD_COUNTRY_BY_ID.get(id);
   const info=countryInfoById(id,feature);
   const rel=G.relations?.[id]??0;
   const strategic=countryStrategicInfo(id);
+  const leader=leaderForCountry(id);
+  const econ=countryEconomyStats(id);
   const atWar=isCountryAtWar(id,info.n);
   const tradeCol=strategic.tradeBalance>0?'#6dcc9a':strategic.tradeBalance<0?'#e07070':'var(--text2)';
+  const relationPct=Math.max(0,Math.min(100,rel+50));
+  const threatSummary=atWar?'Active conflict exposure':rel<-55?'High-risk adversarial channel':rel<0?'Managed rivalry / friction':rel>60?'Alliance opportunity':'Practical engagement opportunity';
   document.getElementById('country-content').innerHTML=`
     <div class="country-hero">
-      <div class="country-title">${info.n}</div>
-      <div class="country-sub">Capital: ${info.cap||'—'} · Region: ${info.reg||'—'} · ${strategic.leader}</div>
+      <div class="country-header-grid">
+        <div class="country-flag" title="Flag">${countryFlag(id)}</div>
+        <div><div class="country-title">${htmlEscape(info.n)}</div><div class="country-sub">Capital: ${htmlEscape(info.cap||'—')} · Region: ${htmlEscape(info.reg||'—')} · ${htmlEscape(leader.governmentType||'Government data pending')}</div></div>
+        <div style="font-family:var(--fm);color:${relationColor(rel)};font-size:1.05rem">${rel>0?'+':''}${Math.round(rel)}</div>
+      </div>
+      <div class="leader-brief">
+        ${leaderPortraitHtml(leader)}
+        <div>
+          <div class="leader-name">${htmlEscape(leader.name)}</div>
+          <div class="leader-meta">${htmlEscape(leader.role)} · ${htmlEscape(leader.party||'Faction pending')} · ${htmlEscape(leader.ideology||'Ideology pending')}</div>
+          <div class="leader-meta">${htmlEscape(leader.biographyShort||'Leader data pending.')}</div>
+          <div class="meter-line"><span style="width:${relationPct}%"></span></div>
+        </div>
+      </div>
     </div>
     <div class="country-grid">
-      <div class="country-stat"><div class="country-stat-label">Relationship</div><div class="country-stat-value" style="color:${relationColor(rel)}">${relationLabel(rel)} (${rel>0?'+':''}${rel})</div></div>
-      <div class="country-stat"><div class="country-stat-label">Alignment</div><div class="country-stat-value">${strategic.alignment}</div></div>
-      <div class="country-stat"><div class="country-stat-label">Conflict</div><div class="country-stat-value" style="color:${atWar?'#e07070':'#6dcc9a'}">${atWar?'Active / exposed':'No active conflict'}</div></div>
-      <div class="country-stat"><div class="country-stat-label">Trade</div><div class="country-stat-value" style="color:${tradeCol}">${strategic.trade}</div></div>
-      <div class="country-stat"><div class="country-stat-label">US Exposure</div><div class="country-stat-value">${strategic.dependence}</div></div>
-      <div class="country-stat"><div class="country-stat-label">Map Layer</div><div class="country-stat-value">${humanizeLabel(G.mapLayer||'relations')}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Relationship</div><div class="country-stat-value" style="color:${relationColor(rel)}">${relationLabel(rel)} (${rel>0?'+':''}${Math.round(rel)})</div></div>
+      <div class="country-stat"><div class="country-stat-label">GDP</div><div class="country-stat-value">${htmlEscape(formatCountryMetric(econ.gdp))}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Population</div><div class="country-stat-value">${htmlEscape(formatCountryMetric(econ.population))}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Military</div><div class="country-stat-value">${htmlEscape(econ.militaryStrength)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Trade</div><div class="country-stat-value" style="color:${tradeCol}">${htmlEscape(strategic.trade)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Alliance</div><div class="country-stat-value">${htmlEscape(strategic.alignment)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Stability</div><div class="country-stat-value">${Math.round(econ.stability)}%</div></div>
+      <div class="country-stat"><div class="country-stat-label">Threat</div><div class="country-stat-value" style="color:${econ.threat>65?'#e07070':econ.threat>35?'var(--gold2)':'#6dcc9a'}">${Math.round(econ.threat)}%</div></div>
+      <div class="country-stat"><div class="country-stat-label">Opportunity</div><div class="country-stat-value" style="color:${econ.opportunity>60?'#6dcc9a':'var(--gold2)'}">${Math.round(econ.opportunity)}%</div></div>
     </div>
-    <div class="policy-route-note">Clicking a country now gives the player actionable diplomatic choices. These prefill the command box so AI adjudication and deterministic policy history can process the move.</div>
+    <div class="policy-route-note"><strong>Threat / opportunity:</strong> ${htmlEscape(threatSummary)}. ${htmlEscape(strategic.dependence)} Source note: ${htmlEscape(leader.sourceNote||'Simulation data')}.</div>
     ${renderCountryRecentDiplomacy(id)}
     <div class="country-actions">
-      <button class="country-action" onclick="countryCommand('${id}','Negotiate a trade deal with {country} that protects US workers while reducing strategic tensions')"><strong>Negotiate trade deal</strong>Seek market access with domestic political costs.</button>
-      <button class="country-action" onclick="countryCommand('${id}','Offer targeted aid to {country} in exchange for diplomatic cooperation')"><strong>Offer aid</strong>Improve relations but worsen fiscal pressure.</button>
-      <button class="country-action" onclick="countryCommand('${id}','Impose sanctions on {country} over security and human rights concerns')"><strong>Impose sanctions</strong>Pressure the government while risking inflation and retaliation.</button>
-      <button class="country-action" onclick="countryCommand('${id}','Call {leader} about urgent bilateral issues and alliance expectations')"><strong>Call leader</strong>Open a leader-call route for AI diplomatic response.</button>
-      <button class="country-action" onclick="countryCommand('${id}','Request a military assessment for contingencies involving {country}')"><strong>Military assessment</strong>Raise readiness but may alarm rivals and Congress.</button>
-      <button class="country-action" onclick="countryCommand('${id}','Open back-channel talks with {country} to reduce escalation risk')"><strong>Back-channel talks</strong>Quiet diplomacy with leak and legitimacy risks.</button>
+      <button class="country-action" onclick="openDiplomaticCall('${id}')"><strong>Call leader</strong>Open a secure simulated leader conversation with typed messages.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Send a diplomatic message to {country} proposing practical cooperation on shared priorities')"><strong>Send message</strong>Prefill a formal diplomatic cable.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Negotiate a trade deal with {country} that protects US workers while reducing strategic tensions')"><strong>Trade negotiation</strong>Seek market access with domestic political costs.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Open a security negotiation with {country} covering deterrence, basing and crisis hotlines')"><strong>Security negotiation</strong>Discuss military posture and escalation risk.</button>
+      <button class="country-action" onclick="applyDiplomaticOutcome('${id}','sanctions')"><strong>Sanctions / remove</strong>Escalate or relieve pressure; affects relations and inflation risk.</button>
+      <button class="country-action" onclick="applyDiplomaticOutcome('${id}','aid')"><strong>Aid package</strong>Spend foreign aid for relationship gains and domestic debate.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Request an intelligence briefing on {country}, leadership stability, military risk and US leverage')"><strong>Intelligence briefing</strong>Prefill a classified assessment request.</button>
+      <button class="country-action" onclick="countryCommand('${id}','View regional strategy options involving {country} and nearby allies')"><strong>View regional map</strong>Prepare a regional strategy command.</button>
+      ${id==='usa'?`<button class="country-action" onclick="openUSMap()"><strong>View US Map</strong>Open electoral and state-level strategy board.</button>`:''}
     </div>`;
   openModal('countrymodal');
+  autoSaveGame();
+}
+
+function openDiplomaticCall(id){
+  closeModal('countrymodal');
+  G.activeCommsTarget=id;
+  if(!COMMS_TARGETS[id]){
+    const info=COUNTRY_META[id]||{n:id};
+    const leader=leaderForCountry(id);
+    COMMS_TARGETS[id]={label:leader.name,country:info.n,countryId:id,tone:(leader.temperament||[]).join(' ')||'cautious diplomatic counterpart',interest:(leader.keyInterests||[]).join(', ')||'bilateral stability'};
+  }
+  G.activeCommsMode='leader';
+  G.activeConversationId=null;
+  switchMainTab('communications',document.querySelector('[data-main-tab="communications"]'));
+  startCommunicationSession();
+}
+
+function generateLeaderResponse(leader,playerMessage,gameState){
+  const text=normalizeName(playerMessage);
+  const rel=gameState.relations?.[leader.countryId]??gameState.relations?.[resolveCountryRelationId(leader.country)]??leader.relationshipWithPlayer??0;
+  const traits=leader.temperament||[];
+  const rival=rel<-35||traits.includes('authoritarian')||traits.includes('nationalist');
+  const conciliatory=/cooperate|deal|support|aid|shared|reduce tensions|diplomacy|respect/.test(text);
+  const threat=/threat|sanction|tariff|force|demand|ultimatum|strike/.test(text);
+  const trade=/trade|tariff|market|supply|export|import/.test(text);
+  const security=/military|defense|nato|taiwan|ukraine|missile|troop|security/.test(text);
+  let tone=rel>55?'cooperative':rel<-50?'cold':rival?'guarded':'practical';
+  if(threat)tone=rival?'defiant':'strained';
+  if(conciliatory&&rel>0)tone='constructive';
+  let relationshipChange=(conciliatory?4:0)+(threat?(rival?-5:-7):0)+(trade&&!threat?2:0)+(security&&rel>50?2:0);
+  relationshipChange=Math.max(-10,Math.min(10,relationshipChange));
+  const style=traits.includes('technocratic')?'They ask for timetables, verification and staff-level implementation details.':traits.includes('nationalist')?'They stress sovereignty, respect and visible strength before any concession.':traits.includes('democratic')?'They frame cooperation around publics, parliaments and alliance credibility.':'They keep the exchange transactional and focused on leverage.';
+  const interests=(leader.keyInterests||['stability']).slice(0,3).join(', ');
+  const responseText=`${leader.name} responds in a ${tone} tone: “${conciliatory?'We are prepared to test a practical channel, but results matter more than language.':threat?'Pressure will be answered with counter-pressure, though neither side benefits from uncontrolled escalation.':'We hear your position and will measure it against actions, not headlines.'} Our priorities remain ${interests}. ${style}”`;
+  return {responseText,tone,relationshipChange,possibleOffer:trade?'Staff-level trade framework with safeguards':security?'Security working group and crisis hotline':'Exploratory diplomatic working group',possibleDemand:(leader.redLines||['credible follow-through'])[0],riskWarning:threat?'Escalation, retaliation and market anxiety may rise.':'If follow-through fails, credibility and relations may erode.',followUpOptions:['Make formal offer','Threaten sanctions','Offer aid','Propose trade deal','Request military support','Demand policy change','Back down','End call']};
+}
+
+function applyDiplomaticOutcome(id,action){
+  ensureAdvancedState();
+  const before=G.relations?.[id]??0;
+  const deltas={formal:3,sanctions:-8,aid:6,trade:5,military:4,demand:-5,backdown:2,end:0};
+  const labels={formal:'formal offer',sanctions:'sanctions threat',aid:'aid package',trade:'trade deal proposal',military:'military support request',demand:'policy demand',backdown:'de-escalation',end:'call ended'};
+  const delta=deltas[action]??0;
+  if(id&&G.relations[id]!==undefined)G.relations[id]=Math.max(-100,Math.min(100,G.relations[id]+delta));
+  if(action==='aid'){G.budget.foreignAid+=4;G.economy.deficit-=4;}
+  if(action==='sanctions'){G.economy.inflation=Math.min(25,G.economy.inflation+.08);G.approval.military=Math.min(100,G.approval.military+1);}
+  recalculateOverallApproval();
+  const info=COUNTRY_META[id]||{n:id};
+  const entry={id:`dip-${G.week}-${Date.now().toString(36)}`,week:G.week,countryId:id,country:info.n,action:labels[action]||action,relationshipDelta:(G.relations[id]??before)-before};
+  G.diplomaticHistory.unshift(entry);
+  addNewsItem(`${info.n}: ${entry.action} shifts relations ${entry.relationshipDelta>=0?'+':''}${entry.relationshipDelta}`,'world');
+  addLogItem(`Diplomacy: ${info.n} — ${entry.action}`);
+  renderAll();
+  autoSaveGame();
+  if(document.getElementById('countrymodal').classList.contains('on'))openCountryModal(id);
 }
 
 function normalizeName(name=''){return String(name).toLowerCase().replace(/&/g,'and').replace(/\./g,'').replace(/[^a-z0-9]+/g,' ').trim();}
@@ -1250,6 +1388,8 @@ const POLITICIANS=[
   {n:"Christopher Wray",p:"rep",trait:"FBI Director, apolitical. +7 cons, +5 mod, +5 law enforcement"},
 ];
 
+POLITICIANS.forEach(pol=>{pol.id=pol.id||normalizeName(pol.n).replace(/ /g,'-');pol.role=pol.role||'US political figure';pol.country=pol.country||'United States';pol.party=pol.party||(pol.p==='dem'?'Democratic Party':pol.p==='rep'?'Republican Party':'Independent');pol.ideology=pol.ideology||(pol.p==='dem'?'Center-left / liberal':pol.p==='rep'?'Center-right / conservative':'Independent / technocratic');pol.portraitUrl=pol.portraitUrl||'';pol.fallbackPortrait=pol.fallbackPortrait||pol.n.split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();pol.relationshipWithPlayer=pol.relationshipWithPlayer??50;pol.temperament=pol.temperament||['pragmatic'];pol.negotiationStyle=pol.negotiationStyle||'institutional bargaining';pol.keyInterests=pol.keyInterests||['governing competence','public credibility'];pol.redLines=pol.redLines||['public humiliation','mission drift'];pol.biographyShort=pol.biographyShort||pol.trait;pol.voiceStyle=pol.voiceStyle||'briefing-style political advice';pol.sourceNote=pol.sourceNote||'Seeded in-game profile; portrait fallback uses initials to avoid broken images.';});
+
 const CAB_ROLES=["Chief of Staff","Sec. of State","Sec. of Defense","Treasury Sec.","Attorney General","Press Secretary","NSA Director","Sec. of Health","Sec. of Education","Sec. of Energy","Sec. of Labor","UN Ambassador"];
 const BLOCS=[
   {k:'democrats',l:'Democrats',c:'#2980b9'},
@@ -1309,6 +1449,12 @@ function initState(party,leader,diff){
       house:{dem:isdem?212:220,rep:isdem?223:215},
     },
     relations:{...INIT_RELATIONS},
+    countryRelationships:{...INIT_RELATIONS},
+    selectedCountry:null,selectedState:null,activeMapView:'world',
+    leaderConversations:[],diplomaticHistory:[],pressConferenceHistory:[],
+    stateApproval:Object.fromEntries(Object.entries(US_STATE_DATA).map(([k,v])=>[k,v.approval])),
+    statePoliticalData:JSON.parse(JSON.stringify(US_STATE_DATA)),
+    politicianProfiles:{...POLITICIAN_IDENTITY_DATA},worldLeaderData:{...WORLD_LEADER_DATA},
     cabinet:{},
     policies:[],scandals:[],wars:[],
     policyHistory:[],failedPolicies:[],
@@ -1411,7 +1557,8 @@ async function buildMap(){
         const c=countryInfoById(id,d);
         const rel=G.relations[id]??0;
         const atWar=isCountryAtWar(id,c.n);
-        tip.innerHTML=`<div class="mtn">${c.n}</div><div class="mtr">Capital: ${c.cap||'—'} · Region: ${c.reg}</div><div class="mts" style="color:${relationColor(rel)}">Relations: ${relationLabel(rel)} (${rel>0?'+':''}${rel})</div>${atWar?'<div class="mtw">⚔ ACTIVE CONFLICT</div>':''}`;
+        const leader=leaderForCountry(id);
+        tip.innerHTML=`<div class="mtn">${countryFlag(id)} ${htmlEscape(c.n)}</div><div class="mtr">Capital: ${htmlEscape(c.cap||'—')} · ${htmlEscape(leader.name)}</div><div class="mts" style="color:${relationColor(rel)}">Relations: ${relationLabel(rel)} (${rel>0?'+':''}${rel})</div>${atWar?'<div class="mtw">⚔ ACTIVE CONFLICT</div>':''}`;
         tip.style.display='block';
         tip.style.left=(event.clientX+12)+'px';
         tip.style.top=(event.clientY-10)+'px';
@@ -1929,6 +2076,17 @@ function migrateGameState(rawGame){
   
   // Map layer
   if(!rawGame.mapLayer)rawGame.mapLayer='relations';
+  if(!rawGame.countryRelationships||typeof rawGame.countryRelationships!=='object')rawGame.countryRelationships={...rawGame.relations};
+  if(rawGame.selectedCountry===undefined)rawGame.selectedCountry=null;
+  if(rawGame.selectedState===undefined)rawGame.selectedState=null;
+  if(!rawGame.activeMapView)rawGame.activeMapView='world';
+  if(!Array.isArray(rawGame.leaderConversations))rawGame.leaderConversations=[];
+  if(!Array.isArray(rawGame.diplomaticHistory))rawGame.diplomaticHistory=[];
+  if(!Array.isArray(rawGame.pressConferenceHistory))rawGame.pressConferenceHistory=[];
+  if(!rawGame.statePoliticalData||typeof rawGame.statePoliticalData!=='object')rawGame.statePoliticalData=JSON.parse(JSON.stringify(US_STATE_DATA));
+  if(!rawGame.stateApproval||typeof rawGame.stateApproval!=='object')rawGame.stateApproval=Object.fromEntries(Object.entries(rawGame.statePoliticalData).map(([k,v])=>[k,v.approval??50]));
+  if(!rawGame.politicianProfiles||typeof rawGame.politicianProfiles!=='object')rawGame.politicianProfiles={...POLITICIAN_IDENTITY_DATA};
+  if(!rawGame.worldLeaderData||typeof rawGame.worldLeaderData!=='object')rawGame.worldLeaderData={...WORLD_LEADER_DATA};
   
   // Budget pending
   if(!rawGame.budgetPending)rawGame.budgetPending={};
@@ -2517,6 +2675,11 @@ function ensureAdvancedState(){
   if(G.shutdownRisk===undefined)G.shutdownRisk=8;
   if(!G.activeCommsMode)G.activeCommsMode='leader';
   if(!G.activeCommsTarget)G.activeCommsTarget='uk';
+  if(!G.leaderConversations)G.leaderConversations=[];
+  if(!G.diplomaticHistory)G.diplomaticHistory=[];
+  if(!G.pressConferenceHistory)G.pressConferenceHistory=[];
+  if(!G.statePoliticalData)G.statePoliticalData=JSON.parse(JSON.stringify(US_STATE_DATA));
+  if(!G.stateApproval)G.stateApproval=Object.fromEntries(Object.entries(G.statePoliticalData).map(([k,v])=>[k,v.approval??50]));
 }
 
 function commsTargetOptions(){
@@ -2606,9 +2769,19 @@ function sendCommunicationMessage(){
   Object.entries(fx.economy).forEach(([k,v])=>{if(k==='stockMarket')G.economy.stockMarket=Math.max(10,G.economy.stockMarket+v); else if(k==='tradeBalance')G.economy.tradeBalance+=v; else if(k==='inflation')G.economy.inflation=Math.max(0,Math.min(25,G.economy.inflation+v));});
   if(fx.scandal)G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+2);
   recalculateOverallApproval();
-  const reply=G.activeCommsMode==='press'
+  let reply=G.activeCommsMode==='press'
     ? `Follow-up: ${fx.summary} Opposition staff are already clipping the answer; the next question will test whether the policy math and the politics hold together.`
     : `${target.label}: ${fx.summary} Our teams will judge this against recent US actions, domestic pressure here, and whether Congress can actually deliver.`;
+  if(G.activeCommsMode!=='press'){
+    const leader={...leaderForCountry(target.countryId),countryId:target.countryId};
+    const lr=generateLeaderResponse(leader,text,G);
+    reply=`${lr.responseText} Offer: ${lr.possibleOffer}. Demand/red line: ${lr.possibleDemand}. Risk: ${lr.riskWarning}`;
+    if(lr.relationshipChange&&target.countryId){
+      G.relations[target.countryId]=Math.max(-100,Math.min(100,(G.relations[target.countryId]??0)+lr.relationshipChange));
+      fx.relation=(fx.relation||0)+lr.relationshipChange;
+    }
+    G.leaderConversations=[{id:thread.id,week:G.week,countryId:target.countryId,leader:leader.name,message:text,response:lr.responseText,tone:lr.tone,relationshipChange:lr.relationshipChange},...(G.leaderConversations||[])].slice(0,40);
+  }
   thread.messages.push({role:'counterpart',week:G.week,text:reply,effect:fx.summary});
   const pseudoResult={headline:G.activeCommsMode==='press'?'White House faces press corps':'Secure leader call reshapes diplomatic track',narrative:fx.summary,approval_changes:fx.approval,economy_changes:fx.economy,relation_changes:{[target.countryId]:fx.relation||0}};
   if(G.activeCommsMode==='press')recordPressConference(text,pseudoResult,{id:thread.id});
@@ -2618,6 +2791,120 @@ function sendCommunicationMessage(){
   input.value='';
   addNewsItem(G.activeCommsMode==='press'?'Press conference drives new media cycle':`${target.country} call enters diplomatic log`,G.activeCommsMode==='press'?'breaking':'world');
   renderAll();
+  autoSaveGame();
+}
+
+function generatePressQuestions(){
+  const qs=[];
+  if(G.economy.inflation>4)qs.push(`Reporter: Inflation is ${G.economy.inflation.toFixed(1)}%. What is your specific plan to lower prices without triggering layoffs?`);
+  if(G.economy.unemployment>5)qs.push(`Reporter: Unemployment is rising. Why should workers believe the administration has a jobs strategy?`);
+  if((G.scandals||[]).length)qs.push(`Reporter: Your administration faces ${G.scandals.length} active scandal${G.scandals.length>1?'s':''}. Can the public still trust your White House?`);
+  if((G.failedPolicies||[]).length)qs.push(`Reporter: Congress blocked ${G.failedPolicies[0].name||'a major bill'}. Are you losing legislative control?`);
+  if((G.wars||[]).length)qs.push(`Reporter: With ${G.wars[0]} still active, what are the limits of US involvement?`);
+  if(G.economy.deficit<-1200)qs.push(`Reporter: The deficit remains near $${Math.abs(Math.round(G.economy.deficit))}B. What spending or revenue trade-offs are you willing to defend?`);
+  if(G.approval.overall<45)qs.push(`Reporter: Your approval is ${Math.round(G.approval.overall)}%. Why should the public trust your governing agenda?`);
+  qs.push('Reporter: What is the one measurable result Americans should judge you by this month?');
+  qs.push('Reporter: Are you willing to compromise with congressional opponents, or will you govern through executive action?');
+  return qs.slice(0,5);
+}
+function analyzePressTone(text){
+  const t=normalizeName(text);
+  const scores={evasive:/no comment|fake news|witch hunt|not answer|move on/.test(t)?2:0,direct:/yes|no|responsible|accountable|specific|because/.test(t)?2:0,aggressive:/lie|enemy|corrupt|threat|punish|fight/.test(t)?2:0,conciliatory:/understand|listen|respect|bipartisan|work with|common ground/.test(t)?2:0,technocratic:/data|percent|timeline|funding|target|metrics|implementation/.test(t)?2:0,populist:/families|workers|people|elites|kitchen table|middle class/.test(t)?2:0,'crisis-focused':/crisis|emergency|war|disaster|urgent|immediate/.test(t)?2:0};
+  return Object.entries(scores).sort((a,b)=>b[1]-a[1])[0]?.[1]>0?Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0]:'mixed';
+}
+function openPressConference(){
+  ensureAdvancedState();
+  G.activeCommsMode='press';
+  G.activeCommsTarget='press';
+  const qs=generatePressQuestions();
+  document.getElementById('exp-title').textContent='White House Press Conference';
+  document.getElementById('exp-content').innerHTML=`
+    <div class="policy-route-note"><strong>Briefing room live.</strong> Choose a reporter question, then type your answer. The simulation will analyze tone and apply approval, media and market effects.</div>
+    <div id="press-questions">${qs.map((q,i)=>`<div class="press-question" onclick="selectPressQuestion(${i})"><strong>Question ${i+1}</strong><div style="margin-top:.25rem;color:var(--text2);line-height:1.45">${htmlEscape(q)}</div></div>`).join('')}</div>
+    <div class="directive-box" style="margin-top:.7rem"><textarea id="press-answer" placeholder="Type your answer in your own words..."></textarea><button class="directive-btn" onclick="submitPressAnswer()">Answer<br>Press</button></div>
+    <div id="press-reaction" class="policy-route-note" style="display:none"></div>`;
+  G.pendingPressQuestions=qs;
+  openModal('expmodal');
+}
+function selectPressQuestion(i){
+  const el=document.getElementById('press-answer');
+  if(el){el.dataset.questionIndex=i;el.placeholder=(G.pendingPressQuestions||[])[i]||'Type your answer...';el.focus();}
+}
+function submitPressAnswer(){
+  const el=document.getElementById('press-answer');
+  const answer=(el?.value||'').trim();
+  if(!answer)return;
+  if(G.actionsLeft<=0){addMsg('ai','No actions left this week for a press conference.');return;}
+  const tone=analyzePressTone(answer);
+  const direct=['direct','technocratic','conciliatory','populist'].includes(tone);
+  const evasive=tone==='evasive';
+  const approvalDelta=direct?1.2:evasive?-2.5:tone==='aggressive'?-1:0.2;
+  G.approval.media=Math.max(0,Math.min(100,G.approval.media+(direct?2:evasive?-4:tone==='aggressive'?-2:0.5)));
+  G.approval.independents=Math.max(0,Math.min(100,G.approval.independents+approvalDelta));
+  if(/economy|inflation|jobs|market|debt|budget/i.test(answer)&&direct)G.economy.stockMarket=Math.max(10,G.economy.stockMarket+0.8);
+  if(evasive&&G.scandals.length)G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+1);
+  recalculateOverallApproval();
+  G.actionsLeft--;
+  const question=(G.pendingPressQuestions||[])[Number(el.dataset.questionIndex)||0]||'Reporter question';
+  const reaction=direct?'Media coverage notes a substantive answer with clearer metrics.':evasive?'Reporters frame the answer as evasive and opposition clips circulate quickly.':tone==='aggressive'?'Cable panels focus on the combative posture more than the policy substance.':'Coverage is mixed; the answer changes the subject but leaves follow-ups.';
+  const entry={id:`press-live-${G.week}-${Date.now().toString(36)}`,week:G.week,question,answer,tone,reaction,approvalDelta};
+  G.pressConferenceHistory.unshift(entry);
+  recordPressConference(answer,{headline:'Live press conference shapes media cycle',narrative:reaction,approval_changes:{media:direct?2:evasive?-4:tone==='aggressive'?-2:0.5,independents:approvalDelta,overall:approvalDelta/2},economy_changes:{}},{id:entry.id});
+  addNewsItem(`Press conference: ${tone} answer moves media narrative`,'breaking');
+  document.getElementById('actions-left-msg').textContent=G.actionsLeft;
+  document.getElementById('press-reaction').style.display='block';
+  document.getElementById('press-reaction').innerHTML=`<strong>Reaction:</strong> ${htmlEscape(reaction)}<br><strong>Tone:</strong> ${htmlEscape(tone)} · Independents ${approvalDelta>=0?'+':''}${approvalDelta.toFixed(1)} · Media ${direct?'+2':evasive?'-4':tone==='aggressive'?'-2':'+0.5'}`;
+  renderAll();
+  autoSaveGame();
+}
+function openUSMap(){
+  ensureAdvancedState();
+  closeModal('countrymodal');
+  G.activeMapView='us';
+  document.getElementById('exp-title').textContent='US Electoral Strategy Board';
+  document.getElementById('exp-content').innerHTML=`
+    <div class="brief-grid"><div class="brief-chip"><span>States tracked</span>${Object.keys(G.statePoliticalData).length}</div><div class="brief-chip"><span>Swing states</span>${Object.values(G.statePoliticalData).filter(s=>s.lean==='Swing').length}</div><div class="brief-chip"><span>National approval</span>${Math.round(G.approval.overall)}%</div></div>
+    <div class="policy-route-note">State tiles are seeded political data for gameplay. Missing live officeholder fields are safely marked pending and never block save/load.</div>
+    <div class="us-map-grid">${US_STATE_ORDER.map(code=>{const st=G.statePoliticalData[code];const cls=st.lean==='Democratic'?'state-dem':st.lean==='Republican'?'state-rep':st.lean==='Swing'?'state-swing':'state-unknown';return`<button class="state-tile ${cls}" title="${htmlEscape(st.name)} · ${st.lean} · Approval ${G.stateApproval[code]??st.approval}%" onclick="openStatePanel('${code}')">${code}</button>`}).join('')}</div>`;
+  openModal('expmodal');
+  autoSaveGame();
+}
+function openStatePanel(code){
+  ensureAdvancedState();
+  const st=G.statePoliticalData[code]; if(!st)return;
+  G.selectedState=code;
+  const color=st.lean==='Democratic'?'#4f8cff':st.lean==='Republican'?'#e07070':st.lean==='Swing'?'#b084d6':'#8aa0bc';
+  document.getElementById('exp-title').textContent=`${st.name} State Brief`;
+  document.getElementById('exp-content').innerHTML=`
+    <div class="country-hero"><div class="country-header-grid"><div class="country-flag">🏛️</div><div><div class="country-title" style="color:${color}">${htmlEscape(st.name)}</div><div class="country-sub">Capital: ${htmlEscape(st.capital)} · ${htmlEscape(st.lean)} · ${st.ev} electoral votes</div></div><div style="font-family:var(--fm);color:${color}">${G.stateApproval[code]??st.approval}%</div></div></div>
+    <div class="country-grid">
+      <div class="country-stat"><div class="country-stat-label">Governor</div><div class="country-stat-value">${htmlEscape(st.governor)} (${htmlEscape(st.governorParty)})</div></div>
+      <div class="country-stat"><div class="country-stat-label">Senators</div><div class="country-stat-value">${st.senators.map(htmlEscape).join(' / ')}</div></div>
+      <div class="country-stat"><div class="country-stat-label">House</div><div class="country-stat-value">${htmlEscape(st.house)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Population</div><div class="country-stat-value">${htmlEscape(st.population)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">GDP</div><div class="country-stat-value">${htmlEscape(st.gdp)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Unemployment</div><div class="country-stat-value">${htmlEscape(st.unemployment)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Key issue</div><div class="country-stat-value">${htmlEscape(st.issue)}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Campaign</div><div class="country-stat-value">${st.importance}/100</div></div>
+      <div class="country-stat"><div class="country-stat-label">Industries</div><div class="country-stat-value">${st.industries.map(htmlEscape).join(', ')}</div></div>
+    </div>
+    <div class="country-actions">
+      ${['Visit state','Campaign speech','Federal grant','Disaster aid','Infrastructure package','Pressure governor','Meet senators','Target state media'].map(a=>`<button class="country-action" onclick="applyStateAction('${code}','${a}')"><strong>${a}</strong>Apply a modest state approval, budget or legislative-pressure effect.</button>`).join('')}
+      <button class="country-action" onclick="openUSMap()"><strong>Back to US Map</strong>Return to the national state board.</button>
+    </div>`;
+  autoSaveGame();
+}
+function applyStateAction(code,action){
+  const st=G.statePoliticalData[code]; if(!st)return;
+  const cost=/grant|aid|infrastructure/i.test(action)?3:0;
+  const delta=/pressure/i.test(action)?-1:/visit|speech|media/i.test(action)?1.5:2;
+  G.stateApproval[code]=Math.max(0,Math.min(100,(G.stateApproval[code]??st.approval)+delta));
+  if(cost){G.economy.deficit-=cost;G.budget.infrastructure+=/Infrastructure/i.test(action)?cost:0;}
+  if(/Meet senators|Pressure governor/i.test(action))G.congressionalRelations.moderates=Math.min(100,G.congressionalRelations.moderates+0.5);
+  addNewsItem(`${st.name}: ${action} changes state approval ${delta>=0?'+':''}${delta}`,'policy');
+  addLogItem(`${action} — ${st.name}`);
+  renderAll();
+  openStatePanel(code);
   autoSaveGame();
 }
 
@@ -4286,7 +4573,7 @@ function openCabModal(role){
     const pc=p.p==='dem'?'dem':p.p==='rep'?'rep':'ind';
     const pl=p.p==='dem'?'Democrat':p.p==='rep'?'Republican':'Independent';
     const roleNote=currentRole?`<div style="font-size:.58rem;color:var(--gold);margin-top:.15rem">Currently: ${currentRole[0]} → will be moved</div>`:'';
-    d.innerHTML=`<div class="polname">${p.n}</div><span class="polparty ${pc}">${pl}</span>${roleNote}<div class="poltrait">${p.trait}</div>`;
+    d.innerHTML=`<div style="display:flex;gap:.45rem;align-items:center;margin-bottom:.25rem"><div class="leader-portrait" style="width:34px;height:34px;font-size:.65rem">${p.fallbackPortrait}</div><div><div class="polname">${p.n}</div><span class="polparty ${pc}">${pl}</span></div></div>${roleNote}<div class="poltrait">${p.trait}</div>`;
     if(currentRole)d.style.borderColor='rgba(201,168,76,.4)';
     grid.appendChild(d);
   });
