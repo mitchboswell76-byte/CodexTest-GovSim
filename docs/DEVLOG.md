@@ -636,3 +636,29 @@ The new systems make actions less one-dimensional: aggressive diplomacy can crea
 ### Next recommended task
 
 Split the growing single-file app into modules (`src/state.js`, `src/communications.js`, `src/covert.js`, `src/ui.js`) and add browser-level smoke tests when a browser binary is available.
+
+## 2026-05-17 — Diplomacy identity, country briefing cards, press room, and US state map
+
+### What changed
+
+- Added a richer `worldLeaderData` identity layer for major world leaders with roles, party/faction, ideology, fallback portraits, temperament, negotiation style, interests, red lines, biography, response style, and source/update notes.
+- Added country flags, government estimates, seeded economy/security stats, and safe fallback leader cards for countries without verified leader data.
+- Rebuilt the country click modal into an official briefing card with flag, leader card, relationship score, GDP, population, military strength, trade, alliance status, stability, threat/opportunity and diplomatic actions.
+- Added a secure leader-call modal backed by `generateLeaderResponse(leader, playerMessage, gameState)` with rule-based personality/relationship logic and diplomatic follow-up outcomes.
+- Added a live press conference modal with state-generated reporter questions, typed presidential answers, tone analysis, media/opposition reaction and approval effects.
+- Added a US state strategy map opened from the United States country panel, with colored state tiles, hover tooltips, state detail cards, state political/economic fields and simple state actions.
+- Added migration/default state for selected country/state, map view, leader conversations, diplomatic history, country relationships, press conference history and state approval/lean/importance/issues.
+
+### Checks run
+
+- `npm test` passed and confirmed inline JavaScript parses plus required DOM/function anchors still exist.
+
+### Known limitations
+
+- Leader portraits intentionally use safe fallback initials instead of hotlinked photos.
+- The US state map is currently a compact tile strategy board rather than geographic TopoJSON; it still supports all states, hover, click, party coloring and state cards.
+- Many country leader records still fall back to “Leader data pending” until a future data pass verifies current officials.
+
+### Recommended next cycle
+
+Deepen diplomacy with treaties, sanctions, summits, alliance blocs, trade deals, military incidents, intelligence warnings and regional crisis chains. Deepen US politics with swing-state polling, campaign visits, governors/senators as full politician profiles, state scandals and policy popularity by state.
