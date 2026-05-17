@@ -636,3 +636,44 @@ The new systems make actions less one-dimensional: aggressive diplomacy can crea
 ### Next recommended task
 
 Split the growing single-file app into modules (`src/state.js`, `src/communications.js`, `src/covert.js`, `src/ui.js`) and add browser-level smoke tests when a browser binary is available.
+
+---
+
+## Development cycle: diplomacy identity, world leaders, press, and US map
+
+**Date:** 2026-05-17
+**Agent:** Codex
+**Branch:** current working branch
+
+### Goal
+
+Make countries and politicians feel more alive without removing existing GOVERN systems. The focus was richer country click panels, leader identities, simulated leader calls, press conferences, and a first playable US state strategy map.
+
+### What changed
+
+- Added structured world leader identity data keyed by country code, including temperament, negotiation style, interests, red lines, biographies, government type, ruling faction, fallback portrait initials, and source/update notes.
+- Added safe flag rendering through ISO-derived emoji flags and fallback leader portrait cards instead of risky hotlinked images.
+- Rebuilt the country modal as an official diplomatic briefing card with leader identity, government details, economy/population/military/stability/threat/opportunity stats, trade exposure, red lines, interests, and action buttons.
+- Added direct country-panel entry into simulated secure leader calls.
+- Added `generateLeaderResponse(leader, playerMessage, gameState)` for state-aware, personality-shaped diplomatic replies with relationship deltas, offers, demands, warnings, and follow-up options.
+- Added diplomatic follow-up outcomes such as formal offers, sanctions threats, aid, trade deals, military support requests, policy demands, backing down, and ending the call.
+- Upgraded press conferences so reporter questions are generated from state conditions and typed answers receive tone analysis, public/media/opposition reactions, and approval effects.
+- Added a US map view from the United States country panel using US states TopoJSON, state coloring by party lean, hover tooltips, state click cards, seeded state political data, state approval, state issue, and state action buttons.
+- Added migration/default state for selected country/state, active map view, leader conversations, diplomatic history, country relationship mirrors, press history, state approval, state political data, politician profiles, and world leader data.
+
+### Testing
+
+- `npm test` passed after the implementation.
+- Static smoke coverage now confirms the inline JavaScript parses and all required existing anchors still exist.
+- Browser-level interaction testing remains limited by the container lacking a browser automation runtime.
+
+### Known limitations
+
+- World leader portraits intentionally use safe fallback cards rather than externally hotlinked photos.
+- Only major world powers / common diplomatic targets have detailed leader profiles so far; other countries show “Leader data pending” safely.
+- US state governor/senator details are seeded gameplay placeholders and marked as pending rather than presented as fully verified current rosters.
+- The US state map depends on a stable CDN TopoJSON file, consistent with the existing world map approach.
+
+### Recommended next cycle
+
+Deepen diplomacy with treaties, sanctions, summits, alliances, trade deals, military incidents, intelligence warnings and regional blocs. Deepen US politics with elections, swing-state polling, campaign visits, governors, senators, state scandals and policy popularity by state.
