@@ -88,6 +88,56 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 .crisis-badge{background:var(--red);color:#fff;font-size:.58rem;letter-spacing:1px;padding:.1rem .35rem;border-radius:2px;text-transform:uppercase;animation:fl 1s infinite;flex-shrink:0}
 @keyframes fl{0%,100%{opacity:1}50%{opacity:.3}}
 
+
+/* TOP-LEVEL GAME TABS */
+.main-tabs{height:38px;display:flex;align-items:stretch;background:linear-gradient(180deg,#0d1728,#080f1b);border-bottom:1px solid var(--b1);flex-shrink:0;overflow-x:auto}
+.main-tab{min-width:112px;padding:0 .75rem;background:transparent;border:none;border-right:1px solid var(--b1);color:var(--text3);font-family:var(--fh);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;transition:all .18s;white-space:nowrap}
+.main-tab:hover{color:var(--gold2);background:rgba(201,168,76,.05)}
+.main-tab.active{color:var(--gold);background:rgba(201,168,76,.10);box-shadow:inset 0 -2px 0 var(--gold)}
+.main-page{display:none;flex:1;overflow:hidden;min-height:0}
+.main-page.active{display:flex}
+.section-page{padding:.85rem;gap:.75rem;background:radial-gradient(circle at 50% 0,#101b2e 0,#060c14 42%);overflow-y:auto;flex-direction:column}
+.warroom-grid{display:grid;grid-template-columns:minmax(360px,1.15fr) minmax(380px,1.5fr);gap:.75rem;align-items:start}
+.war-card{background:rgba(11,18,32,.94);border:1px solid var(--b1);border-radius:3px;padding:.75rem;box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.war-card-title{font-family:var(--fh);font-size:.68rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.war-sub{font-size:.66rem;color:var(--text3);line-height:1.55;margin-bottom:.55rem}
+.intent-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;margin-bottom:.65rem}
+.intent-btn{background:var(--bg0);border:1px solid var(--b1);color:var(--text2);padding:.45rem .5rem;border-radius:2px;text-align:left;font-size:.66rem;transition:all .16s}
+.intent-btn:hover{border-color:var(--gold3);color:var(--gold2)}
+.intent-btn.active{border-color:var(--gold);background:rgba(201,168,76,.10);color:var(--gold)}
+.directive-box{display:grid;grid-template-columns:1fr auto;gap:.45rem;align-items:stretch}
+.directive-box textarea{min-height:88px;padding:.55rem .65rem;resize:vertical;font-size:.8rem;line-height:1.45}
+.directive-btn{background:var(--gold4);border:1px solid var(--gold);color:var(--gold2);font-family:var(--fh);font-size:.62rem;letter-spacing:1.4px;padding:.45rem .7rem;border-radius:2px;text-transform:uppercase}
+.advisor-brief{background:linear-gradient(180deg,rgba(26,74,138,.16),rgba(11,18,32,.92));border:1px solid rgba(52,152,219,.28);border-left:3px solid var(--blue3);border-radius:3px;padding:.7rem;margin-bottom:.7rem;line-height:1.55;color:var(--text2);font-size:.73rem}
+.advisor-brief strong{color:var(--gold2)}
+.brief-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;margin-top:.55rem}
+.brief-chip{background:rgba(6,12,20,.65);border:1px solid var(--b1);border-radius:2px;padding:.36rem .45rem;font-size:.62rem;color:var(--text2)}
+.brief-chip span{display:block;color:var(--text3);font-size:.5rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:.08rem}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.55rem}
+.route-card{background:var(--bg0);border:1px solid var(--b1);border-radius:3px;padding:.65rem;display:flex;flex-direction:column;gap:.45rem;transition:all .16s}
+.route-card:hover{border-color:var(--gold3);transform:translateY(-1px)}
+.route-card.selected{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.route-top{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start}
+.route-title{font-family:var(--fh);font-size:.7rem;color:var(--gold2);letter-spacing:.8px}
+.route-chance{font-family:var(--fm);font-size:.85rem;color:var(--green2)}
+.route-meta{display:grid;grid-template-columns:1fr 1fr;gap:.25rem}
+.route-stat{background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.28rem .35rem;font-size:.58rem;color:var(--text2);line-height:1.35}
+.route-stat span{display:block;color:var(--text3);font-size:.48rem;text-transform:uppercase;letter-spacing:.8px}
+.route-impact{font-size:.64rem;line-height:1.45;color:var(--text2);min-height:38px}
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.38rem}
+.strategy-btn{background:rgba(6,12,20,.9);border:1px solid var(--b1);color:var(--text2);padding:.45rem;border-radius:2px;text-align:left;font-size:.64rem;line-height:1.35}
+.strategy-btn:hover{border-color:var(--gold3);color:var(--gold2)}
+.strategy-btn.active{border-color:var(--gold);background:rgba(201,168,76,.10);color:var(--gold)}
+.commit-btn{margin-top:.6rem;width:100%;background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.55);color:#7ee0aa;padding:.6rem;font-family:var(--fh);font-size:.65rem;letter-spacing:1.6px;text-transform:uppercase;border-radius:2px}
+.leg-list{display:grid;gap:.45rem}
+.leg-item{background:var(--bg0);border:1px solid var(--b1);border-radius:3px;padding:.58rem}
+.leg-title{font-weight:600;color:var(--text);font-size:.74rem;margin-bottom:.2rem}
+.leg-meta{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.32rem}
+.leg-pill{border:1px solid var(--b2);background:var(--bg1);color:var(--text2);font-size:.54rem;text-transform:uppercase;letter-spacing:.7px;border-radius:2px;padding:.08rem .28rem}
+.leg-track{height:6px;background:var(--bg1);border-radius:2px;overflow:hidden;margin:.35rem 0}
+.leg-fill{height:100%;background:linear-gradient(90deg,var(--blue2),var(--gold),var(--green2));transition:width .3s}
+.placeholder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
+
 /* MAIN */
 .mgrid{flex:1;display:grid;grid-template-columns:230px 1fr 310px;overflow:hidden}
 
@@ -478,6 +528,18 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
     </div>
   </header>
 
+  <nav class="main-tabs" aria-label="Main game tabs">
+    <button class="main-tab active" data-main-tab="home" onclick="switchMainTab('home',this)">Home</button>
+    <button class="main-tab" data-main-tab="legislation" onclick="switchMainTab('legislation',this)">Legislation</button>
+    <button class="main-tab" data-main-tab="executive" onclick="switchMainTab('executive',this)">Executive</button>
+    <button class="main-tab" data-main-tab="congress" onclick="switchMainTab('congress',this)">Congress</button>
+    <button class="main-tab" data-main-tab="cabinet" onclick="switchMainTab('cabinet',this)">Cabinet / Advisors</button>
+    <button class="main-tab" data-main-tab="economy" onclick="switchMainTab('economy',this)">Economy / Budget</button>
+    <button class="main-tab" data-main-tab="world" onclick="switchMainTab('world',this)">World</button>
+    <button class="main-tab" data-main-tab="archive" onclick="switchMainTab('archive',this)">Archive / History</button>
+  </nav>
+
+  <section id="main-home" class="main-page active">
   <div class="mgrid">
     <!-- LEFT -->
     <div class="lpanel">
@@ -610,6 +672,48 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
       </div>
     </div>
   </div>
+
+  </section>
+
+  <section id="main-legislation" class="main-page section-page">
+    <div class="warroom-grid">
+      <div class="war-card">
+        <div class="war-card-title">Presidential Directive Box <span class="mono" id="leg-action-count">3 actions</span></div>
+        <div class="war-sub">Choose the kind of action you want, then type the policy subject in natural language. Your advisors will structure routes, risks, trade-offs and next steps.</div>
+        <div class="intent-grid" id="leg-intentions"></div>
+        <div class="directive-box">
+          <textarea id="leg-subject" placeholder="Example: Introduce stricter gun background checks; lower prescription drug prices; pass a national housing construction bill"></textarea>
+          <button class="directive-btn" onclick="analyzeLegislationDirective()">Analyze<br>Options</button>
+        </div>
+      </div>
+      <div class="war-card">
+        <div class="war-card-title">Advisor Analysis</div>
+        <div id="advisor-analysis" class="advisor-brief">Select an intention and type what you want done. Staff will respond like a policy war room: route options, success rates, likely opponents and recommended strategy.</div>
+        <div class="route-grid" id="route-cards"></div>
+      </div>
+      <div class="war-card">
+        <div class="war-card-title">Strategy Controls</div>
+        <div class="war-sub" id="strategy-help">Choose a route above to unlock controls. Congressional bills enter the pipeline instead of resolving instantly.</div>
+        <div class="strategy-grid" id="strategy-controls"></div>
+        <button id="commit-policy-btn" class="commit-btn" onclick="commitPolicyRoute()" style="display:none">Commit selected route</button>
+      </div>
+      <div class="war-card">
+        <div class="war-card-title">Active Legislation Pipeline</div>
+        <div class="leg-list" id="active-legislation-list"><div class="nodata">No active legislation.</div></div>
+      </div>
+      <div class="war-card" style="grid-column:1/-1">
+        <div class="war-card-title">Legislative History</div>
+        <div class="leg-list" id="legislative-history-list"><div class="nodata">No legislative history yet.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="main-executive" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Executive Action</div><div class="war-sub">Use the Home command center for broad executive orders. This tab is reserved for deeper directives, agency implementation and court-risk tracking in a future cycle.</div></div></div></section>
+  <section id="main-congress" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Congress</div><div id="main-congress-summary"></div></div><div class="war-card"><div class="war-card-title">Pending Votes</div><div id="main-congress-bills"></div></div></div></section>
+  <section id="main-cabinet" class="main-page section-page"><div class="war-card"><div class="war-card-title">Cabinet / Advisors</div><div class="war-sub">Cabinet appointment mechanics remain in the Home side panel for now. This page establishes the simulator tab architecture for future advisor profiles and briefings.</div><div id="main-cabinet-summary"></div></div></section>
+  <section id="main-economy" class="main-page section-page"><div class="war-card"><div class="war-card-title">Economy / Budget</div><div id="main-economy-summary"></div></div></section>
+  <section id="main-world" class="main-page section-page"><div class="war-card"><div class="war-card-title">World Affairs</div><div class="war-sub">The Home map remains interactive. Click countries there for diplomatic commands; future cycles can move the world desk here.</div><div id="main-world-summary"></div></div></section>
+  <section id="main-archive" class="main-page section-page"><div class="war-card"><div class="war-card-title">Archive / History</div><div class="leg-list" id="main-archive-list"></div></div></section>
 
   <div class="ticker">
     <div class="ticklabel">BREAKING</div>
@@ -1228,6 +1332,15 @@ function initState(party,leader,diff){
     // Cabinet activation tracking (Priority 3)
     cabinetActiveSince:{}, // role -> week when appointment took effect
     cabinetProfiles:{}, // role -> relationship/fit profile
+    // Tabbed simulator / legislation war-room state
+    activeTab:'home',
+    selectedActionIntent:'Create new law',
+    pendingPolicyDraft:null,
+    generatedPolicyRoutes:[],
+    activeLegislation:[],
+    legislativeHistory:[],
+    advisorBriefings:[],
+    policyStrategySettings:{},
   };
   if(diff==='crisis'){
     G.wars.push('Middle East (Active Conflict)');
@@ -1343,6 +1456,7 @@ function setMapLayer(layer,btn){
   document.querySelectorAll('.mapctrl').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   refreshMap();
+  renderTabShells();
 }
 
 function refreshMap(){
@@ -1802,6 +1916,14 @@ function migrateGameState(rawGame){
   if(!rawGame.budgetPending)rawGame.budgetPending={};
   if(!rawGame.cabinetActiveSince)rawGame.cabinetActiveSince={};
   if(!rawGame.cabinetProfiles)rawGame.cabinetProfiles={};
+  if(!rawGame.activeTab)rawGame.activeTab='home';
+  if(!rawGame.selectedActionIntent)rawGame.selectedActionIntent='Create new law';
+  if(!Array.isArray(rawGame.generatedPolicyRoutes))rawGame.generatedPolicyRoutes=[];
+  if(!Array.isArray(rawGame.activeLegislation))rawGame.activeLegislation=[];
+  if(!Array.isArray(rawGame.legislativeHistory))rawGame.legislativeHistory=[];
+  if(!Array.isArray(rawGame.advisorBriefings))rawGame.advisorBriefings=[];
+  if(!rawGame.policyStrategySettings)rawGame.policyStrategySettings={};
+  if(rawGame.pendingPolicyDraft===undefined)rawGame.pendingPolicyDraft=null;
   
   // Normalize scandals to prevent [object Object]
   if(Array.isArray(rawGame.scandals)){
@@ -2336,8 +2458,329 @@ function updatePolicyRecordStatus(record,status,summary){
   G.policySnapshots[record.name]={...(G.policySnapshots[record.name]||{}),...record};
 }
 
+// ============================================================
+// TABBED LEGISLATION WAR ROOM
+// ============================================================
+const MAIN_TABS=['home','legislation','executive','congress','cabinet','economy','world','archive'];
+const LEGISLATION_INTENTS=['Create new law','Amend existing law','Repeal policy','Fund programme','Regulate industry','Investigate issue','Pressure Congress','Build public support'];
+const LEGISLATION_STAGES=['Drafting','Sponsor selection','Committee','Amendments','House vote','Senate vote','Final negotiation','Signed into law'];
+const BILL_STRATEGIES={
+  narrow:{label:'Narrow version',desc:'Easier to pass, weaker effect',chance:10,weeks:-1,impact:.62,polarization:-1,deficit:0},
+  moderate:{label:'Moderate version',desc:'Balanced coalition and effect',chance:2,weeks:0,impact:.82,polarization:0,deficit:0},
+  ambitious:{label:'Ambitious version',desc:'Stronger effect, harder to pass',chance:-13,weeks:1,impact:1.22,polarization:2,deficit:-35},
+  bipartisan:{label:'Bipartisan compromise',desc:'Higher success, weaker ideological impact',chance:12,weeks:1,impact:.72,polarization:-2,deficit:0},
+  partyLine:{label:'Party-line push',desc:'Stronger effect, more polarisation',chance:-6,weeks:-1,impact:1.05,polarization:3,deficit:0},
+  delay:{label:'Delay and negotiate',desc:'Slower, improves success',chance:9,weeks:2,impact:.86,polarization:-1,deficit:0},
+  force:{label:'Force vote',desc:'Faster, higher failure risk',chance:-11,weeks:-2,impact:1.0,polarization:2,deficit:0},
+  funding:{label:'Add funding',desc:'Improves implementation, worsens deficit',chance:3,weeks:0,impact:1.12,polarization:1,deficit:-60},
+  enforcement:{label:'Add enforcement',desc:'Stronger effect, higher backlash',chance:-4,weeks:0,impact:1.12,polarization:2,deficit:-15},
+  concession:{label:'Offer concession',desc:'Improves Congress chance, weakens policy',chance:8,weeks:0,impact:.70,polarization:-1,deficit:10}
+};
+
+function htmlEscape(v){return String(v??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
+function clampNum(n,min,max){return Math.max(min,Math.min(max,Number(n)||0));}
+function slugTitle(text){return String(text||'Policy Proposal').trim().replace(/\s+/g,' ').replace(/^./,c=>c.toUpperCase()).slice(0,86);}
+function currentMainTab(){return G.activeTab||'home';}
+
+function switchMainTab(name,btn){
+  if(!MAIN_TABS.includes(name))name='home';
+  G.activeTab=name;
+  document.querySelectorAll('.main-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('main-'+name)?.classList.add('active');
+  (btn||document.querySelector(`[data-main-tab="${name}"]`))?.classList.add('active');
+  renderTabShells();
+  autoSaveGame();
+}
+
+function detectPolicyArea(text=''){
+  const t=normalizeName(text);
+  const tests=[
+    ['healthcare',/health|drug price|prescription|hospital|insurance|medicare|medicaid|medical/],
+    ['housing',/housing|rent|construction|zoning|mortgage|homeless|homes/],
+    ['environment',/carbon|climate|emission|pollution|clean air|environment|epa/],
+    ['energy',/renewable|oil|gas|electric|grid|nuclear|solar|wind|energy/],
+    ['immigration',/border|visa|asylum|immigration|migrant|refugee|deport/],
+    ['policing/crime',/police|crime|prison|sentencing|gun|background check|assault weapon|justice/],
+    ['tax',/tax|corporation|corporate|income tax|capital gains|irs/],
+    ['welfare',/welfare|poverty|benefit|food stamp|child care|childcare|social security/],
+    ['defence',/defense|defence|military|veteran|troop|navy|army|air force/],
+    ['education',/school|college|student|teacher|education|tuition/],
+    ['infrastructure',/infrastructure|road|bridge|rail|transit|broadband|airport/],
+    ['foreign policy',/foreign|ukraine|china|russia|nato|sanction|aid|treaty/],
+    ['civil rights',/civil rights|voting rights|discrimination|equality|abortion|religious/],
+    ['trade',/trade|tariff|import|export|supply chain|manufacturing/],
+    ['technology',/technology|ai|privacy|data|cyber|chip|semiconductor|internet/],
+    ['economy',/jobs|inflation|unemployment|growth|recession|market|wage/]
+  ];
+  return (tests.find(([,rx])=>rx.test(t))||['economy'])[0];
+}
+
+function publicSupportForArea(area,text=''){
+  const base={healthcare:61,housing:58,environment:54,energy:52,immigration:48,'policing/crime':50,tax:46,welfare:49,defence:55,education:60,infrastructure:66,'foreign policy':47,'civil rights':52,trade:45,technology:57,economy:56}[area]||52;
+  const t=normalizeName(text);
+  let mod=0;
+  if(/gun|abortion|border|tax|police|climate/.test(t))mod-=5;
+  if(/prescription|infrastructure|housing|veteran|child/.test(t))mod+=5;
+  return clampNum(base+(G.approval?.overall-50)*.25+mod,25,82);
+}
+
+function routeBaseData(route,area,intent,subject){
+  const e=G.economy||{}, support=publicSupportForArea(area,subject);
+  const c=G.congress||{senate:{dem:50,rep:50},house:{dem:218,rep:217}};
+  const ownSen=G.party==='Democrat'?c.senate.dem>=50:c.senate.rep>=50;
+  const ownHouse=G.party==='Democrat'?c.house.dem>=218:c.house.rep>=218;
+  const chamber=(ownSen?7:-10)+(ownHouse?7:-10);
+  const approval=(G.approval.overall-50)*.45;
+  const polar=/gun|abortion|border|tax|police|climate|corporation/.test(normalizeName(subject))?-8:0;
+  const deficitDrag=(route==='Budget Measure'&&e.deficit<-2200)?-8:0;
+  const inflationDrag=(route==='Budget Measure'&&e.inflation>5)?-6:0;
+  const intentMod=intent==='Build public support'&&route==='Public Pressure Campaign'?12:intent==='Pressure Congress'&&route==='Congressional Bill'?6:intent==='Regulate industry'&&route==='Agency Regulation'?8:intent==='Fund programme'&&route==='Budget Measure'?8:0;
+  const bases={
+    'Congressional Bill':{chance:44+chamber+approval+(support-50)*.35+polar+intentMod,weeks:7,cost:1,political:'High',durability:'High',court:'Low',difficulty:'Hard'},
+    'Executive Order':{chance:63+approval*.45+polar*.35-(ownSen||ownHouse?0:5)+intentMod,weeks:1,cost:1,political:'Medium',durability:'Low',court:'Medium',difficulty:'Medium'},
+    'Agency Regulation':{chance:56+approval*.3+intentMod+(G.cabinet&&Object.keys(G.cabinet).length>3?4:0),weeks:4,cost:1,political:'Medium',durability:'Medium',court:'Medium',difficulty:'Medium'},
+    'Budget Measure':{chance:42+chamber+approval*.35+(support-50)*.25+deficitDrag+inflationDrag+intentMod,weeks:5,cost:1,political:'High',durability:'Medium',court:'Low',difficulty:'Hard'},
+    'Public Pressure Campaign':{chance:72+approval*.25+(support-50)*.2+intentMod,weeks:2,cost:1,political:'Medium',durability:'None',court:'Low',difficulty:'Easy'}
+  }[route];
+  return {...bases,chance:Math.round(clampNum(bases.chance,8,92)),support:Math.round(support)};
+}
+
+function expectedEffectsForArea(area,route,subject){
+  const fx={approvalEffects:{overall:0},economyEffects:{},budgetEffects:{},relationEffects:{}};
+  const spend = route==='Budget Measure'||/fund|subsid|construction|housing|infrastructure|health|education/.test(normalizeName(subject));
+  if(['healthcare','housing','education','welfare'].includes(area)){fx.approvalEffects.labor=2;fx.approvalEffects.youth=1.5;fx.economyEffects.deficit=spend?-35:-8;}
+  if(area==='tax'){fx.approvalEffects.business=3;fx.approvalEffects.labor=-1.2;fx.economyEffects.gdpGrowth=.15;fx.economyEffects.deficit=-45;}
+  if(area==='infrastructure'){fx.approvalEffects.labor=2;fx.approvalEffects.business=1;fx.economyEffects.gdpGrowth=.18;fx.economyEffects.unemployment=-.12;fx.economyEffects.deficit=-60;}
+  if(['environment','energy'].includes(area)){fx.approvalEffects.youth=2;fx.approvalEffects.business=-1.5;fx.economyEffects.inflation=.06;fx.economyEffects.deficit=spend?-35:-10;}
+  if(area==='immigration'){fx.approvalEffects.republicans=G.party==='Republican'?2:-1;fx.approvalEffects.democrats=G.party==='Democrat'?1:-1;fx.approvalEffects.independents=-.5;}
+  if(area==='policing/crime'){fx.approvalEffects.seniors=1.5;fx.approvalEffects.minorities=/reform|standard|oversight/.test(normalizeName(subject))?1.5:-1.2;}
+  if(area==='defence'){fx.approvalEffects.military=2.5;fx.economyEffects.deficit=-55;fx.economyEffects.inflation=.04;}
+  if(area==='foreign policy'){fx.approvalEffects.media=.7;fx.economyEffects.deficit=-15;}
+  if(area==='trade'){fx.approvalEffects.business=.8;fx.economyEffects.tradeBalance=25;fx.economyEffects.inflation=.05;}
+  if(area==='technology'){fx.approvalEffects.business=1.5;fx.approvalEffects.youth=1;fx.economyEffects.gdpGrowth=.1;fx.economyEffects.deficit=-18;}
+  if(route==='Executive Order'){Object.keys(fx.approvalEffects).forEach(k=>fx.approvalEffects[k]*=.6);Object.keys(fx.economyEffects).forEach(k=>fx.economyEffects[k]*=.45);}
+  if(route==='Agency Regulation'){Object.keys(fx.economyEffects).forEach(k=>fx.economyEffects[k]*=.55);}
+  if(route==='Public Pressure Campaign'){fx.approvalEffects={overall:.8,media:1,independents:.7};fx.economyEffects={};}
+  return fx;
+}
+
+function buildPolicyRoutes(subject,intent){
+  const area=detectPolicyArea(subject);
+  return ['Congressional Bill','Executive Order','Agency Regulation','Budget Measure','Public Pressure Campaign'].map(route=>{
+    const b=routeBaseData(route,area,intent,subject);
+    const effects=expectedEffectsForArea(area,route,subject);
+    const impact=route==='Public Pressure Campaign'?'Raises public salience and improves future odds, but can polarise the issue.':`${area} action with measurable trade-offs across approval, implementation and fiscal pressure.`;
+    return {id:normalizeName(route).replace(/\s+/g,'-'),route,area,intent,subject,chance:b.chance,weeks:b.weeks,actionCost:b.cost,politicalRisk:b.political,durability:b.durability,courtRisk:b.court,implementationDifficulty:b.difficulty,publicSupport:b.support,effects,impact};
+  });
+}
+
+function advisorBriefingForDraft(draft,routes){
+  const bill=routes.find(r=>r.route==='Congressional Bill');
+  const best=[...routes].sort((a,b)=>b.chance-a.chance)[0];
+  const durable=bill&&bill.chance>=38?'Congressional Bill':'Executive Order';
+  const obstacles=[];
+  const c=G.congress||{senate:{dem:50,rep:50},house:{dem:218,rep:217}};
+  const ownSen=G.party==='Democrat'?c.senate.dem>=50:c.senate.rep>=50;
+  const ownHouse=G.party==='Democrat'?c.house.dem>=218:c.house.rep>=218;
+  if(!ownSen)obstacles.push('opposition control or narrow margins in the Senate');
+  if(!ownHouse)obstacles.push('a difficult House vote');
+  if(G.economy.inflation>5)obstacles.push('inflation sensitivity around new spending');
+  if(G.economy.deficit<-2200)obstacles.push('deficit hawks warning about borrowing costs');
+  if(/gun|border|abortion|tax|climate|police/.test(normalizeName(draft.subject)))obstacles.push('high partisan salience');
+  const text=`<strong>Special Advisor:</strong> We read this as a <strong>${draft.area}</strong> proposal under the intent <strong>${draft.intent}</strong>. For long-term durability, pursue a <strong>${durable}</strong>; for speed, ${best.route} currently has the strongest route score at <strong>${best.chance}%</strong>. ${obstacles.length?'Main obstacles: '+obstacles.join(', ')+'.':'The political environment is workable if the proposal stays focused.'} Public support is estimated at <strong>${bill.publicSupport}%</strong>. Recommended next step: choose a route, then tune ambition and coalition strategy before committing staff time.`;
+  return {id:`brief-${G.week}-${Date.now().toString(36)}`,week:G.week,subject:draft.subject,area:draft.area,intent:draft.intent,recommended:best.route,text,obstacles};
+}
+
+function analyzeLegislationDirective(){
+  if(!G||!G.leader)return;
+  const input=document.getElementById('leg-subject');
+  const subject=input?.value.trim();
+  if(!subject){addMsg('ai','Legislative Affairs needs a subject before it can produce route options.');return;}
+  const intent=G.selectedActionIntent||'Create new law';
+  const area=detectPolicyArea(subject);
+  const draft={id:`draft-${G.week}-${Date.now().toString(36)}`,week:G.week,intent,subject,area,selectedRouteId:null,selectedStrategy:'moderate'};
+  const routes=buildPolicyRoutes(subject,intent);
+  const brief=advisorBriefingForDraft(draft,routes);
+  G.pendingPolicyDraft=draft;
+  G.generatedPolicyRoutes=routes;
+  G.advisorBriefings=[brief,...(G.advisorBriefings||[])].slice(0,20);
+  addLogItem(`Advisor analysis prepared: ${slugTitle(subject)} (${area})`);
+  renderLegislationWarRoom();
+  autoSaveGame();
+}
+
+function selectLegislationIntent(intent){G.selectedActionIntent=intent;renderLegislationWarRoom();autoSaveGame();}
+function selectPolicyRoute(routeId){
+  if(!G.pendingPolicyDraft)return;
+  G.pendingPolicyDraft.selectedRouteId=routeId;
+  const route=(G.generatedPolicyRoutes||[]).find(r=>r.id===routeId);
+  G.policyStrategySettings[G.pendingPolicyDraft.id]=G.policyStrategySettings[G.pendingPolicyDraft.id]||{strategy:'moderate'};
+  if(route?.route!=='Congressional Bill')G.policyStrategySettings[G.pendingPolicyDraft.id].strategy='moderate';
+  renderLegislationWarRoom();
+}
+function selectPolicyStrategy(strategy){
+  if(!G.pendingPolicyDraft)return;
+  G.policyStrategySettings[G.pendingPolicyDraft.id]={strategy};
+  renderLegislationWarRoom();
+}
+
+function routeWithStrategy(route,draft){
+  const strategy=(G.policyStrategySettings?.[draft.id]?.strategy)||'moderate';
+  const s=BILL_STRATEGIES[strategy]||BILL_STRATEGIES.moderate;
+  if(route.route!=='Congressional Bill')return {...route,strategy:'direct',strategyLabel:'Direct implementation',finalChance:route.chance,finalWeeks:route.weeks,impactFactor:1};
+  return {...route,strategy,strategyLabel:s.label,finalChance:Math.round(clampNum(route.chance+s.chance,3,95)),finalWeeks:Math.max(1,route.weeks+s.weeks),impactFactor:s.impact,polarization:s.polarization,deficitAdjustment:s.deficit};
+}
+
+function commitPolicyRoute(){
+  if(!G.pendingPolicyDraft){return;}
+  if(G.actionsLeft<=0){addMsg('ai','You have no actions remaining this week. End the week before committing another route.');return;}
+  const draft=G.pendingPolicyDraft;
+  const selected=(G.generatedPolicyRoutes||[]).find(r=>r.id===draft.selectedRouteId)||G.generatedPolicyRoutes?.[0];
+  if(!selected){addMsg('ai','No route selected. Ask advisors to analyze the directive first.');return;}
+  const route=routeWithStrategy(selected,draft);
+  const title=slugTitle(draft.subject);
+  if(route.route==='Congressional Bill'){
+    const record={
+      id:`leg-${G.week}-${Date.now().toString(36)}`,
+      title,name:title,subject:draft.subject,route:route.route,status:'active',stageIndex:0,currentStage:LEGISLATION_STAGES[0],
+      week:G.week,month:G.month,year:G.year,introducedWeek:G.week,weeksRemaining:route.finalWeeks,passChance:route.finalChance,
+      supportLevel:route.publicSupport,oppositionLevel:100-route.publicSupport,mainRisk:route.politicalRisk,
+      expectedEffects:route.effects,approvalEffects:route.effects.approvalEffects,economyEffects:route.effects.economyEffects,budgetEffects:route.effects.budgetEffects,relationEffects:route.effects.relationEffects,
+      area:draft.area,intent:draft.intent,strategy:route.strategyLabel,durability:route.durability,courtRisk:route.courtRisk,implementationDifficulty:route.implementationDifficulty,
+      before:cloneCoreStats(),congressResult:'Bill is being drafted for congressional introduction.',isPolicy:true
+    };
+    if(route.deficitAdjustment)record.economyEffects.deficit=(record.economyEffects.deficit||0)+route.deficitAdjustment;
+    G.activeLegislation=[record,...(G.activeLegislation||[])];
+    G.pendingBills=[record,...(G.pendingBills||[])];
+    G.policyHistory=[record,...(G.policyHistory||[])];
+    addNewsItem(`${title} enters congressional drafting`,'policy');
+    addMsg('ai',`Legislative Affairs has opened a pipeline for ${title}. It begins at Drafting with ${Math.round(record.passChance)}% estimated passage odds and ${record.weeksRemaining} weeks of floor time expected.`);
+  }else{
+    resolveDirectRoute(route,draft,title);
+  }
+  G.actionsLeft--;
+  G.pendingPolicyDraft=null;G.generatedPolicyRoutes=[];
+  document.getElementById('leg-subject').value='';
+  recalculateOverallApproval();pushHistory();renderAll();autoSaveGame();
+  document.getElementById('actions-left-msg').textContent=G.actionsLeft;
+  if(G.actionsLeft===0)addMsg('ai',`No more actions this week. Click END WEEK → to advance to Week ${G.week+1}.`);
+}
+
+function resolveDirectRoute(route,draft,title){
+  const chance=route.chance;
+  const roll=stableHash(`${title}-${route.route}-${G.week}`)%100;
+  const success=roll<chance;
+  const record={id:`leg-${G.week}-${Date.now().toString(36)}`,name:title,title,subject:draft.subject,route:route.route,status:success?'enacted':'failed',week:G.week,month:G.month,year:G.year,area:draft.area,intent:draft.intent,passChance:chance,before:cloneCoreStats(),approvalEffects:route.effects.approvalEffects,economyEffects:route.effects.economyEffects,budgetEffects:route.effects.budgetEffects,relationEffects:route.effects.relationEffects,legalRisk:route.courtRisk,congressResult:route.route==='Public Pressure Campaign'?'No vote held; public pressure alters future politics.':'No full bill vote required.',isPolicy:route.route!=='Public Pressure Campaign'};
+  if(success){
+    applyTrackedEffectSet(record,route.route==='Public Pressure Campaign'?1:.8);
+    if(route.route==='Public Pressure Campaign'){G.congressionalRelations.moderates=Math.min(100,G.congressionalRelations.moderates+3);G.congressionalRelations.leadership=Math.min(100,G.congressionalRelations.leadership+2);}
+    record.after=cloneCoreStats();
+    if(record.isPolicy&&!G.policies.includes(title))G.policies.push(title);
+    addNewsItem(`${route.route} advances: ${title}`,'policy');
+    addMsg('ai',`${route.route} succeeds (${chance}% route score, roll ${roll}). Effects are narrower than a full statute but immediate.`);
+  }else{
+    G.approval.independents=Math.max(0,G.approval.independents-.8);G.approval.media=Math.max(0,G.approval.media-.6);record.after=cloneCoreStats();
+    addNewsItem(`${route.route} stalls: ${title}`,'breaking');
+    addMsg('ai',`${route.route} fails to land (${chance}% route score, roll ${roll}). The effort still costs staff time and invites criticism.`);
+  }
+  G.policyHistory=[record,...(G.policyHistory||[])];
+  G.legislativeHistory=[record,...(G.legislativeHistory||[])].slice(0,30);
+}
+
+function processActiveLegislation(){
+  G.activeLegislation=Array.isArray(G.activeLegislation)?G.activeLegislation:[];
+  if(!G.activeLegislation.length)return;
+  const still=[];
+  G.activeLegislation.forEach(bill=>{
+    bill.weeksRemaining=Math.max(0,(bill.weeksRemaining||1)-1);
+    const progress=Math.floor(((bill.route==='Congressional Bill'?routeWithStrategy({route:'Congressional Bill',weeks:7,chance:bill.passChance||50}, {id:'x'}).finalWeeks:7)-(bill.weeksRemaining||0))/1.1);
+    bill.stageIndex=Math.min(LEGISLATION_STAGES.length-2,Math.max(bill.stageIndex||0,progress));
+    bill.currentStage=LEGISLATION_STAGES[bill.stageIndex]||'Committee';
+    bill.passChance=estimateBillPassChance(bill);
+    if(bill.weeksRemaining>0){still.push(bill);return;}
+    const roll=stableHash(`${bill.id}-final-${G.week}`)%100;
+    if(roll<bill.passChance){
+      applyTrackedEffectSet(bill,bill.impactFactor||.85);recalculateOverallApproval();bill.status='enacted';bill.currentStage='Signed into law';bill.after=cloneCoreStats();
+      if(!G.policies.includes(bill.name))G.policies.push(bill.name);
+      addNewsItem(`Congress sends ${bill.name} to the President; signed into law`,'policy');addLogItem(`Legislation enacted: ${bill.name}`);
+    }else{
+      G.approval.independents=Math.max(0,G.approval.independents-1.3);G.approval.media=Math.max(0,G.approval.media-.9);recalculateOverallApproval();bill.status='failed';bill.currentStage='Failed';bill.after=cloneCoreStats();
+      addNewsItem(`Congress fails to pass ${bill.name}`,'breaking');addLogItem(`Legislation failed: ${bill.name}`);
+    }
+    G.policyHistory=(G.policyHistory||[]).map(r=>r.id===bill.id?bill:r);
+    G.legislativeHistory=[bill,...(G.legislativeHistory||[])].slice(0,30);
+  });
+  G.activeLegislation=still;
+  G.pendingBills=(G.pendingBills||[]).filter(b=>still.some(s=>s.id===b.id));
+}
+
+function renderLegislationWarRoom(){
+  const intents=document.getElementById('leg-intentions');
+  if(!intents)return;
+  intents.innerHTML=LEGISLATION_INTENTS.map(i=>`<button class="intent-btn ${G.selectedActionIntent===i?'active':''}" onclick="selectLegislationIntent('${htmlEscape(i)}')">${htmlEscape(i)}</button>`).join('');
+  const actionCount=document.getElementById('leg-action-count');if(actionCount)actionCount.textContent=`${G.actionsLeft||0} actions`;
+  const latest=G.advisorBriefings?.[0];
+  const advisor=document.getElementById('advisor-analysis');
+  if(advisor){
+    if(latest&&G.pendingPolicyDraft)advisor.innerHTML=`${latest.text}<div class="brief-grid"><div class="brief-chip"><span>Policy area</span>${htmlEscape(G.pendingPolicyDraft.area)}</div><div class="brief-chip"><span>Recommended route</span>${htmlEscape(latest.recommended)}</div><div class="brief-chip"><span>Likely supporters</span>${supportersForArea(G.pendingPolicyDraft.area)}</div><div class="brief-chip"><span>Likely opponents</span>${opponentsForArea(G.pendingPolicyDraft.area)}</div></div>`;
+    else advisor.innerHTML='Select an intention and type what you want done. Staff will respond like a policy war room: route options, success rates, likely opponents and recommended strategy.';
+  }
+  const routesEl=document.getElementById('route-cards');
+  if(routesEl){
+    routesEl.innerHTML=(G.generatedPolicyRoutes||[]).map(r=>`<div class="route-card ${G.pendingPolicyDraft?.selectedRouteId===r.id?'selected':''}" onclick="selectPolicyRoute('${r.id}')"><div class="route-top"><div class="route-title">${r.route}</div><div class="route-chance">${r.chance}%</div></div><div class="route-meta"><div class="route-stat"><span>Weeks</span>${r.weeks}</div><div class="route-stat"><span>Action cost</span>${r.actionCost}</div><div class="route-stat"><span>Political risk</span>${r.politicalRisk}</div><div class="route-stat"><span>Durability</span>${r.durability}</div><div class="route-stat"><span>Court risk</span>${r.courtRisk}</div><div class="route-stat"><span>Implementation</span>${r.implementationDifficulty}</div></div><div class="route-impact">${htmlEscape(r.impact)}</div></div>`).join('')||'<div class="nodata">Analyze a directive to generate route cards.</div>';
+  }
+  renderStrategyControls();renderActiveLegislation();renderLegislativeHistory();
+}
+
+function supportersForArea(area){return htmlEscape(({healthcare:'Labor, seniors, patient groups',housing:'Urban mayors, youth, construction labor',environment:'Youth voters, climate advocates',energy:'Energy-state delegations if framed as security',immigration:'Varies sharply by design and enforcement',tax:'Business groups for cuts; progressives for increases','policing/crime':'Law enforcement for enforcement; civil-rights groups for reform',infrastructure:'Governors, unions, business logistics'}[area])||'Issue advocates and aligned party blocs');}
+function opponentsForArea(area){return htmlEscape(({healthcare:'Insurers, deficit hawks, ideological opponents',housing:'Local control advocates, fiscal hawks',environment:'Fossil-fuel states and some business groups',energy:'Competing energy sectors and price-sensitive voters',immigration:'Opposition party and border/rights factions',tax:'Anti-tax groups or business lobbies depending design','policing/crime':'Civil-liberties or law-and-order critics depending design',infrastructure:'Deficit hawks if funding is unclear'}[area])||'Opposition leadership and affected interest groups');}
+
+function renderStrategyControls(){
+  const el=document.getElementById('strategy-controls'), help=document.getElementById('strategy-help'), btn=document.getElementById('commit-policy-btn');
+  if(!el||!help||!btn)return;
+  const draft=G.pendingPolicyDraft, route=(G.generatedPolicyRoutes||[]).find(r=>r.id===draft?.selectedRouteId);
+  if(!draft||!route){el.innerHTML='';help.textContent='Choose a route above to unlock controls. Congressional bills enter the pipeline instead of resolving instantly.';btn.style.display='none';return;}
+  if(route.route==='Congressional Bill'){
+    const selected=G.policyStrategySettings?.[draft.id]?.strategy||'moderate';
+    el.innerHTML=Object.entries(BILL_STRATEGIES).map(([k,v])=>`<button class="strategy-btn ${selected===k?'active':''}" onclick="selectPolicyStrategy('${k}')"><strong>${v.label}</strong><br>${v.desc}</button>`).join('');
+    const adjusted=routeWithStrategy(route,draft);help.textContent=`Selected ${adjusted.strategyLabel}: estimated ${adjusted.finalChance}% passage chance over ${adjusted.finalWeeks} weeks.`;
+  }else{el.innerHTML='<div class="strategy-btn active"><strong>Direct implementation</strong><br>This route resolves now or creates a short-term political effect rather than entering the bill pipeline.</div>';help.textContent=`${route.route} uses a ${route.weeks}-week route profile and ${route.chance}% success score.`;}
+  btn.style.display='block';btn.textContent=route.route==='Congressional Bill'?'Commit bill to legislative pipeline':'Commit selected route';
+}
+
+function renderActiveLegislation(){
+  const el=document.getElementById('active-legislation-list');if(!el)return;
+  const bills=G.activeLegislation||[];
+  if(!bills.length){el.innerHTML='<div class="nodata">No active legislation.</div>';return;}
+  el.innerHTML=bills.map(b=>{const pct=Math.round(((b.stageIndex||0)/(LEGISLATION_STAGES.length-1))*100);return `<div class="leg-item"><div class="leg-title">${htmlEscape(b.name)}</div><div class="leg-meta"><span class="leg-pill">${htmlEscape(b.currentStage)}</span><span class="leg-pill">${Math.round(b.passChance||0)}% chance</span><span class="leg-pill">${b.weeksRemaining||0} weeks</span><span class="leg-pill">${htmlEscape(b.strategy||'Strategy pending')}</span></div><div class="leg-track"><div class="leg-fill" style="width:${pct}%"></div></div><div class="bill-whip">Support ${Math.round(b.supportLevel||50)} · Opposition ${Math.round(b.oppositionLevel||50)} · Main risk: ${htmlEscape(b.mainRisk||'Vote count')}</div></div>`}).join('');
+}
+function renderLegislativeHistory(){
+  const el=document.getElementById('legislative-history-list');if(!el)return;
+  const items=[...(G.legislativeHistory||[]),...(G.policyHistory||[]).filter(r=>/legislation|Congressional Bill|Budget Measure|Agency Regulation|Executive Order|Public Pressure/i.test(r.route||''))].filter((v,i,a)=>a.findIndex(x=>x.id===v.id)===i).slice(0,12);
+  if(!items.length){el.innerHTML='<div class="nodata">No legislative history yet.</div>';return;}
+  el.innerHTML=items.map(r=>`<div class="leg-item"><div class="leg-title">${htmlEscape(r.name||r.title)}</div><div class="leg-meta"><span class="leg-pill">${htmlEscape(r.status||'recorded')}</span><span class="leg-pill">${htmlEscape(r.route||'route')}</span><span class="leg-pill">W${r.week||'?'}</span><span class="leg-pill">${r.passChance!=null?Math.round(r.passChance)+'%':'—'}</span></div><div class="bill-whip">${htmlEscape(r.congressResult||r.currentStage||'Recorded in the legislative archive.')}</div></div>`).join('');
+}
+
+function renderTabShells(){
+  const active=MAIN_TABS.includes(G.activeTab)?G.activeTab:'home';
+  document.querySelectorAll('.main-page').forEach(p=>p.classList.toggle('active',p.id===`main-${active}`));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.toggle('active',b.dataset.mainTab===active));
+  renderLegislationWarRoom();
+  const congressSummary=document.getElementById('main-congress-summary');
+  if(congressSummary)congressSummary.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Senate</span>${G.congress?.senate?.dem||0}D · ${G.congress?.senate?.rep||0}R</div><div class="brief-chip"><span>House</span>${G.congress?.house?.dem||0}D · ${G.congress?.house?.rep||0}R</div><div class="brief-chip"><span>Leadership</span>${Math.round(G.congressionalRelations?.leadership||50)}</div><div class="brief-chip"><span>Moderates</span>${Math.round(G.congressionalRelations?.moderates||50)}</div></div>`;
+  const congressBills=document.getElementById('main-congress-bills');
+  if(congressBills)congressBills.innerHTML=(G.activeLegislation||[]).map(b=>`<div class="congress-bill"><div class="bill-title">${htmlEscape(b.name)}</div><div class="bill-status">${htmlEscape(b.currentStage)} · ${Math.round(b.passChance||0)}%</div></div>`).join('')||'<div class="nodata">No pending votes.</div>';
+  const cab=document.getElementById('main-cabinet-summary');if(cab)cab.innerHTML=`<div class="war-sub">Appointed: ${Object.entries(G.cabinet||{}).filter(([,v])=>v).length}/${CAB_ROLES.length}. Future cycles can add advisor profiles here.</div>`;
+  const eco=document.getElementById('main-economy-summary');if(eco)eco.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>GDP</span>${G.economy?.gdpGrowth?.toFixed(1)}%</div><div class="brief-chip"><span>Inflation</span>${G.economy?.inflation?.toFixed(1)}%</div><div class="brief-chip"><span>Unemployment</span>${G.economy?.unemployment?.toFixed(1)}%</div><div class="brief-chip"><span>Deficit</span>$${Math.abs((G.economy?.deficit||0)/1000).toFixed(2)}T</div></div>`;
+  const world=document.getElementById('main-world-summary');if(world)world.innerHTML=`<div class="war-sub">Active conflicts: ${(G.wars||[]).length?htmlEscape(G.wars.join(', ')):'none'}. Use the Home map for country-level commands.</div>`;
+  const arch=document.getElementById('main-archive-list');if(arch)arch.innerHTML=(G.policyHistory||[]).slice(0,16).map(r=>`<div class="leg-item"><div class="leg-title">${htmlEscape(r.name)}</div><div class="leg-meta"><span class="leg-pill">${htmlEscape(r.status)}</span><span class="leg-pill">${htmlEscape(r.route)}</span><span class="leg-pill">W${r.week}</span></div></div>`).join('')||'<div class="nodata">No archive records yet.</div>';
+}
+
 function processPendingBills(){
   G.pendingBills=Array.isArray(G.pendingBills)?G.pendingBills.map(normalizePolicyRecord).filter(Boolean):[];
+  const activeIds=new Set((G.activeLegislation||[]).map(b=>b.id));
+  G.pendingBills=G.pendingBills.filter(b=>!activeIds.has(b.id));
   if(!G.pendingBills.length)return;
   const still=[];
   G.pendingBills.forEach(record=>{
@@ -2402,6 +2845,7 @@ function weeklyDrift(){
   const scandalLoad=G.scandals.length;
 
   // ----- CONGRESSIONAL BILL MOVEMENT -----
+  processActiveLegislation();
   processPendingBills();
 
   // ----- DEBT & BOND YIELDS -----
@@ -2727,6 +3171,7 @@ function renderAll(changes={}){
   renderCommunicationsLog();
   updateCharts();
   refreshMap();
+  renderTabShells();
 }
 
 function renderHeader(){
@@ -3779,10 +4224,11 @@ function returnToMenu(){
 
 
 function switchTab(name,btn){
-  document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  const panel=btn?.closest('.lpanel')||document;
+  panel.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+  panel.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name)?.classList.add('active');
-  btn.classList.add('active');
+  btn?.classList.add('active');
 }
 
 // ============================================================

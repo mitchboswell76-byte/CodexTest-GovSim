@@ -506,3 +506,48 @@ Create `docs/TEST_PLAN.md`, then ask Codex to begin its first autonomous improve
 
 **Next recommended task**
 - Build fuller AI press-conference mode with generated reporter questions, follow-ups and stateful media consequences.
+
+### Cycle 11 — Tabbed simulator shell and legislation war room
+
+**Task chosen**
+- Start converting GOVERN from a single dashboard into a proper tabbed presidential simulator, with Legislation as the first deep gameplay tab.
+
+**Why it mattered**
+- The typed command box is central to GOVERN, but the player also needs structured institutional surfaces that make directives feel like real governing work rather than isolated chat commands.
+
+**Files changed**
+- `index.html`
+- `scripts/smoke-check.mjs`
+- `docs/DEVLOG.md`
+
+**What changed**
+- Added top-level tabs for Home, Legislation, Executive, Congress, Cabinet / Advisors, Economy / Budget, World and Archive / History.
+- Kept the existing dashboard as the Home tab with stats, map, charts, news, side panels and command center intact.
+- Added a Legislation tab with an intention selector, natural-language directive box, advisor analysis, route comparison cards, strategy controls, active legislation pipeline and legislative history.
+- Added rule-based policy-area detection and dynamic route scoring for Congressional Bill, Executive Order, Agency Regulation, Budget Measure and Public Pressure Campaign routes.
+- Added bill strategies such as narrow, ambitious, bipartisan, force vote, delay and negotiate, add funding, add enforcement and concession.
+- Added active congressional bill progression through Drafting, Sponsor selection, Committee, Amendments, House vote, Senate vote, Final negotiation and Signed into law / Failed outcomes.
+- Added persistence defaults for the new tab, draft, route, briefing, active-legislation, legislative-history and strategy state.
+- Extended the smoke test to protect the new tab anchors, legislation functions and initial state snippets.
+
+**Gameplay effect**
+- The player can now say, effectively, “I want action on X — what are my options?” and receive structured routes, costs and political risks before committing.
+- Congressional bills now enter a time-based pipeline rather than resolving instantly.
+- Non-bill routes resolve differently and create smaller, faster or more fragile consequences.
+
+**AI effect**
+- This cycle uses deterministic advisor-style fallback logic rather than an external API, keeping the directive flow reliable while still feeling like staff analysis.
+
+**Political simulation effect**
+- Legislative success is shaped by Congress, approval, issue area, public support, fiscal conditions, inflation, intent and strategy rather than pure randomness.
+
+**Checks run**
+- PASS — `node --check /tmp/govern-script.js`
+- PASS — `npm test`
+
+**Known risks**
+- The new tabs are foundational; most non-Legislation tabs are structured placeholders pending deeper systems.
+- Browser/manual testing is still needed for every click path, because the available automated smoke test is static.
+
+**Next recommended task**
+- Deepen Congress with factions, committee chairs, named senators/representatives, whip operations, amendments, filibuster risk, issue-level public opinion and negotiation events.
