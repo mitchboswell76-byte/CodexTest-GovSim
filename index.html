@@ -257,6 +257,18 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 
 /* CABINET MODAL */
 #cabmodal .mcard{width:540px;max-width:96vw}
+#countrymodal .mcard{width:620px;max-width:96vw;border-color:var(--gold3)}
+.country-hero{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(26,74,138,.08));border:1px solid var(--b2);border-radius:3px;padding:.85rem;margin-bottom:.75rem}
+.country-title{font-family:var(--fh);color:var(--gold);font-size:1.15rem;letter-spacing:2px;margin-bottom:.2rem}
+.country-sub{font-size:.72rem;color:var(--text2)}
+.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-bottom:.75rem}
+.country-stat{background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.5rem;text-align:center}
+.country-stat-label{font-size:.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.country-stat-value{font-family:var(--fm);font-size:.82rem;color:var(--text)}
+.country-actions{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.country-action{background:var(--bg1);border:1px solid var(--b2);color:var(--text2);padding:.5rem;border-radius:2px;text-align:left;cursor:pointer;font-size:.72rem;line-height:1.4;transition:all .2s}
+.country-action:hover{border-color:var(--gold3);color:var(--gold2);background:rgba(201,168,76,.05)}
+.country-action strong{display:block;color:var(--gold);font-family:var(--fh);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:.15rem}
 .polgrid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.75rem}
 .polcard{background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem;cursor:pointer;transition:all .2s}
 .polcard:hover{border-color:var(--gold3)}
@@ -266,6 +278,12 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 .polparty.rep{background:rgba(192,57,43,.2);color:var(--red2)}
 .polparty.ind{background:rgba(108,52,131,.2);color:#9b59b6}
 .poltrait{font-size:.62rem;color:var(--text2);line-height:1.4}
+.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin:.65rem 0}
+.profile-stat{background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.45rem;text-align:center}
+.profile-stat-label{font-size:.52rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.16rem}
+.profile-stat-value{font-family:var(--fm);font-size:.85rem}
+.profile-card-top{display:flex;gap:.75rem;align-items:center;background:var(--bg1);border:1px solid var(--b1);border-radius:3px;padding:.75rem}
+.profile-avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.12);border:1px solid var(--gold3);font-family:var(--fh);font-size:1.2rem;color:var(--gold);flex-shrink:0}
 
 /* EXPAND MODAL */
 #expmodal .mcard{width:700px;max-width:96vw}
@@ -326,6 +344,19 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
 
 /* POLICY PILLS */
 .polltag{background:rgba(26,74,138,.15);border:1px solid rgba(26,74,138,.4);color:#6ab0e0;font-size:.58rem;padding:.08rem .3rem;border-radius:2px;display:inline-block;margin:.15rem .1rem}
+.policy-section{margin-bottom:.55rem}
+.policy-section-title{font-family:var(--fh);font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:.35rem 0 .25rem}
+.policy-row{background:var(--bg0);border:1px solid var(--b1);border-radius:2px;padding:.38rem .45rem;margin-bottom:.32rem;cursor:pointer;transition:all .2s}
+.policy-row:hover{border-color:var(--gold3);background:rgba(201,168,76,.04)}
+.policy-row-top{display:flex;align-items:center;justify-content:space-between;gap:.45rem}
+.policy-row-name{font-size:.68rem;color:var(--text);font-weight:600;line-height:1.35}
+.policy-badges{display:flex;gap:.22rem;flex-wrap:wrap;justify-content:flex-end}
+.policy-badge{font-family:var(--fh);font-size:.48rem;letter-spacing:.8px;text-transform:uppercase;border:1px solid var(--b2);border-radius:2px;padding:.06rem .22rem;white-space:nowrap}
+.policy-badge.enacted{color:#6dcc9a;border-color:rgba(39,174,96,.45);background:rgba(39,174,96,.08)}
+.policy-badge.pending{color:var(--gold2);border-color:var(--gold3);background:rgba(201,168,76,.08)}
+.policy-badge.failed,.policy-badge.blocked{color:#e07070;border-color:rgba(192,57,43,.45);background:rgba(192,57,43,.08)}
+.policy-row-sub{font-size:.56rem;color:var(--text3);margin-top:.16rem;line-height:1.4}
+.policy-route-note{font-size:.65rem;color:var(--text2);line-height:1.55;background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.55rem;margin-bottom:.6rem}
 
 .budg-btn{background:var(--bg0);border:1px solid var(--b2);color:var(--text2);width:18px;height:18px;border-radius:2px;font-size:.8rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;transition:all .15s;font-weight:600}
 .budg-btn:hover{border-color:var(--gold3);color:var(--gold);background:rgba(201,168,76,.08)}
@@ -600,6 +631,16 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
     <div class="mcardtitle">Appoint Cabinet Member</div>
     <div class="mcardsub" id="cab-role-title">Choose a nominee</div>
     <div class="polgrid" id="pol-grid"></div>
+  </div>
+</div>
+
+
+<!-- COUNTRY DIPLOMACY MODAL -->
+<div id="countrymodal" class="modal-bg" onclick="if(event.target===this)closeModal('countrymodal')">
+  <div class="mcard">
+    <button class="mbtn-close" onclick="closeModal('countrymodal')">✕</button>
+    <div class="mcardtitle">Diplomatic Desk</div>
+    <div id="country-content"></div>
   </div>
 </div>
 
@@ -891,6 +932,77 @@ const INIT_RELATIONS={
   'haiti':35,'guatemala':45,'ecuador':40,'bolivia':30,'paraguay':35,
 };
 
+const COUNTRY_STRATEGIC_META={
+  canada:{leader:'Canadian Prime Minister',alignment:'Ally',trade:'US deficit $55B',tradeBalance:-55,dependence:'Deep integrated energy, autos and agriculture trade.'},
+  mexico:{leader:'Mexican President',alignment:'Partner',trade:'US deficit $150B',tradeBalance:-150,dependence:'Border, migration and manufacturing supply chains dominate.'},
+  uk:{leader:'UK Prime Minister',alignment:'NATO ally',trade:'US surplus $15B',tradeBalance:15,dependence:'Security, intelligence and financial ties.'},
+  france:{leader:'French President',alignment:'NATO ally',trade:'US deficit $20B',tradeBalance:-20,dependence:'Defense, aviation, tech regulation and EU coordination.'},
+  germany:{leader:'German Chancellor',alignment:'NATO ally',trade:'US deficit $85B',tradeBalance:-85,dependence:'Autos, energy security, Ukraine and EU policy.'},
+  ukraine:{leader:'Ukrainian President',alignment:'Security partner',trade:'Limited trade',tradeBalance:-3,dependence:'Military aid, sanctions policy and reconstruction finance.'},
+  russia:{leader:'Russian President',alignment:'Rival',trade:'Sanctions-constrained',tradeBalance:2,dependence:'Nuclear risk, sanctions, energy and regional conflicts.'},
+  china:{leader:'Chinese President',alignment:'Strategic rival',trade:'US deficit $280B',tradeBalance:-280,dependence:'Tariffs, technology controls, Taiwan risk and debt markets.'},
+  japan:{leader:'Japanese Prime Minister',alignment:'Treaty ally',trade:'US deficit $70B',tradeBalance:-70,dependence:'Indo-Pacific basing, semiconductors and auto trade.'},
+  skorea:{leader:'South Korean President',alignment:'Treaty ally',trade:'US deficit $45B',tradeBalance:-45,dependence:'North Korea deterrence, chips and industrial policy.'},
+  israel:{leader:'Israeli Prime Minister',alignment:'Security partner',trade:'US deficit $7B',tradeBalance:-7,dependence:'Military aid, regional deterrence and domestic political pressure.'},
+  saudi:{leader:'Saudi Crown Prince',alignment:'Security partner',trade:'US surplus $4B',tradeBalance:4,dependence:'Oil markets, arms sales and regional security.'},
+  iran:{leader:'Iranian President',alignment:'Rival',trade:'Sanctioned',tradeBalance:0,dependence:'Nuclear negotiations, sanctions and proxy conflict risk.'},
+  india:{leader:'Indian Prime Minister',alignment:'Strategic partner',trade:'US deficit $45B',tradeBalance:-45,dependence:'Technology, defense, China balancing and diaspora politics.'},
+  brazil:{leader:'Brazilian President',alignment:'Regional power',trade:'US surplus $25B',tradeBalance:25,dependence:'Climate, agriculture, energy and hemispheric diplomacy.'},
+  australia:{leader:'Australian Prime Minister',alignment:'Treaty ally',trade:'US surplus $18B',tradeBalance:18,dependence:'AUKUS, Indo-Pacific posture and critical minerals.'}
+};
+
+function countryStrategicInfo(id){
+  const rel=G.relations?.[id]??0;
+  const meta=COUNTRY_STRATEGIC_META[id]||{};
+  return {
+    leader:meta.leader||`${COUNTRY_META[id]?.n||'Foreign'} leader`,
+    alignment:meta.alignment||(rel>60?'Ally':rel>25?'Friendly':rel<-50?'Rival':'Non-aligned'),
+    trade:meta.trade||(rel>30?'Modest trade surplus':rel<-30?'Trade exposure under pressure':'Balanced trade exposure'),
+    tradeBalance:meta.tradeBalance??0,
+    dependence:meta.dependence||'General diplomatic, security and trade engagement.',
+  };
+}
+
+function countryCommand(id,template){
+  const info=COUNTRY_META[id]||{n:id};
+  const input=document.getElementById('chat-input');
+  input.value=template.replace(/\{country\}/g,info.n).replace(/\{leader\}/g,countryStrategicInfo(id).leader);
+  closeModal('countrymodal');
+  input.focus();
+}
+
+function openCountryModal(id){
+  const feature=WORLD_COUNTRY_BY_ID.get(id);
+  const info=countryInfoById(id,feature);
+  const rel=G.relations?.[id]??0;
+  const strategic=countryStrategicInfo(id);
+  const atWar=isCountryAtWar(id,info.n);
+  const tradeCol=strategic.tradeBalance>0?'#6dcc9a':strategic.tradeBalance<0?'#e07070':'var(--text2)';
+  document.getElementById('country-content').innerHTML=`
+    <div class="country-hero">
+      <div class="country-title">${info.n}</div>
+      <div class="country-sub">Capital: ${info.cap||'—'} · Region: ${info.reg||'—'} · ${strategic.leader}</div>
+    </div>
+    <div class="country-grid">
+      <div class="country-stat"><div class="country-stat-label">Relationship</div><div class="country-stat-value" style="color:${relationColor(rel)}">${relationLabel(rel)} (${rel>0?'+':''}${rel})</div></div>
+      <div class="country-stat"><div class="country-stat-label">Alignment</div><div class="country-stat-value">${strategic.alignment}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Conflict</div><div class="country-stat-value" style="color:${atWar?'#e07070':'#6dcc9a'}">${atWar?'Active / exposed':'No active conflict'}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Trade</div><div class="country-stat-value" style="color:${tradeCol}">${strategic.trade}</div></div>
+      <div class="country-stat"><div class="country-stat-label">US Exposure</div><div class="country-stat-value">${strategic.dependence}</div></div>
+      <div class="country-stat"><div class="country-stat-label">Map Layer</div><div class="country-stat-value">${humanizeLabel(G.mapLayer||'relations')}</div></div>
+    </div>
+    <div class="policy-route-note">Clicking a country now gives the player actionable diplomatic choices. These prefill the command box so AI adjudication and deterministic policy history can process the move.</div>
+    <div class="country-actions">
+      <button class="country-action" onclick="countryCommand('${id}','Negotiate a trade deal with {country} that protects US workers while reducing strategic tensions')"><strong>Negotiate trade deal</strong>Seek market access with domestic political costs.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Offer targeted aid to {country} in exchange for diplomatic cooperation')"><strong>Offer aid</strong>Improve relations but worsen fiscal pressure.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Impose sanctions on {country} over security and human rights concerns')"><strong>Impose sanctions</strong>Pressure the government while risking inflation and retaliation.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Call {leader} about urgent bilateral issues and alliance expectations')"><strong>Call leader</strong>Open a leader-call route for AI diplomatic response.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Request a military assessment for contingencies involving {country}')"><strong>Military assessment</strong>Raise readiness but may alarm rivals and Congress.</button>
+      <button class="country-action" onclick="countryCommand('${id}','Open back-channel talks with {country} to reduce escalation risk')"><strong>Back-channel talks</strong>Quiet diplomacy with leak and legitimacy risks.</button>
+    </div>`;
+  openModal('countrymodal');
+}
+
 function normalizeName(name=''){return String(name).toLowerCase().replace(/&/g,'and').replace(/\./g,'').replace(/[^a-z0-9]+/g,' ').trim();}
 function countryName(f){return f?.properties?.name||f?.properties?.NAME||f?.properties?.admin||`Country ${f?.id||''}`;}
 function countryId(f){const name=normalizeName(countryName(f));return COUNTRY_ALIASES[name]||name.replace(/ /g,'');}
@@ -1015,6 +1127,7 @@ function initState(party,leader,diff){
     relations:{...INIT_RELATIONS},
     cabinet:{},
     policies:[],scandals:[],wars:[],
+    policyHistory:[],failedPolicies:[],
     policySnapshots:{},
     news:[],log:[],chat:[],
     history:{weeks:[],approval:[],gdp:[],unemp:[],inf:[],debt:[]},
@@ -1037,6 +1150,7 @@ function initState(party,leader,diff){
     budgetPending:{},  // net step-deltas per category, unconfirmed this week
     // Cabinet activation tracking (Priority 3)
     cabinetActiveSince:{}, // role -> week when appointment took effect
+    cabinetProfiles:{}, // role -> relationship/fit profile
   };
   if(diff==='crisis'){
     G.wars.push('Middle East (Active Conflict)');
@@ -1099,6 +1213,7 @@ async function buildMap(){
         // Single click: move selection to this country (or just re-confirm if already selected)
         const id=countryId(d);
         selectCountry(id);
+        openCountryModal(id);
         this.dispatchEvent(new MouseEvent('mousemove',{clientX:event.clientX,clientY:event.clientY,bubbles:true}));
         event.stopPropagation(); // prevent SVG background handler firing
       })
@@ -1296,6 +1411,12 @@ CRITICAL: Respond with ONLY a valid JSON object. Start your response with { and 
   "congress_changes": {"senate_dem":0,"senate_rep":0,"house_dem":0,"house_rep":0},
   "relation_changes": {},
   "policy": null,
+  "route": "executive order|legislation|budget package|foreign policy action|military action|communication/speech|leader call|covert action|court/legal action|scandal management",
+  "status": "enacted|failed|pending|blocked|under review",
+  "congress_result": "Short explanation if Congress is involved",
+  "legal_risk": "Low|Medium|High",
+  "scandal_risk": "Low|Medium|High",
+  "legacy_impact": "Short legacy consequence",
   "scandal": null,
   "war_started": null,
   "war_ended": null,
@@ -1494,7 +1615,7 @@ function autoSaveGame(){
     const saveData={
       savedAt:new Date().toISOString(),
       version:1,
-      game:G
+      game:{...G,saveVersion:2}
     };
     localStorage.setItem('govern_autosave',JSON.stringify(saveData));
   }catch(e){console.warn('Auto-save failed:',e);}
@@ -1568,6 +1689,13 @@ function migrateGameState(rawGame){
   if(rawGame.endOfTermShown==null)rawGame.endOfTermShown=false;
   
   // History arrays
+  if(!rawGame.history||typeof rawGame.history!=='object')rawGame.history={};
+  if(!rawGame.economy||typeof rawGame.economy!=='object')rawGame.economy={...G.economy};
+  if(!rawGame.approval||typeof rawGame.approval!=='object')rawGame.approval={...G.approval};
+  if(!rawGame.budget||typeof rawGame.budget!=='object')rawGame.budget={...G.budget};
+  if(!rawGame.congress||typeof rawGame.congress!=='object')rawGame.congress={senate:{dem:50,rep:50},house:{dem:218,rep:217}};
+  if(!rawGame.relations||typeof rawGame.relations!=='object')rawGame.relations={...INIT_RELATIONS};
+  if(!rawGame.military||typeof rawGame.military!=='object')rawGame.military={strength:70,readiness:70,personnel:1.3,deployments:[]};
   if(!Array.isArray(rawGame.history?.weeks))rawGame.history.weeks=[];
   if(!Array.isArray(rawGame.history?.approval))rawGame.history.approval=[];
   if(!Array.isArray(rawGame.history?.gdp))rawGame.history.gdp=[];
@@ -1576,6 +1704,9 @@ function migrateGameState(rawGame){
   if(!Array.isArray(rawGame.history?.debt))rawGame.history.debt=[];
   
   // News & log arrays
+  if(!Array.isArray(rawGame.wars))rawGame.wars=[];
+  if(!Array.isArray(rawGame.scandals))rawGame.scandals=[];
+  if(!rawGame.cabinet||typeof rawGame.cabinet!=='object')rawGame.cabinet={};
   if(!Array.isArray(rawGame.news))rawGame.news=[];
   if(!Array.isArray(rawGame.log))rawGame.log=[];
   if(!Array.isArray(rawGame.chat))rawGame.chat=[];
@@ -1590,26 +1721,42 @@ function migrateGameState(rawGame){
   // Budget pending
   if(!rawGame.budgetPending)rawGame.budgetPending={};
   if(!rawGame.cabinetActiveSince)rawGame.cabinetActiveSince={};
+  if(!rawGame.cabinetProfiles)rawGame.cabinetProfiles={};
   
   // Normalize scandals to prevent [object Object]
   if(Array.isArray(rawGame.scandals)){
     rawGame.scandals=rawGame.scandals.map(normalizeScandal).filter(Boolean);
   }
   
-  // Convert old string policies into policyHistory records if needed
-  if(Array.isArray(rawGame.policies)){
-    rawGame.policies.forEach((policy,idx)=>{
-      if(typeof policy==='string'){
-        if(!rawGame.policyHistory){rawGame.policyHistory=[];}
-        rawGame.policyHistory.push({
-          name:policy,
-          week:idx+1,
-          success:true,
-          legacy:true
-        });
-      }
-    });
-  }
+  // Convert old string policies into richer policy history records if needed.
+  if(!Array.isArray(rawGame.policies))rawGame.policies=[];
+  if(!Array.isArray(rawGame.policyHistory))rawGame.policyHistory=[];
+  if(!Array.isArray(rawGame.failedPolicies))rawGame.failedPolicies=[];
+  if(!Array.isArray(rawGame.pendingBills))rawGame.pendingBills=[];
+  rawGame.policies.forEach((policy,idx)=>{
+    const name=typeof policy==='string'?policy:(policy?.name||String(policy));
+    if(!rawGame.policyHistory.some(rec=>(rec.name||rec.policy)===name)){
+      rawGame.policyHistory.push({
+        id:`legacy-${idx+1}-${normalizeName(name)}`,
+        name,
+        week:idx+1,
+        month:rawGame.month||1,
+        year:rawGame.year||2025,
+        route:'legacy policy',
+        status:'enacted',
+        command:'Legacy save import',
+        narrative:'Imported from an older save before route/status tracking existed.',
+        headline:name,
+        approvalEffects:{},economyEffects:{},budgetEffects:{},relationEffects:{},
+        congressResult:'Not tracked in legacy save.',
+        legacyImpact:'Imported enacted policy.'
+      });
+    }
+  });
+  rawGame.policyHistory=rawGame.policyHistory.map((rec,idx)=>normalizePolicyRecord(rec,idx,rawGame)).filter(Boolean);
+  rawGame.pendingBills=rawGame.policyHistory.filter(rec=>rec.status==='pending');
+  rawGame.failedPolicies=rawGame.policyHistory.filter(rec=>['failed','blocked','struck down','vetoed'].includes(rec.status));
+  rawGame.policies=rawGame.policyHistory.filter(rec=>rec.status==='enacted').map(rec=>rec.name);
   
   return rawGame;
 }
@@ -1718,13 +1865,176 @@ function pimpactRow(label, key, before, after) {
   </div>`;
 }
 
-function applyResult(r){
+
+function cloneCoreStats(){
+  return {
+    approval:{...G.approval},
+    economy:{...G.economy},
+    budget:{...G.budget},
+    congress:JSON.parse(JSON.stringify(G.congress||{})),
+    relations:{...G.relations},
+    military:{...G.military,deployments:[...(G.military?.deployments||[])]},
+    wars:[...(G.wars||[])],
+    scandals:(G.scandals||[]).map(s=>typeof s==='string'?s:{...s})
+  };
+}
+
+function policyRecordId(name,week=G.week){
+  const base=normalizeName(name||'decision').replace(/\s+/g,'-').slice(0,40)||'decision';
+  return `pol-${week}-${Date.now().toString(36)}-${base}`;
+}
+
+function normalizePolicyStatus(status){
+  const s=String(status||'enacted').toLowerCase().replace(/_/g,' ').trim();
+  const allowed=['enacted','failed','pending','reversed','blocked','expired','escalated','under review','struck down','leaked','vetoed','passed house','passed senate','awaiting signature','challenged in court'];
+  return allowed.includes(s)?s:'enacted';
+}
+
+function classifyCommandRoute(command='',result={}){
+  const provided=String(result.route||result.policy_route||'').toLowerCase().replace(/_/g,' ').trim();
+  if(provided)return provided;
+  const text=`${command} ${result.policy||''} ${result.headline||''}`.toLowerCase();
+  if(/\b(bill|legislation|congress|senate|house|pass|enact|universal healthcare|minimum wage|tax reform)\b/.test(text))return 'legislation';
+  if(/\b(budget|appropriation|spending package|stimulus|deficit|tax hike|tax cut)\b/.test(text))return 'budget package';
+  if(/\b(call|phone|leader|prime minister|president of|chancellor|secretary general)\b/.test(text))return 'leader call';
+  if(/\b(press conference|briefing|address the nation|speech|remarks|statement)\b/.test(text))return 'communication/speech';
+  if(/\b(sanction|tariff|trade deal|embassy|treaty|aid to|negotiate with|foreign)\b/.test(text))return 'foreign policy action';
+  if(/\b(troops|strike|military|deploy|readiness|war|missile|carrier|authorization|authorisation)\b/.test(text))return 'military action';
+  if(/\b(covert|intelligence|surveillance|classified|back-channel|back channel)\b/.test(text))return 'covert action';
+  if(/\b(court|legal|justice|supreme court|constitutional)\b/.test(text))return 'court/legal action';
+  if(/\b(scandal|investigator|resign|fire|ethics|documents)\b/.test(text))return 'scandal management';
+  if(/\b(executive order|order agencies|directive|regulation)\b/.test(text))return 'executive order';
+  return result.policy?'executive order':'presidential decision';
+}
+
+function routeNeedsCongress(route){
+  return ['legislation','budget package','war authorisation','treaty/accord'].includes(route);
+}
+
+function evaluateCongressOutcome(route,command='',result={}){
+  if(!routeNeedsCongress(route))return {status:'enacted',summary:'No congressional vote required for this route.',passChance:null};
+  const c=G.congress||{senate:{dem:50,rep:50},house:{dem:218,rep:217}};
+  const partyDem=G.party==='Democrat';
+  const senateOwn=partyDem?c.senate.dem>=50:c.senate.rep>=50;
+  const houseOwn=partyDem?c.house.dem>=218:c.house.rep>=218;
+  const chamberScore=(senateOwn?22:-18)+(houseOwn?22:-18);
+  const approvalScore=(G.approval.overall-50)*0.9+(G.approval.independents-50)*0.35;
+  const text=`${command} ${result.policy||''} ${result.headline||''}`.toLowerCase();
+  const ambition=/major|universal|sweeping|massive|trillion|national|overhaul|comprehensive/.test(text)?-14:0;
+  const bipartisan=/bipartisan|infrastructure|veteran|disaster|security|semiconductor|opioid/.test(text)?10:0;
+  const polarizing=/abortion|gun|border|climate|tax|healthcare|minimum wage|court/.test(text)?-8:0;
+  const chance=Math.max(5,Math.min(95,52+chamberScore+approvalScore+ambition+bipartisan+polarizing));
+  if(chance>=62)return {status:'enacted',summary:`Congressional path cleared (${Math.round(chance)}% estimated passage support).`,passChance:chance};
+  if(chance>=38)return {status:'pending',summary:`Bill introduced but not yet passed (${Math.round(chance)}% estimated passage support). Leadership is holding votes while negotiations continue.`,passChance:chance};
+  return {status:'failed',summary:`Bill fails to secure a viable coalition (${Math.round(chance)}% estimated passage support). It does not become law.`,passChance:chance};
+}
+
+function createPolicyRecord(result,command,before,after,outcome){
+  const name=result.policy||result.headline||result.log_entry||command||'Presidential decision';
+  const route=classifyCommandRoute(command,result);
+  const status=normalizePolicyStatus(result.status||result.policy_status||outcome?.status||'enacted');
+  return {
+    id:policyRecordId(name),
+    name,
+    week:G.week,month:G.month,year:G.year,
+    route,status,command:command||'',
+    isPolicy:!!result.policy,
+    narrative:result.narrative||'',
+    headline:result.headline||name,
+    before,after,
+    approvalEffects:result.approval_changes?{...result.approval_changes}:{},
+    economyEffects:result.economy_changes?{...result.economy_changes}:{},
+    budgetEffects:result.budget_changes?{...result.budget_changes}:{},
+    congressResult:outcome?.summary||result.congress_result||'Not applicable.',
+    relationEffects:result.relation_changes?{...result.relation_changes}:{},
+    legalRisk:result.legal_risk||(/executive order|covert|emergency/i.test(route)?'Medium':'Low'),
+    scandalRisk:result.scandal?'Active scandal triggered':(/covert|military/i.test(route)?'Elevated':'Low'),
+    legacyImpact:result.legacy_impact||(`${status==='enacted'?'Adds to':'Complicates'} the administration record via ${route}.`)
+  };
+}
+
+function normalizePolicyRecord(rec,idx=0,rawGame=G){
+  if(!rec)return null;
+  if(typeof rec==='string')rec={name:rec};
+  const name=rec.name||rec.policy||rec.headline||`Decision ${idx+1}`;
+  return {
+    id:rec.id||`legacy-${idx+1}-${normalizeName(name).replace(/\s+/g,'-')}`,
+    name,
+    week:rec.week||1,
+    month:rec.month||rawGame.month||1,
+    year:rec.year||rawGame.year||2025,
+    route:rec.route||rec.policy_route||'legacy policy',
+    isPolicy:rec.isPolicy!==undefined?!!rec.isPolicy:true,
+    status:normalizePolicyStatus(rec.status||(rec.success===false?'failed':'enacted')),
+    command:rec.command||'',
+    narrative:rec.narrative||'',
+    headline:rec.headline||name,
+    before:rec.before||null,
+    after:rec.after||null,
+    approvalEffects:rec.approvalEffects||rec.approval_changes||{},
+    economyEffects:rec.economyEffects||rec.economy_changes||{},
+    budgetEffects:rec.budgetEffects||rec.budget_changes||{},
+    congressResult:rec.congressResult||rec.congress_result||'Not tracked.',
+    relationEffects:rec.relationEffects||rec.relation_changes||{},
+    legalRisk:rec.legalRisk||rec.legal_risk||'Unknown',
+    scandalRisk:rec.scandalRisk||rec.scandal_risk||'Unknown',
+    legacyImpact:rec.legacyImpact||rec.legacy_impact||''
+  };
+}
+
+function registerPolicyRecord(record){
+  if(!record)return;
+  G.policyHistory=Array.isArray(G.policyHistory)?G.policyHistory:[];
+  G.failedPolicies=Array.isArray(G.failedPolicies)?G.failedPolicies:[];
+  G.pendingBills=Array.isArray(G.pendingBills)?G.pendingBills:[];
+  G.policyHistory.unshift(record);
+  G.pendingBills=G.pendingBills.filter(p=>p.name!==record.name);
+  G.failedPolicies=G.failedPolicies.filter(p=>p.name!==record.name);
+  if(record.status==='enacted'&&record.isPolicy!==false){
+    if(!G.policies.includes(record.name))G.policies.push(record.name);
+  }else if(record.status==='pending'){
+    G.pendingBills.unshift(record);
+  }else if(['failed','blocked','struck down','vetoed'].includes(record.status)){
+    G.failedPolicies.unshift(record);
+  }
+  G.policySnapshots=G.policySnapshots||{};
+  G.policySnapshots[record.name]={...(G.policySnapshots[record.name]||{}),...record};
+}
+
+function scaleResultForNonEnacted(result,status){
+  if(status==='enacted')return result;
+  const scaled={...result};
+  scaled.economy_changes={};
+  scaled.budget_changes={};
+  scaled.military_changes=status==='pending'?{}:{};
+  scaled.relation_changes=status==='pending'?{}:{};
+  scaled.war_started=null;
+  scaled.war_ended=null;
+  const factor=status==='pending'?0.35:0.2;
+  scaled.approval_changes={};
+  Object.entries(result.approval_changes||{}).forEach(([k,v])=>{scaled.approval_changes[k]=(v||0)*factor;});
+  if(status==='failed'){
+    scaled.approval_changes.independents=(scaled.approval_changes.independents||0)-1.5;
+    scaled.approval_changes.media=(scaled.approval_changes.media||0)-1;
+  }
+  scaled.policy=null;
+  return scaled;
+}
+
+function applyResult(r,command=''){
   if(!r)return;
+  const route=classifyCommandRoute(command,r);
+  const congressOutcome=evaluateCongressOutcome(route,command,r);
+  const desiredStatus=normalizePolicyStatus(r.status||r.policy_status||congressOutcome.status);
+  const statusForEffects=desiredStatus;
+  const originalResult=r;
+  r=scaleResultForNonEnacted(r,statusForEffects);
+  const recordBefore=cloneCoreStats();
 
   // ── POLICY SNAPSHOT: capture state BEFORE changes are applied ──────────
   // We snapshot only when a new policy is being enacted (r.policy set and not duplicate).
   let pendingSnapshot = null;
-  if(r.policy && !G.policies.includes(r.policy)) {
+  if(originalResult.policy && statusForEffects==='enacted' && !G.policies.includes(originalResult.policy)) {
     pendingSnapshot = {
       name: r.policy,
       week: G.week, month: G.month, year: G.year,
@@ -1801,10 +2111,12 @@ function applyResult(r){
   // Wars
   if(r.war_started&&!G.wars.includes(r.war_started)){G.wars.push(r.war_started);G.economy.deficit-=150;}
   if(r.war_ended)G.wars=G.wars.filter(w=>w!==r.war_ended);
-  // Policy — replaced by snapshot system below; kept here as fallback for saves without snapshots
-  if(r.policy&&!G.policies.includes(r.policy)){
-    // Capture AFTER state and store snapshot
-    if(pendingSnapshot){
+  // Policy route/status/history — every major command becomes a record; only enacted policies go into G.policies.
+  if(originalResult.policy||originalResult.headline||command){
+    const recordAfter=cloneCoreStats();
+    const policyRecord=createPolicyRecord(originalResult,command,recordBefore,recordAfter,{...congressOutcome,status:statusForEffects});
+    policyRecord.status=statusForEffects;
+    if(pendingSnapshot&&statusForEffects==='enacted'){
       pendingSnapshot.after = {
         gdpGrowth:    G.economy.gdpGrowth,
         unemployment: G.economy.unemployment,
@@ -1815,7 +2127,6 @@ function applyResult(r){
         stockMarket:  G.economy.stockMarket,
         bondYield:    G.economy.bondYield,
       };
-      // Compute net deltas (after − before), factoring in debt accrual from deficit
       const b = pendingSnapshot.before, a = pendingSnapshot.after;
       pendingSnapshot.netDeltas = {
         gdpGrowth:    a.gdpGrowth    - b.gdpGrowth,
@@ -1827,12 +2138,13 @@ function applyResult(r){
         stockMarket:  a.stockMarket  - b.stockMarket,
         bondYield:    a.bondYield    - b.bondYield,
       };
-      // Raw AI-reported debt change (in billions, for comparison note)
-      pendingSnapshot.aiDebtDelta = (r.economy_changes&&r.economy_changes.nationalDebt)||0;
+      pendingSnapshot.aiDebtDelta = (originalResult.economy_changes&&originalResult.economy_changes.nationalDebt)||0;
       G.policySnapshots = G.policySnapshots || {};
-      G.policySnapshots[r.policy] = pendingSnapshot;
+      G.policySnapshots[originalResult.policy] = {...pendingSnapshot,...policyRecord};
     }
-    G.policies.push(r.policy);
+    registerPolicyRecord(policyRecord);
+    if(statusForEffects==='pending')addLogItem(`Pending in Congress: ${policyRecord.name}`);
+    if(statusForEffects==='failed')addLogItem(`Failed in Congress: ${policyRecord.name}`);
   }
   // Scandal - normalize to string to prevent [object Object] bug
   if(r.scandal){
@@ -2294,8 +2606,11 @@ function renderCabinet(){
     const person=G.cabinet[role];
     const s=document.createElement('div');
     s.className='cabslot '+(person?'filled':'empty');
-    s.onclick=()=>openCabModal(role);
-    s.innerHTML=`<div class="cr">${role.replace('Secretary','Sec.')}</div><div class="cn">${person||'Vacant'}</div>`;
+    s.onclick=()=>person?openCabinetProfile(role):openCabModal(role);
+    s.title=person?'Click for profile and relationship':'Click to appoint';
+    const prof=G.cabinetProfiles?.[role];
+    const rel=prof?`<div style="font-size:.52rem;color:${prof.relationship>=65?'#6dcc9a':prof.relationship>=45?'var(--gold2)':'#e07070'};margin-top:.1rem">Relationship ${prof.relationship}% · Fit ${prof.fit}%</div>`:'';
+    s.innerHTML=`<div class="cr">${role.replace('Secretary','Sec.')}</div><div class="cn">${person||'Vacant'}</div>${rel}`;
     el.appendChild(s);
   });
 }
@@ -2532,124 +2847,94 @@ function renderScandals(){
   });
 }
 
+function statusBadgeClass(status){
+  const s=normalizePolicyStatus(status);
+  if(s==='enacted')return 'enacted';
+  if(s==='pending'||s==='under review'||s==='awaiting signature')return 'pending';
+  if(['failed','blocked','struck down','vetoed'].includes(s))return 'failed';
+  return 'pending';
+}
+
+function formatRoute(route){return humanizeLabel(route||'presidential decision');}
+function formatStatus(status){return humanizeLabel(normalizePolicyStatus(status));}
+function effectList(obj,unit=''){
+  const entries=Object.entries(obj||{}).filter(([,v])=>Math.abs(Number(v)||0)>0.01);
+  if(!entries.length)return '<span style="color:var(--text3)">No direct tracked effects.</span>';
+  return entries.map(([k,v])=>`${humanizeLabel(k)}: <span style="color:${v>=0?'#6dcc9a':'#e07070'};font-family:var(--fm)">${v>0?'+':''}${Number(v).toFixed(Math.abs(v)<1?1:0)}${unit}</span>`).join('<br>');
+}
+
+function openPolicyRecord(record){
+  const rec=normalizePolicyRecord(record);
+  if(!rec)return;
+  const b=rec.before?.economy||rec.before;
+  const a=rec.after?.economy||rec.after;
+  const statusClass=statusBadgeClass(rec.status);
+  document.getElementById('exp-title').textContent='📋 Decision Record';
+  const statGrid=(b&&a&&b.gdpGrowth!==undefined)?`
+    <div class="pimpact-grid">
+      ${pimpactRow('GDP Growth Rate','gdpGrowth',b.gdpGrowth,a.gdpGrowth)}
+      ${pimpactRow('Unemployment','unemployment',b.unemployment,a.unemployment)}
+      ${pimpactRow('Inflation','inflation',b.inflation,a.inflation)}
+      ${pimpactRow('National Debt','nationalDebt',b.nationalDebt,a.nationalDebt)}
+      ${pimpactRow('Annual Deficit','deficit',b.deficit,a.deficit)}
+      ${pimpactRow('Stock Market','stockMarket',b.stockMarket,a.stockMarket)}
+    </div>`:'<div class="policy-route-note">Older record: before/after metrics were not tracked for this decision.</div>';
+  document.getElementById('exp-content').innerHTML=`
+    <div class="pimpact-header">
+      <div class="pimpact-name">${rec.name}</div>
+      <div class="pimpact-meta">
+        <span>📅 Week ${rec.week} · ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][(rec.month||1)-1]} ${rec.year||2025}</span>
+        <span>Route: ${formatRoute(rec.route)}</span>
+        <span class="policy-badge ${statusClass}">${formatStatus(rec.status)}</span>
+      </div>
+      ${rec.headline?`<div class="pimpact-headline">📰 ${rec.headline}</div>`:''}
+    </div>
+    <div class="policy-route-note">
+      <strong>Command:</strong> ${rec.command||'Not recorded.'}<br>
+      <strong>Congress:</strong> ${rec.congressResult||'Not applicable.'}<br>
+      <strong>Legal risk:</strong> ${rec.legalRisk||'Unknown'} · <strong>Scandal risk:</strong> ${rec.scandalRisk||'Unknown'}<br>
+      <strong>Legacy:</strong> ${rec.legacyImpact||'No legacy note recorded.'}
+    </div>
+    ${statGrid}
+    <div class="pimpact-blocs" style="margin-bottom:.65rem">
+      <div class="pimpact-blocs-title">TRACKED EFFECTS</div>
+      <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Approval blocs</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.approvalEffects,'pp')}</span></div>
+      <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Economy</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.economyEffects)}</span></div>
+      <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Budget</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.budgetEffects,'B')}</span></div>
+      <div class="pimpact-bloc-row"><span class="pimpact-bloc-label">Foreign relations</span><span class="pimpact-bloc-val" style="display:block;text-align:right">${effectList(rec.relationEffects,'')}</span></div>
+    </div>
+    ${rec.narrative?`<div style="background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem"><div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.3rem">SITUATION ROOM ASSESSMENT</div><div style="font-size:.75rem;color:var(--text2);line-height:1.6">${rec.narrative}</div></div>`:''}`;
+  openModal('expmodal');
+}
+
+function renderPolicyRows(title,records,emptyText){
+  if(!records.length)return `<div class="policy-section"><div class="policy-section-title">${title}</div><div class="nodata">${emptyText}</div></div>`;
+  return `<div class="policy-section"><div class="policy-section-title">${title}</div>${records.map((rec,idx)=>`
+    <div class="policy-row" onclick="openPolicyRecord(G.policyHistory.find(r=>r.id==='${rec.id}')||G.pendingBills.find(r=>r.id==='${rec.id}')||G.failedPolicies.find(r=>r.id==='${rec.id}'))">
+      <div class="policy-row-top">
+        <div class="policy-row-name">${rec.name}</div>
+        <div class="policy-badges"><span class="policy-badge ${statusBadgeClass(rec.status)}">${formatStatus(rec.status)}</span><span class="policy-badge">${formatRoute(rec.route)}</span></div>
+      </div>
+      <div class="policy-row-sub">Week ${rec.week} · ${rec.congressResult||rec.headline||''}</div>
+    </div>`).join('')}</div>`;
+}
+
 function renderPolicies(){
   const el=document.getElementById('policy-list');
-  if(!G.policies.length){el.innerHTML='<div class="nodata">No policies enacted</div>';return;}
-  el.innerHTML='';
-  G.policies.forEach(p=>{
-    const name=typeof p==='string'?p:(p.name||String(p));
-    const sp=document.createElement('span');
-    sp.className='polltag';
-    sp.style.cursor='pointer';
-    sp.title='Click for full impact breakdown';
-    sp.textContent=name;
-    sp.onclick=()=>{
-      const snap=G.policySnapshots&&G.policySnapshots[name];
-      document.getElementById('exp-title').textContent='📋 Policy Impact Report';
-
-      // ── helper: bloc approval change row ──────────────────────────────
-      function blocChangeRow(label, key){
-        const delta=(snap&&snap.approvalChanges&&snap.approvalChanges[key])||0;
-        const cur=Math.round(G.approval[key]||0);
-        const {arrow,color}=statArrow(key,delta);
-        const noChange=Math.abs(delta)<0.5;
-        return`<div class="pimpact-bloc-row">
-          <span class="pimpact-bloc-label">${label}</span>
-          <span class="pimpact-bloc-val">
-            <span style="color:var(--text2);font-size:.65rem">${cur}% now</span>
-            ${noChange?'<span style="color:#8aa0bc">→</span>':`<span style="color:${color};font-weight:700">${arrow} ${delta>0?'+':''}${Math.round(delta)}pp at enactment</span>`}
-          </span>
-        </div>`;
-      }
-
-      if(snap && snap.before && snap.after){
-        // ── FULL SNAPSHOT PANEL ────────────────────────────────────────
-        const b=snap.before, a=snap.after;
-        const nd=snap.netDeltas||{};
-        const debtT_b=(b.nationalDebt/1000).toFixed(2);
-        const debtT_a=(a.nationalDebt/1000).toFixed(2);
-        const debtDelta=a.nationalDebt-b.nationalDebt;
-        const aiDebt=snap.aiDebtDelta||0;
-        const multiplierUsed=aiDebt>0&&Math.abs(debtDelta-aiDebt)>aiDebt*0.15;
-
-        // Note explaining net vs headline if there's a meaningful discrepancy
-        let noteHTML='';
-        if(multiplierUsed||Math.abs(nd.gdpGrowth)>0.1||Math.abs(nd.deficit)>50){
-          const gdpRevenue=nd.gdpGrowth>0?(nd.gdpGrowth*200).toFixed(0):null;
-          const debtB=debtDelta.toFixed(0);
-          const parts=[];
-          if(nd.gdpGrowth>0.05)parts.push(`GDP growth of +${nd.gdpGrowth.toFixed(1)}pp generates approximately $${gdpRevenue}B/yr in additional tax revenue, partially offsetting spending costs.`);
-          if(multiplierUsed)parts.push(`The AI applied a fiscal multiplier: headline cost ≈ $${aiDebt.toFixed(0)}B, net debt impact after growth effects = $${debtDelta.toFixed(0)}B.`);
-          if(nd.unemployment<-0.05)parts.push(`Unemployment fell ${Math.abs(nd.unemployment).toFixed(1)}pp, reducing welfare spending and further boosting revenue.`);
-          if(parts.length){
-            noteHTML=`<div class="pimpact-note">
-              <div class="pimpact-note-title">📊 FISCAL ANALYSIS</div>
-              <div class="pimpact-note-text">${parts.join(' ')}</div>
-            </div>`;
-          }
-        }
-
-        document.getElementById('exp-content').innerHTML=`
-          <div class="pimpact-header">
-            <div class="pimpact-name">${name}</div>
-            <div class="pimpact-meta">
-              <span>📅 Week ${snap.week} · ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][(snap.month||1)-1]} ${snap.year||2025}</span>
-              <span>🏛 ${G.leader} · ${G.party}</span>
-            </div>
-            ${snap.headline?`<div class="pimpact-headline">📰 ${snap.headline}</div>`:''}
-          </div>
-
-          <div class="pimpact-grid">
-            ${pimpactRow('GDP Growth Rate','gdpGrowth',b.gdpGrowth,a.gdpGrowth)}
-            ${pimpactRow('Unemployment','unemployment',b.unemployment,a.unemployment)}
-            ${pimpactRow('Inflation','inflation',b.inflation,a.inflation)}
-            ${pimpactRow('National Debt','nationalDebt',b.nationalDebt,a.nationalDebt)}
-            ${pimpactRow('Annual Deficit','deficit',b.deficit,a.deficit)}
-            ${pimpactRow('Overall Approval','approval',b.approval,a.approval)}
-          </div>
-
-          ${noteHTML}
-
-          <div class="pimpact-blocs">
-            <div class="pimpact-blocs-title">POLITICAL BLOC REACTIONS (at enactment)</div>
-            ${['democrats','republicans','independents','business','labor','youth','military','media','seniors','minorities'].map(k=>{
-              const lbl=k.charAt(0).toUpperCase()+k.slice(1);
-              return blocChangeRow(lbl,k);
-            }).join('')}
-          </div>
-
-          ${snap.narrative?`<div style="margin-top:.6rem;background:var(--bg1);border:1px solid var(--b1);border-radius:2px;padding:.6rem"><div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.3rem">SITUATION ROOM ASSESSMENT</div><div style="font-size:.75rem;color:var(--text2);line-height:1.6">${snap.narrative}</div></div>`:''}
-        `;
-      } else {
-        // ── FALLBACK: no snapshot (legacy save or unenacted) ───────────
-        document.getElementById('exp-content').innerHTML=`
-          <div class="pimpact-header">
-            <div class="pimpact-name">${name}</div>
-            <div class="pimpact-meta"><span>Enacted by ${G.leader} · ${G.party} Administration</span></div>
-          </div>
-          <div style="color:var(--text3);font-size:.72rem;font-style:italic;margin-bottom:.75rem">Full impact data not available for this policy (enacted in a previous session or before tracking was enabled).</div>
-          <div style="font-family:var(--fh);font-size:.6rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.35rem;text-transform:uppercase">Current Economic Snapshot</div>
-          <div class="pimpact-grid">
-            ${['gdpGrowth','unemployment','inflation','nationalDebt'].map(k=>{
-              const labels={gdpGrowth:'GDP Growth',unemployment:'Unemployment',inflation:'Inflation',nationalDebt:'National Debt'};
-              const val=G.economy[k];
-              const {arrow,color}=statArrow(k, k==='gdpGrowth'?val:k==='nationalDebt'?-val:(k==='unemployment'||k==='inflation')?-val:0);
-              return`<div class="pimpact-tile"><div class="pimpact-tile-label">${labels[k]}</div><div class="pimpact-after" style="color:${color}">${fmtStat(k,val)}</div></div>`;
-            }).join('')}
-          </div>
-          <div class="pimpact-blocs" style="margin-top:.5rem">
-            <div class="pimpact-blocs-title">CURRENT BLOC APPROVAL</div>
-            ${['democrats','republicans','independents','business','labor','youth','military'].map(k=>{
-              const pct=Math.round(G.approval[k]||0);
-              const col=pct>=60?'#27ae60':pct>=40?'#c9a84c':'#e74c3c';
-              return`<div class="pimpact-bloc-row"><span class="pimpact-bloc-label">${k.charAt(0).toUpperCase()+k.slice(1)}</span><span class="pimpact-bloc-val" style="color:${col};font-family:var(--fm)">${pct}%</span></div>`;
-            }).join('')}
-          </div>`;
-      }
-      openModal('expmodal');
-    };
-    el.appendChild(sp);
-  });
+  G.policyHistory=Array.isArray(G.policyHistory)?G.policyHistory.map(normalizePolicyRecord).filter(Boolean):[];
+  G.pendingBills=Array.isArray(G.pendingBills)?G.pendingBills.map(normalizePolicyRecord).filter(Boolean):[];
+  G.failedPolicies=Array.isArray(G.failedPolicies)?G.failedPolicies.map(normalizePolicyRecord).filter(Boolean):[];
+  const enacted=G.policyHistory.filter(r=>r.status==='enacted'&&r.isPolicy!==false).slice(0,6);
+  const pending=G.pendingBills.slice(0,4);
+  const failed=G.failedPolicies.slice(0,4);
+  const recent=G.policyHistory.filter(r=>(r.status!=='enacted'||r.isPolicy===false)&&!pending.find(p=>p.id===r.id)&&!failed.find(f=>f.id===r.id)).slice(0,4);
+  if(!G.policyHistory.length&&!G.policies.length){el.innerHTML='<div class="nodata">No presidential decisions recorded</div>';return;}
+  el.innerHTML=[
+    renderPolicyRows('Enacted Policies',enacted,'No enacted policies yet'),
+    renderPolicyRows('Pending Bills',pending,'No bills currently pending'),
+    renderPolicyRows('Failed / Blocked',failed,'No failed votes yet'),
+    recent.length?renderPolicyRows('Other Decisions',recent,''):''
+  ].join('');
 }
 
 // ============================================================
@@ -2704,7 +2989,7 @@ async function sendCommand(){
       addMsg('ai',result&&result._ratelimit?'⏳ The Situation Room is under heavy load. Please wait a moment before issuing your next order.':'⚠ Situation Room encountered an error. Please try your command again.');
       return;
     }
-    applyResult(result);
+    applyResult(result,msg);
     autoSaveGame(); // Auto-save after command
     G.actionsLeft--;
     pushHistory();
@@ -2923,6 +3208,65 @@ function resolveEvent(idx,type,choice){resolveEventSafe(idx);}
 // ============================================================
 // CABINET MODAL
 // ============================================================
+function findPoliticianByName(name){return POLITICIANS.find(p=>p.n===name)||null;}
+function scoreFromTrait(trait,keys,base=55){
+  let score=base;
+  keys.forEach(k=>{if(new RegExp(k,'i').test(trait))score+=8;});
+  const pluses=[...String(trait).matchAll(/\+(\d+)/g)].map(m=>Number(m[1]));
+  if(pluses.length)score+=Math.min(20,pluses.reduce((a,b)=>a+b,0)/pluses.length);
+  return Math.max(20,Math.min(95,Math.round(score)));
+}
+function generateCabinetProfile(role,pol){
+  const trait=pol?.trait||'';
+  const partyFit=(G.party==='Democrat'&&pol?.p==='dem')||(G.party==='Republican'&&pol?.p==='rep')?12:pol?.p==='ind'?4:-8;
+  const expertiseKeys={
+    'Sec. of State':['diplomat','foreign','UN','NATO','State','China','Russia'],
+    'Sec. of Defense':['general','military','SecDef','Marine','JCS','defense'],
+    'Treasury Sec.':['Treasury','Fed','banker','Goldman','market','Wall St'],
+    'Attorney General':['jurist','AG','law','justice','FBI'],
+    'Press Secretary':['communicator','spokesperson','media','Press'],
+    'Chief of Staff':['manager','architect','disciplinarian','crisis'],
+    'Sec. of Labor':['labor','union','worker'],
+    'Sec. of Health':['health','Medicare','global health'],
+    'Sec. of Education':['education','student'],
+    'Sec. of Energy':['energy','EV','climate','fossil'],
+    'NSA Director':['NSA','Intel','CIA','China','Russia'],
+    'UN Ambassador':['UN','diplomat','foreign']
+  };
+  const competence=scoreFromTrait(trait,expertiseKeys[role]||[],58);
+  const loyalty=Math.max(20,Math.min(95,55+partyFit+(trait.includes('polarizing')?-8:0)+(trait.includes('bipartisan')?5:0)));
+  const ambition=Math.max(15,Math.min(95,trait.match(/President|Senator|Gov|Speaker|VP|billionaire|Former/i)?70:45));
+  const scandalRisk=Math.max(10,Math.min(90,(trait.match(/controversial|polarizing|billionaire|culture warrior/i)?65:30)+(loyalty<45?10:0)));
+  const mediaSkill=scoreFromTrait(trait,['communicator','media','spokesperson','President','polished','optimistic'],45);
+  const fit=Math.max(20,Math.min(98,Math.round(competence*0.55+loyalty*0.25+mediaSkill*0.10+(100-scandalRisk)*0.10)));
+  return {competence,loyalty,ambition,scandalRisk,mediaSkill,fit,relationship:Math.max(20,Math.min(95,loyalty+Math.round((G.approval.overall-50)/4))),appointedWeek:G.week};
+}
+function openCabinetProfile(role){
+  const name=G.cabinet?.[role];
+  if(!name){openCabModal(role);return;}
+  const pol=findPoliticianByName(name)||{n:name,p:'ind',trait:'Profile data incomplete.'};
+  G.cabinetProfiles=G.cabinetProfiles||{};
+  if(!G.cabinetProfiles[role])G.cabinetProfiles[role]=generateCabinetProfile(role,pol);
+  const prof=G.cabinetProfiles[role];
+  const party=pol.p==='dem'?'Democrat':pol.p==='rep'?'Republican':'Independent';
+  const initials=pol.n.split(/\s+/).map(x=>x[0]).slice(0,2).join('');
+  document.getElementById('exp-title').textContent='Cabinet Profile';
+  document.getElementById('exp-content').innerHTML=`
+    <div class="profile-card-top">
+      <div class="profile-avatar">${initials}</div>
+      <div><div class="pimpact-name">${pol.n}</div><div class="pimpact-meta"><span>${role}</span><span>${party}</span><span>Appointed Week ${prof.appointedWeek||G.cabinetActiveSince?.[role]||G.week}</span></div><div style="font-size:.74rem;color:var(--text2);line-height:1.5">${pol.trait}</div></div>
+    </div>
+    <div class="profile-grid">
+      ${[['Competence',prof.competence],['Loyalty',prof.loyalty],['Relationship',prof.relationship],['Role Fit',prof.fit],['Ambition',prof.ambition],['Scandal Risk',prof.scandalRisk],['Media Skill',prof.mediaSkill],['Week Active',G.week>(G.cabinetActiveSince?.[role]||0)?100:45]].map(([label,val])=>`<div class="profile-stat"><div class="profile-stat-label">${label}</div><div class="profile-stat-value" style="color:${val>=70?'#6dcc9a':val>=45?'var(--gold2)':'#e07070'}">${label==='Week Active'?(val>=100?'Active':'Pending'):val+'%'}</div></div>`).join('')}
+    </div>
+    <div class="policy-route-note"><strong>Gameplay effect:</strong> high competence improves passive cabinet benefits; low loyalty or high scandal risk should later feed leaks, resignations and biased advice. For now, these profiles make appointments persistent strategic actors and survive save/load.</div>
+    <div class="country-actions">
+      <button class="country-action" onclick="countryCommand('usa','Ask ${pol.n} for advice as ${role} on the administration\'s next move')"><strong>Request advice</strong>Prefill an AI cabinet-advice command.</button>
+      <button class="country-action" onclick="closeModal('expmodal');openCabModal('${role}')"><strong>Replace official</strong>Open appointment list for a reshuffle.</button>
+    </div>`;
+  openModal('expmodal');
+}
+
 function openCabModal(role){
   document.getElementById('cab-role-title').textContent='Appointing: '+role;
   const grid=document.getElementById('pol-grid');
@@ -3110,6 +3454,7 @@ function expandChart(type){
 function saveGame(){
   if(!G.leader){alert('No active game to save.');return;}
   try{
+    G.saveVersion=2;
     localStorage.setItem('govern_save',JSON.stringify(G));
     addMsg('ai',`✅ Game saved. Week ${G.week} · ${G.leader} · ${G.party}.`);
   }catch(e){addMsg('ai','⚠ Save failed — storage may be unavailable.');}
