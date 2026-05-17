@@ -68,7 +68,8 @@ The project should develop from a working political command interface into a dee
 Strong development directions include:
 
 ### 1. AI command interpretation
-
+You should be able to have back and forth conversations with ai versions that are logical 
+let you type what you want to say dont give options also this same idea for press 
 The command box should become a major gameplay interface.
 
 The player should be able to type open-ended presidential actions such as:
@@ -139,6 +140,7 @@ Failed bills should not appear as enacted policies. Pending bills should appear 
 The world map should become playable.
 
 Useful improvements:
+show picture of world leader for each country and there names etc all the info possible there should be popput for every country also flags 
 - Clicking a country opens a country modal.
 - Show country name, capital, region, relation score, ally/rival/neutral status, conflict status, trade relationship, and estimated trade surplus/deficit with the US.
 - Add command-prefill buttons such as:
@@ -148,6 +150,7 @@ Useful improvements:
   - Call leader
   - Military assessment
   - Back-channel talks
+    - relationship feature with world leaders also
 
 Later, add proper AI leader-call mode where the player can speak to leaders and receive plausible responses.
 
@@ -185,7 +188,7 @@ Leader calls should be logged and may affect relations, trade, crises, alliances
 
 Add a press briefing / press conference system.
 
-The player should answer journalist questions in their own words.
+The player should answer journalist questions in their own words. back and forths that you can personally type not multiple choice etc
 
 AI should generate:
 - reporter questions
@@ -219,7 +222,7 @@ Congress should not be static for the whole game.
 
 ### 7. Cabinet depth and politician profiles
 
-Cabinet should become strategic, not just a list of names.
+Cabinet should become strategic, not just a list of names. add pictures also and more names
 
 Possible systems:
 - Cabinet members can be clicked after appointment.
