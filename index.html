@@ -536,6 +536,9 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
     <button class="main-tab" data-main-tab="cabinet" onclick="switchMainTab('cabinet',this)">Cabinet / Advisors</button>
     <button class="main-tab" data-main-tab="economy" onclick="switchMainTab('economy',this)">Economy / Budget</button>
     <button class="main-tab" data-main-tab="world" onclick="switchMainTab('world',this)">World</button>
+    <button class="main-tab" data-main-tab="communications" onclick="switchMainTab('communications',this)">AI Communications</button>
+    <button class="main-tab" data-main-tab="covert" onclick="switchMainTab('covert',this)">Covert / Crisis</button>
+    <button class="main-tab" data-main-tab="legacy" onclick="switchMainTab('legacy',this)">Legacy / Election</button>
     <button class="main-tab" data-main-tab="archive" onclick="switchMainTab('archive',this)">Archive / History</button>
   </nav>
 
@@ -708,11 +711,14 @@ header{background:var(--bg1);border-bottom:1px solid var(--b1);height:50px;flex-
     </div>
   </section>
 
-  <section id="main-executive" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Executive Action</div><div class="war-sub">Use the Home command center for broad executive orders. This tab is reserved for deeper directives, agency implementation and court-risk tracking in a future cycle.</div></div></div></section>
+  <section id="main-executive" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Executive Action / Courts</div><div id="main-executive-summary"></div></div><div class="war-card"><div class="war-card-title">Agency Implementation Queue</div><div id="main-executive-agencies"></div></div></div></section>
   <section id="main-congress" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Congress</div><div id="main-congress-summary"></div></div><div class="war-card"><div class="war-card-title">Pending Votes</div><div id="main-congress-bills"></div></div></div></section>
-  <section id="main-cabinet" class="main-page section-page"><div class="war-card"><div class="war-card-title">Cabinet / Advisors</div><div class="war-sub">Cabinet appointment mechanics remain in the Home side panel for now. This page establishes the simulator tab architecture for future advisor profiles and briefings.</div><div id="main-cabinet-summary"></div></div></section>
-  <section id="main-economy" class="main-page section-page"><div class="war-card"><div class="war-card-title">Economy / Budget</div><div id="main-economy-summary"></div></div></section>
-  <section id="main-world" class="main-page section-page"><div class="war-card"><div class="war-card-title">World Affairs</div><div class="war-sub">The Home map remains interactive. Click countries there for diplomatic commands; future cycles can move the world desk here.</div><div id="main-world-summary"></div></div></section>
+  <section id="main-cabinet" class="main-page section-page"><div class="war-card"><div class="war-card-title">Cabinet / Advisors</div><div class="war-sub">Click cabinet members in the Home side panel for profiles. This desk summarizes role fit, loyalty risks, scandal exposure, and advisor briefs.</div><div id="main-cabinet-summary"></div></div></section>
+  <section id="main-economy" class="main-page section-page"><div class="war-card"><div class="war-card-title">Economy / Budget Strategy</div><div id="main-economy-summary"></div></div></section>
+  <section id="main-world" class="main-page section-page"><div class="war-card"><div class="war-card-title">World Affairs</div><div class="war-sub">Use this desk to scan allies, rivals, leader relationships and recent calls. The Home map remains clickable for country popouts and command prefill.</div><div id="main-world-summary"></div></div></section>
+  <section id="main-communications" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">AI Leader Calls & Press Conference Mode</div><div class="war-sub">No multiple choice: pick a target/mode, then type exactly what you want to say. Replies are state-shaped and logged; consequences are applied to approval, relations, markets, scandals, and Congress.</div><div id="comms-controls"></div></div><div class="war-card"><div class="war-card-title">Live Transcript</div><div id="comms-transcript" class="leg-list"></div><div class="directive-box" style="margin-top:.6rem"><textarea id="comms-input" placeholder="Type your statement or answer in your own words..."></textarea><button class="directive-btn" onclick="sendCommunicationMessage()">Send<br>Message</button></div></div></div></section>
+  <section id="main-covert" class="main-page section-page"><div class="placeholder-grid"><div class="war-card"><div class="war-card-title">Covert / Rogue Action Desk</div><div class="war-sub">Fictional abstraction only: operations trade quiet short-term leverage for leaks, court challenges, institutional resistance, impeachment risk and democratic-backsliding penalties.</div><div id="covert-controls"></div></div><div class="war-card"><div class="war-card-title">Active Crises, Scandals & Investigations</div><div id="covert-status"></div></div></div></section>
+  <section id="main-legacy" class="main-page section-page"><div class="war-card"><div class="war-card-title">Legacy / Re-Election Pressure</div><div id="main-legacy-summary"></div></div></section>
   <section id="main-archive" class="main-page section-page"><div class="war-card"><div class="war-card-title">Archive / History</div><div class="leg-list" id="main-archive-list"></div></div></section>
 
   <div class="ticker">
@@ -1341,6 +1347,18 @@ function initState(party,leader,diff){
     legislativeHistory:[],
     advisorBriefings:[],
     policyStrategySettings:{},
+    // Communications / covert / institutional pressure systems
+    activeCommsMode:'leader',
+    activeCommsTarget:'uk',
+    activeConversationId:null,
+    communicationThreads:[],
+    covertOps:[],
+    investigations:[],
+    courtChallenges:[],
+    institutionalHealth:72,
+    democraticBacksliding:0,
+    impeachmentRisk:0,
+    shutdownRisk:8,
   };
   if(diff==='crisis'){
     G.wars.push('Middle East (Active Conflict)');
@@ -1924,6 +1942,17 @@ function migrateGameState(rawGame){
   if(!Array.isArray(rawGame.advisorBriefings))rawGame.advisorBriefings=[];
   if(!rawGame.policyStrategySettings)rawGame.policyStrategySettings={};
   if(rawGame.pendingPolicyDraft===undefined)rawGame.pendingPolicyDraft=null;
+  if(!rawGame.activeCommsMode)rawGame.activeCommsMode='leader';
+  if(!rawGame.activeCommsTarget)rawGame.activeCommsTarget='uk';
+  if(rawGame.activeConversationId===undefined)rawGame.activeConversationId=null;
+  if(!Array.isArray(rawGame.communicationThreads))rawGame.communicationThreads=[];
+  if(!Array.isArray(rawGame.covertOps))rawGame.covertOps=[];
+  if(!Array.isArray(rawGame.investigations))rawGame.investigations=[];
+  if(!Array.isArray(rawGame.courtChallenges))rawGame.courtChallenges=[];
+  if(rawGame.institutionalHealth==null)rawGame.institutionalHealth=72;
+  if(rawGame.democraticBacksliding==null)rawGame.democraticBacksliding=0;
+  if(rawGame.impeachmentRisk==null)rawGame.impeachmentRisk=0;
+  if(rawGame.shutdownRisk==null)rawGame.shutdownRisk=8;
   
   // Normalize scandals to prevent [object Object]
   if(Array.isArray(rawGame.scandals)){
@@ -2458,10 +2487,236 @@ function updatePolicyRecordStatus(record,status,summary){
   G.policySnapshots[record.name]={...(G.policySnapshots[record.name]||{}),...record};
 }
 
+
+
+// ============================================================
+// COMMUNICATIONS, COVERT ACTIONS, AND LEGACY DASHBOARDS
+// ============================================================
+const COMMS_TARGETS={
+  uk:{label:'UK Prime Minister',country:'United Kingdom',countryId:'uk',tone:'pragmatic Atlantic ally',interest:'Ukraine, NATO burden-sharing and trade access'},
+  france:{label:'French President',country:'France',countryId:'france',tone:'strategically independent ally',interest:'European security, industrial policy and climate diplomacy'},
+  china:{label:'Chinese President',country:'China',countryId:'china',tone:'guarded great-power rival',interest:'tariffs, Taiwan, technology controls and market stability'},
+  canada:{label:'Canadian Prime Minister',country:'Canada',countryId:'canada',tone:'close neighbor under domestic trade pressure',interest:'border flow, energy, auto trade and defense coordination'},
+  spain:{label:'Spanish Prime Minister',country:'Spain',countryId:'spain',tone:'pro-European coalition manager',interest:'NATO, migration and green investment'},
+  germany:{label:'German Chancellor',country:'Germany',countryId:'germany',tone:'cautious economic ally',interest:'Ukraine support, exports and energy security'},
+  ukraine:{label:'Ukrainian President',country:'Ukraine',countryId:'ukraine',tone:'urgent wartime partner',interest:'air defense, budget aid and credible security guarantees'},
+  russia:{label:'Russian President',country:'Russia',countryId:'russia',tone:'hard-edged adversary',interest:'sanctions relief, Ukraine leverage and NATO divisions'},
+  nato:{label:'NATO Secretary General',country:'NATO',countryId:'nato',tone:'alliance coordinator',interest:'readiness, burden-sharing and deterrence'},
+  un:{label:'UN Secretary-General',country:'United Nations',countryId:'un',tone:'humanitarian mediator',interest:'ceasefires, aid access and international law'},
+  press:{label:'White House Press Corps',country:'United States',countryId:'usa',tone:'skeptical domestic reporters',interest:'clear answers, contradictions, accountability and news value'}
+};
+
+function ensureAdvancedState(){
+  if(!G.communicationThreads)G.communicationThreads=[];
+  if(!G.covertOps)G.covertOps=[];
+  if(!G.investigations)G.investigations=[];
+  if(!G.courtChallenges)G.courtChallenges=[];
+  if(G.institutionalHealth===undefined)G.institutionalHealth=72;
+  if(G.democraticBacksliding===undefined)G.democraticBacksliding=0;
+  if(G.impeachmentRisk===undefined)G.impeachmentRisk=0;
+  if(G.shutdownRisk===undefined)G.shutdownRisk=8;
+  if(!G.activeCommsMode)G.activeCommsMode='leader';
+  if(!G.activeCommsTarget)G.activeCommsTarget='uk';
+}
+
+function commsTargetOptions(){
+  return Object.entries(COMMS_TARGETS).map(([id,t])=>`<option value="${id}">${htmlEscape(t.label)}</option>`).join('');
+}
+
+function renderCommunicationsDesk(){
+  ensureAdvancedState();
+  const controls=document.getElementById('comms-controls');
+  const transcript=document.getElementById('comms-transcript');
+  if(!controls||!transcript)return;
+  controls.innerHTML=`
+    <div class="brief-grid">
+      <div class="brief-chip"><span>Mode</span><select id="comms-mode" onchange="G.activeCommsMode=this.value; if(this.value==='press')G.activeCommsTarget='press'; renderCommunicationsDesk(); autoSaveGame();"><option value="leader" ${G.activeCommsMode==='leader'?'selected':''}>Leader call</option><option value="press" ${G.activeCommsMode==='press'?'selected':''}>Press conference</option></select></div>
+      <div class="brief-chip"><span>Target</span><select id="comms-target" onchange="G.activeCommsTarget=this.value; G.activeCommsMode=this.value==='press'?'press':'leader'; renderCommunicationsDesk(); autoSaveGame();">${commsTargetOptions()}</select></div>
+      <div class="brief-chip"><span>Relation</span>${Math.round(G.relations?.[COMMS_TARGETS[G.activeCommsTarget]?.countryId]??0)}</div>
+      <div class="brief-chip"><span>Media</span>${Math.round(G.approval?.media||50)}%</div>
+    </div>
+    <button class="commit-btn" style="display:block;margin-top:.55rem" onclick="startCommunicationSession()">Start / Focus Conversation</button>
+    <div class="war-sub" style="margin-top:.5rem">State shaping: ${htmlEscape(COMMS_TARGETS[G.activeCommsTarget]?.tone||'state-aware counterpart')}; interests: ${htmlEscape(COMMS_TARGETS[G.activeCommsTarget]?.interest||'current events')}.</div>`;
+  const sel=document.getElementById('comms-target'); if(sel)sel.value=G.activeCommsTarget;
+  const thread=currentCommunicationThread(false);
+  if(!thread){transcript.innerHTML='<div class="nodata">Start a conversation, then type freely. The counterpart will respond and the simulation will apply consequences.</div>';return;}
+  transcript.innerHTML=thread.messages.map(m=>`<div class="leg-item"><div class="leg-title">${m.role==='player'?'President '+htmlEscape(G.leader):htmlEscape(thread.targetLabel)}</div><div class="bill-whip">${htmlEscape(m.text)}</div><div class="leg-meta"><span class="leg-pill">W${m.week}</span><span class="leg-pill">${htmlEscape(m.effect||'dialogue')}</span></div></div>`).join('');
+}
+
+function currentCommunicationThread(create=true){
+  ensureAdvancedState();
+  let thread=G.communicationThreads.find(t=>t.id===G.activeConversationId);
+  const target=COMMS_TARGETS[G.activeCommsTarget]||COMMS_TARGETS.uk;
+  if(!thread&&create){
+    thread={id:`comms-${G.week}-${Date.now().toString(36)}`,mode:G.activeCommsMode,targetId:G.activeCommsTarget,targetLabel:target.label,countryId:target.countryId,startedWeek:G.week,messages:[]};
+    G.activeConversationId=thread.id;
+    G.communicationThreads.unshift(thread);
+  }
+  return thread;
+}
+
+function startCommunicationSession(){
+  const target=COMMS_TARGETS[G.activeCommsTarget]||COMMS_TARGETS.uk;
+  G.activeConversationId=null;
+  const thread=currentCommunicationThread(true);
+  thread.messages.push({role:'counterpart',week:G.week,text:G.activeCommsMode==='press'?`Press room is live. Reporters are pressing on inflation, scandals, Congress and foreign policy. Your first answer will frame the cycle.`:`Secure line open with the ${target.label}. They are ${target.tone} and focused on ${target.interest}.`,effect:'session opened'});
+  addLogItem(`${G.activeCommsMode==='press'?'Press conference':'Leader call'} opened: ${target.label}`);
+  renderCommunicationsDesk();
+  autoSaveGame();
+}
+
+function communicationEffectFor(text,target){
+  const t=normalizeName(text);
+  let effect={approval:{},economy:{},relation:0,scandal:0,summary:''};
+  const conciliatory=/respect|cooperate|ally|support|aid|partner|shared|listen|humanitarian|diplomacy/.test(t);
+  const aggressive=/threat|sanction|punish|force|ultimatum|strike|tariff|humiliate|illegal|spy/.test(t);
+  const evasive=/no comment|fake news|witch hunt|refuse|won't answer|cannot answer/.test(t);
+  const detailed=/because|specific|plan|timeline|fund|bill|data|target|oversight|accountable/.test(t);
+  if(G.activeCommsMode==='press'){
+    effect.approval.media=(detailed?2:0)+(evasive?-4:0)+(aggressive?-2:0)+(conciliatory?1:0);
+    effect.approval.independents=(detailed?1.2:0)+(evasive?-1.5:0)+(aggressive?-0.8:0);
+    effect.economy.stockMarket=/inflation|market|jobs|economy|debt|budget/.test(t)&&detailed?1.2:evasive?-0.8:0;
+    effect.scandal=evasive&&G.scandals.length?1:0;
+    effect.summary=detailed?'Reporters get enough specifics to reduce uncertainty.':evasive?'The briefing turns defensive; follow-ups sharpen.':'Coverage is mixed but the president shapes the news cycle.';
+  }else{
+    const rival=['china','russia','iran','northkorea'].includes(target.countryId);
+    effect.relation=(conciliatory?5:0)+(aggressive?(rival?-4:-7):0)+(detailed?2:0);
+    effect.approval.military=aggressive?1.5:0;
+    effect.approval.business=/trade|tariff|market|supply/.test(t)&&aggressive?-2:0;
+    effect.economy.tradeBalance=/trade|tariff/.test(t)&&aggressive?35:0;
+    effect.economy.inflation=/tariff|sanction/.test(t)?0.1:0;
+    effect.summary=conciliatory?'The call improves working trust and opens staff-level follow-up.':aggressive?'The call creates leverage but raises escalation and market risk.':'The call is cautious; diplomats will keep probing for substance.';
+  }
+  return effect;
+}
+
+function sendCommunicationMessage(){
+  ensureAdvancedState();
+  const input=document.getElementById('comms-input');
+  const text=(input?.value||'').trim();
+  if(!text)return;
+  if(G.actionsLeft<=0){addMsg('ai','No actions left this week. End the week or load a save.');return;}
+  const target=COMMS_TARGETS[G.activeCommsTarget]||COMMS_TARGETS.uk;
+  const thread=currentCommunicationThread(true);
+  const fx=communicationEffectFor(text,target);
+  thread.messages.push({role:'player',week:G.week,text,effect:'presidential statement'});
+  const relationBefore=G.relations[target.countryId]??0;
+  if(fx.relation&&target.countryId){G.relations[target.countryId]=Math.max(-100,Math.min(100,(G.relations[target.countryId]??0)+fx.relation));}
+  Object.entries(fx.approval).forEach(([k,v])=>{if(G.approval[k]!==undefined)G.approval[k]=Math.max(0,Math.min(100,G.approval[k]+v));});
+  Object.entries(fx.economy).forEach(([k,v])=>{if(k==='stockMarket')G.economy.stockMarket=Math.max(10,G.economy.stockMarket+v); else if(k==='tradeBalance')G.economy.tradeBalance+=v; else if(k==='inflation')G.economy.inflation=Math.max(0,Math.min(25,G.economy.inflation+v));});
+  if(fx.scandal)G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+2);
+  recalculateOverallApproval();
+  const reply=G.activeCommsMode==='press'
+    ? `Follow-up: ${fx.summary} Opposition staff are already clipping the answer; the next question will test whether the policy math and the politics hold together.`
+    : `${target.label}: ${fx.summary} Our teams will judge this against recent US actions, domestic pressure here, and whether Congress can actually deliver.`;
+  thread.messages.push({role:'counterpart',week:G.week,text:reply,effect:fx.summary});
+  const pseudoResult={headline:G.activeCommsMode==='press'?'White House faces press corps':'Secure leader call reshapes diplomatic track',narrative:fx.summary,approval_changes:fx.approval,economy_changes:fx.economy,relation_changes:{[target.countryId]:fx.relation||0}};
+  if(G.activeCommsMode==='press')recordPressConference(text,pseudoResult,{id:thread.id});
+  else recordLeaderCall(`${target.country} ${text}`,pseudoResult,{id:thread.id,before:{relations:{[target.countryId]:relationBefore}}});
+  G.actionsLeft--;
+  document.getElementById('actions-left-msg').textContent=G.actionsLeft;
+  input.value='';
+  addNewsItem(G.activeCommsMode==='press'?'Press conference drives new media cycle':`${target.country} call enters diplomatic log`,G.activeCommsMode==='press'?'breaking':'world');
+  renderAll();
+  autoSaveGame();
+}
+
+const COVERT_TYPES={
+  intel:{label:'Intelligence collection',desc:'Improves information and foreign leverage; modest leak risk.',success:68,backslide:1,leak:10,relation:-2},
+  cyber:{label:'Cyber disruption',desc:'May disrupt hostile networks; higher escalation and market risk.',success:55,backslide:3,leak:18,relation:-5},
+  disinfo:{label:'Influence operation',desc:'Short-term narrative gain; severe institutional and scandal risk.',success:46,backslide:7,leak:30,relation:-4},
+  pressure:{label:'Pressure investigators',desc:'May blunt scandals; major abuse-of-power and impeachment risk.',success:38,backslide:9,leak:38,relation:0},
+  emergency:{label:'Centralize emergency powers',desc:'Fast crisis control; courts, Congress and legitimacy can revolt.',success:42,backslide:11,leak:34,relation:-2}
+};
+
+function renderCovertDesk(){
+  ensureAdvancedState();
+  const controls=document.getElementById('covert-controls');
+  const status=document.getElementById('covert-status');
+  if(!controls||!status)return;
+  controls.innerHTML=`<div class="brief-grid">
+    <div class="brief-chip"><span>Institutional Health</span>${Math.round(G.institutionalHealth)}%</div>
+    <div class="brief-chip"><span>Backsliding</span>${Math.round(G.democraticBacksliding)}%</div>
+    <div class="brief-chip"><span>Impeachment Risk</span>${Math.round(G.impeachmentRisk)}%</div>
+    <div class="brief-chip"><span>Shutdown Risk</span>${Math.round(G.shutdownRisk)}%</div>
+  </div>
+  <div class="directive-box" style="margin-top:.6rem"><textarea id="covert-brief" placeholder="Describe the fictional operation objective, e.g. investigate a hostile network, back-channel hostage talks, contain a damaging leak..."></textarea><button class="directive-btn" onclick="launchCovertOperation()">Launch<br>Operation</button></div>
+  <div class="route-grid" style="margin-top:.6rem">${Object.entries(COVERT_TYPES).map(([id,o])=>`<button class="route-card ${G.selectedCovertType===id?'selected':''}" onclick="G.selectedCovertType='${id}'; renderCovertDesk();"><div class="route-title">${htmlEscape(o.label)}</div><div class="route-meta">Success ${o.success}% · Leak ${o.leak}%</div><div class="route-desc">${htmlEscape(o.desc)}</div></button>`).join('')}</div>`;
+  const scans=(G.scandals||[]).map(s=>typeof s==='string'?{title:s}:s);
+  const ops=(G.covertOps||[]).slice(0,8).map(o=>`<div class="leg-item"><div class="leg-title">${htmlEscape(o.label)} — ${htmlEscape(o.status)}</div><div class="bill-whip">${htmlEscape(o.objective)}</div><div class="leg-meta"><span class="leg-pill">W${o.week}</span><span class="leg-pill">Leak ${o.leakRisk}%</span><span class="leg-pill">Success ${o.successChance}%</span></div></div>`).join('');
+  status.innerHTML=`${ops||'<div class="nodata">No covert operations active.</div>'}<div style="margin-top:.75rem" class="war-card-title">Scandals</div>${scans.length?scans.map(s=>`<div class="leg-item"><div class="leg-title">${htmlEscape(s.title)}</div><div class="bill-whip">Severity ${htmlEscape(s.severity||'medium')} · ${htmlEscape(s.description||'No details')}</div></div>`).join(''):'<div class="nodata">No active scandals.</div>'}`;
+}
+
+function launchCovertOperation(){
+  ensureAdvancedState();
+  if(G.actionsLeft<=0){addMsg('ai','No actions left this week.');return;}
+  const type=G.selectedCovertType||'intel';
+  const cfg=COVERT_TYPES[type];
+  const objective=(document.getElementById('covert-brief')?.value||'Sensitive national-security operation').trim();
+  const competence=Object.values(G.cabinetProfiles||{}).reduce((sum,p)=>sum+(p.competence||50),0)/Math.max(1,Object.keys(G.cabinetProfiles||{}).length);
+  const successChance=clampNum(cfg.success+(competence-50)*.15-(G.democraticBacksliding||0)*.08,5,92);
+  const leakRisk=clampNum(cfg.leak+(100-(G.institutionalHealth||72))*.18+(G.scandals?.length||0)*3,3,80);
+  const op={id:`op-${G.week}-${Date.now().toString(36)}`,type,label:cfg.label,objective,week:G.week,status:'active',successChance:Math.round(successChance),leakRisk:Math.round(leakRisk),backslide:cfg.backslide};
+  G.covertOps.unshift(op);
+  G.democraticBacksliding=Math.min(100,(G.democraticBacksliding||0)+cfg.backslide);
+  G.institutionalHealth=Math.max(0,(G.institutionalHealth||72)-cfg.backslide*.8);
+  G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+Math.max(1,cfg.backslide-2));
+  G.actionsLeft--;
+  document.getElementById('actions-left-msg').textContent=G.actionsLeft;
+  addLogItem(`Covert operation launched: ${cfg.label}`);
+  addNewsItem('Closed-door national security activity draws quiet scrutiny','breaking');
+  renderAll();
+  autoSaveGame();
+}
+
+function processCovertOps(){
+  ensureAdvancedState();
+  if(!G.covertOps.length)return;
+  G.covertOps.forEach(op=>{
+    if(op.status!=='active')return;
+    const roll=stableHash(`${op.id}-${G.week}-success`)%100;
+    const leak=stableHash(`${op.id}-${G.week}-leak`)%100;
+    if(roll<op.successChance){
+      op.status='successful';
+      G.approval.military=Math.min(100,G.approval.military+1.5);
+      G.approval.independents=Math.max(0,G.approval.independents-0.4);
+      addLogItem(`Covert success: ${op.label}`);
+    }else if((G.week-op.week)>=2){
+      op.status='stalled';
+      G.approval.media=Math.max(0,G.approval.media-1);
+    }
+    if(leak<op.leakRisk){
+      op.status='leaked';
+      G.scandals.push({title:`Leaked ${op.label}`,severity:op.backslide>=7?'critical':'high',severityScore:65+op.backslide,week:G.week,weekCreated:G.week,duration:6,description:`Reports surface about ${op.objective}. Congress demands documents and legal review.`});
+      G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+8+op.backslide);
+      G.institutionalHealth=Math.max(0,(G.institutionalHealth||72)-4);
+      addNewsItem(`Leak exposes secretive White House operation`,'scandal');
+    }
+  });
+  recalculateOverallApproval();
+}
+
+function renderLegacyDesk(){
+  ensureAdvancedState();
+  const el=document.getElementById('main-legacy-summary');
+  if(!el)return;
+  const score=calculateLegacyScore();
+  const rating=getLegacyRating(score);
+  const ree=calculateReelectionChance();
+  const termWeek=(G.week-(G.termStartWeek||1)+1);
+  const grades=[['Economy',G.economy.gdpGrowth*8-G.economy.unemployment*2-G.economy.inflation*1.5+50],['Foreign policy',50+averageRelationScore()/2-(G.wars.length*8)],['Fiscal record',70+G.economy.deficit/120-(G.economy.bondYield-4)*5],['Legislative success',45+(G.policies.length*4)+(G.failedPolicies.length*-3)],['Integrity',80-(G.scandals.length*10)-(G.impeachmentRisk||0)*.4],['Institutional health',G.institutionalHealth-(G.democraticBacksliding||0)*.5]].map(([k,v])=>[k,clampNum(v,0,100)]);
+  el.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Term Week</span>${termWeek}/${TERM_LENGTH_WEEKS}</div><div class="brief-chip"><span>Legacy Score</span>${score}/100 · ${htmlEscape(rating)}</div><div class="brief-chip"><span>Re-election</span>${ree.chance}% · ${htmlEscape(ree.label)}</div><div class="brief-chip"><span>Institutional Health</span>${Math.round(G.institutionalHealth)}%</div></div>
+  <div class="route-grid" style="margin-top:.75rem">${grades.map(([k,v])=>`<div class="route-card"><div class="route-title">${htmlEscape(k)}</div><div class="route-meta">Grade ${v>=85?'A':v>=70?'B':v>=55?'C':v>=40?'D':'F'} · ${Math.round(v)}/100</div><div class="route-desc">${legacyGradeHint(k,v)}</div></div>`).join('')}</div>
+  <div style="margin-top:.75rem" class="war-sub">Shareable summary: ${htmlEscape(generateLegacySummary(score,rating).slice(0,420))}</div>`;
+}
+
+function averageRelationScore(){const vals=Object.values(G.relations||{});return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;}
+function legacyGradeHint(k,v){return v>=70?`${k} is currently helping the presidency.`:v>=45?`${k} is politically mixed and could swing either way.`:`${k} is a drag on legacy and re-election pressure.`;}
+
 // ============================================================
 // TABBED LEGISLATION WAR ROOM
 // ============================================================
-const MAIN_TABS=['home','legislation','executive','congress','cabinet','economy','world','archive'];
+const MAIN_TABS=['home','legislation','executive','congress','cabinet','economy','world','communications','covert','legacy','archive'];
 const LEGISLATION_INTENTS=['Create new law','Amend existing law','Repeal policy','Fund programme','Regulate industry','Investigate issue','Pressure Congress','Build public support'];
 const LEGISLATION_STAGES=['Drafting','Sponsor selection','Committee','Amendments','House vote','Senate vote','Final negotiation','Signed into law'];
 const BILL_STRATEGIES={
@@ -2771,10 +3026,30 @@ function renderTabShells(){
   if(congressSummary)congressSummary.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Senate</span>${G.congress?.senate?.dem||0}D · ${G.congress?.senate?.rep||0}R</div><div class="brief-chip"><span>House</span>${G.congress?.house?.dem||0}D · ${G.congress?.house?.rep||0}R</div><div class="brief-chip"><span>Leadership</span>${Math.round(G.congressionalRelations?.leadership||50)}</div><div class="brief-chip"><span>Moderates</span>${Math.round(G.congressionalRelations?.moderates||50)}</div></div>`;
   const congressBills=document.getElementById('main-congress-bills');
   if(congressBills)congressBills.innerHTML=(G.activeLegislation||[]).map(b=>`<div class="congress-bill"><div class="bill-title">${htmlEscape(b.name)}</div><div class="bill-status">${htmlEscape(b.currentStage)} · ${Math.round(b.passChance||0)}%</div></div>`).join('')||'<div class="nodata">No pending votes.</div>';
-  const cab=document.getElementById('main-cabinet-summary');if(cab)cab.innerHTML=`<div class="war-sub">Appointed: ${Object.entries(G.cabinet||{}).filter(([,v])=>v).length}/${CAB_ROLES.length}. Future cycles can add advisor profiles here.</div>`;
-  const eco=document.getElementById('main-economy-summary');if(eco)eco.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>GDP</span>${G.economy?.gdpGrowth?.toFixed(1)}%</div><div class="brief-chip"><span>Inflation</span>${G.economy?.inflation?.toFixed(1)}%</div><div class="brief-chip"><span>Unemployment</span>${G.economy?.unemployment?.toFixed(1)}%</div><div class="brief-chip"><span>Deficit</span>$${Math.abs((G.economy?.deficit||0)/1000).toFixed(2)}T</div></div>`;
-  const world=document.getElementById('main-world-summary');if(world)world.innerHTML=`<div class="war-sub">Active conflicts: ${(G.wars||[]).length?htmlEscape(G.wars.join(', ')):'none'}. Use the Home map for country-level commands.</div>`;
-  const arch=document.getElementById('main-archive-list');if(arch)arch.innerHTML=(G.policyHistory||[]).slice(0,16).map(r=>`<div class="leg-item"><div class="leg-title">${htmlEscape(r.name)}</div><div class="leg-meta"><span class="leg-pill">${htmlEscape(r.status)}</span><span class="leg-pill">${htmlEscape(r.route)}</span><span class="leg-pill">W${r.week}</span></div></div>`).join('')||'<div class="nodata">No archive records yet.</div>';
+  const exec=document.getElementById('main-executive-summary');
+  if(exec){
+    const legal=(G.policyHistory||[]).filter(r=>/executive|agency|court|emergency/i.test(r.route||r.legalRisk||''));
+    exec.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Court challenges</span>${(G.courtChallenges||[]).length}</div><div class="brief-chip"><span>Institutional health</span>${Math.round(G.institutionalHealth??72)}%</div><div class="brief-chip"><span>EO / agency records</span>${legal.length}</div><div class="brief-chip"><span>Legal risk</span>${Math.round((G.impeachmentRisk||0)+(G.democraticBacksliding||0)*.25)}%</div></div><div class="war-sub" style="margin-top:.6rem">Executive orders are fast but fragile: they can deliver immediate implementation, then become court cases, oversight targets, or campaign issues if overused.</div>`;
+  }
+  const agencies=document.getElementById('main-executive-agencies');
+  if(agencies)agencies.innerHTML=(G.policyHistory||[]).filter(r=>/executive|Agency Regulation/i.test(r.route||'')).slice(0,6).map(r=>`<div class="leg-item"><div class="leg-title">${htmlEscape(r.name)}</div><div class="bill-whip">${htmlEscape(r.legalRisk||'Legal risk pending')} · ${htmlEscape(r.legacyImpact||'Implementation being monitored.')}</div></div>`).join('')||'<div class="nodata">No agency implementation queue yet.</div>';
+  const cab=document.getElementById('main-cabinet-summary');
+  if(cab){
+    const appointed=Object.entries(G.cabinet||{}).filter(([,v])=>v);
+    cab.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Appointed</span>${appointed.length}/${CAB_ROLES.length}</div><div class="brief-chip"><span>Avg loyalty</span>${Math.round(appointed.reduce((s,[role])=>s+(G.cabinetProfiles?.[role]?.loyalty||50),0)/Math.max(1,appointed.length))}</div><div class="brief-chip"><span>Avg competence</span>${Math.round(appointed.reduce((s,[role])=>s+(G.cabinetProfiles?.[role]?.competence||50),0)/Math.max(1,appointed.length))}</div><div class="brief-chip"><span>Leak risk</span>${Math.round(appointed.reduce((s,[role])=>s+(G.cabinetProfiles?.[role]?.scandalRisk||35),0)/Math.max(1,appointed.length))}</div></div>${appointed.slice(0,8).map(([role,name])=>`<div class="leg-item"><div class="leg-title">${htmlEscape(role)} — ${htmlEscape(name)}</div><div class="bill-whip">${htmlEscape(G.cabinetProfiles?.[role]?.brief||'Profile available from Home cabinet panel.')}</div></div>`).join('')}`;
+  }
+  const eco=document.getElementById('main-economy-summary');if(eco){
+    const debtPressure=clampNum((G.economy?.nationalDebt||0)/(G.economy?.gdp||27000)*100,0,220);
+    eco.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>GDP</span>${G.economy?.gdpGrowth?.toFixed(1)}%</div><div class="brief-chip"><span>Inflation</span>${G.economy?.inflation?.toFixed(1)}%</div><div class="brief-chip"><span>Unemployment</span>${G.economy?.unemployment?.toFixed(1)}%</div><div class="brief-chip"><span>Deficit</span>$${Math.abs((G.economy?.deficit||0)/1000).toFixed(2)}T</div><div class="brief-chip"><span>Debt / GDP</span>${debtPressure.toFixed(0)}%</div><div class="brief-chip"><span>Bond yield</span>${G.economy?.bondYield?.toFixed(1)}%</div></div><div class="war-sub" style="margin-top:.6rem">Budget decisions feed inflation, bond yields, debt pressure and bloc approval. Large unfunded wins can become re-election liabilities.</div>`;
+  }
+  const world=document.getElementById('main-world-summary');if(world){
+    const countries=Object.entries(COMMS_TARGETS).filter(([id])=>!['press','nato','un'].includes(id)).map(([id,t])=>({id,...t,rel:G.relations?.[t.countryId]??0})).sort((a,b)=>a.rel-b.rel);
+    world.innerHTML=`<div class="brief-grid"><div class="brief-chip"><span>Active conflicts</span>${(G.wars||[]).length||'None'}</div><div class="brief-chip"><span>Worst relation</span>${htmlEscape(countries[0]?.country||'—')} ${Math.round(countries[0]?.rel||0)}</div><div class="brief-chip"><span>Best relation</span>${htmlEscape(countries[countries.length-1]?.country||'—')} ${Math.round(countries[countries.length-1]?.rel||0)}</div><div class="brief-chip"><span>Recent calls</span>${(G.leaderCallLog||[]).length}</div></div>${countries.slice(0,8).map(c=>`<div class="leg-item"><div class="leg-title">${htmlEscape(c.country)} — ${htmlEscape(c.label)}</div><div class="bill-whip">Relation ${Math.round(c.rel)} · ${htmlEscape(c.interest)}</div></div>`).join('')}`;
+  }
+  renderCommunicationsDesk();
+  renderCovertDesk();
+  renderLegacyDesk();
+  const arch=document.getElementById('main-archive-list');if(arch)arch.innerHTML=(G.policyHistory||[]).slice(0,16).map(r=>`<div class="leg-item" onclick="openPolicyRecord(G.policyHistory.find(x=>x.id==='${r.id}'))"><div class="leg-title">${htmlEscape(r.name)}</div><div class="leg-meta"><span class="leg-pill">${htmlEscape(r.status)}</span><span class="leg-pill">${htmlEscape(r.route)}</span><span class="leg-pill">W${r.week}</span></div></div>`).join('')||'<div class="nodata">No archive records yet.</div>';
 }
 
 function processPendingBills(){
@@ -2986,6 +3261,14 @@ function weeklyDrift(){
     }
     addLogItem(`Scandal resolved: ${s.title}`);
   });
+
+  // ----- COVERT / INSTITUTIONAL PRESSURE -----
+  processCovertOps();
+  if(G.democraticBacksliding>0){
+    G.institutionalHealth=Math.max(0,(G.institutionalHealth??72)-G.democraticBacksliding*0.005);
+    G.approval.media=Math.max(0,G.approval.media-G.democraticBacksliding*0.006);
+    G.impeachmentRisk=Math.min(100,(G.impeachmentRisk||0)+Math.max(0,G.democraticBacksliding-20)*0.004);
+  }
 
   // ----- CABINET PASSIVE EFFECTS -----
   applyCabinetEffects();

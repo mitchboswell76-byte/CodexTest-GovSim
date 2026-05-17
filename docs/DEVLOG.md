@@ -39,10 +39,10 @@ Copy this template for every cycle.
 
 ## Cycle X - Short title
 
-**Date:**  
-**Agent:** Codex / Claude / Manual  
-**Branch:**  
-**Starting point:**  
+**Date:**
+**Agent:** Codex / Claude / Manual
+**Branch:**
+**Starting point:**
 
 ### Goal
 
@@ -116,9 +116,9 @@ What should the next agent cycle do?
 
 ## Cycle 0 - Setup instructions added
 
-**Date:**  
-**Agent:** Manual  
-**Branch:** main  
+**Date:**
+**Agent:** Manual
+**Branch:** main
 **Starting point:** Single-file `index.html` project.
 
 ### Goal
@@ -551,3 +551,88 @@ Create `docs/TEST_PLAN.md`, then ask Codex to begin its first autonomous improve
 
 **Next recommended task**
 - Deepen Congress with factions, committee chairs, named senators/representatives, whip operations, amendments, filibuster risk, issue-level public opinion and negotiation events.
+
+## 2026-05-17 — Autonomous Improvement Cycle 2
+
+### Cycle 2 — AI communications, covert pressure, and legacy dashboards
+
+**Date:** 2026-05-17
+**Agent:** Codex
+**Branch:** current working branch
+**Starting point:** Single-file browser simulator with a Home command center, a legislation war room, policy history, country modal hooks, cabinet profiles, budget controls, and end-of-term scoring.
+
+### Goal
+
+Implement a broad, playable feature pack from the standing design brief: richer freeform communications, covert/rogue political trade-offs, deeper tab architecture, institutional pressure, and a live legacy/re-election dashboard.
+
+### Why this mattered
+
+The user asked to move beyond placeholder tabs and include every major system area in depth. The highest-value near-term improvement was to turn reserved tabs into actual gameplay surfaces while keeping deterministic state changes trackable and save-compatible.
+
+### Files changed
+
+- `index.html`
+- `scripts/smoke-check.mjs`
+- `docs/DEVLOG.md`
+
+### What changed
+
+- Added top-level tabs for AI Communications, Covert / Crisis, and Legacy / Election.
+- Replaced placeholder executive, cabinet, economy, and world pages with state-aware dashboards.
+- Added freeform leader-call and press-conference mode with typed player messages, generated counterpart/follow-up responses, state-shaped consequences, action costs, and logs.
+- Added a fictional covert action desk with operation types, success/leak risk, democratic-backsliding, institutional-health, impeachment-risk and scandal consequences.
+- Added weekly covert-operation processing and institutional pressure drift.
+- Added legacy/re-election dashboard with category grades, re-election chance, legacy score, institutional health, fiscal/economic pressure, and shareable summary text.
+- Added migration defaults for old saves so the new systems load without undefined-state crashes.
+- Expanded the smoke check to assert the new DOM anchors, functions, UI snippets and initial state fields.
+
+### Gameplay effect
+
+GOVERN now supports more of the intended presidency loop: speak directly to leaders/reporters, manage covert temptations, watch institutions react, track executive/court risks, scan world relations, and see how current choices affect legacy and re-election pressure.
+
+### AI effect
+
+The communication desk is designed around freeform text rather than multiple choice. Even when fully offline, it uses deterministic state-shaped responses; inside the Claude-powered development environment it remains compatible with the broader AI-first command experience.
+
+### Political simulation effect
+
+The new systems make actions less one-dimensional: aggressive diplomacy can create leverage while worsening relations or inflation, evasive press answers can worsen media/scandal pressure, and covert operations can solve short-term problems while creating leaks, impeachment risk and democratic-backsliding costs.
+
+### Checks run
+
+- Startup check: `npm test` passed.
+- Week advancement: covered by smoke-level parse/function checks; manual browser screenshot was blocked by unavailable browser tooling and npm registry 403 for Playwright.
+- Save/load: migration defaults added for old save compatibility.
+- Autosave: tabs call existing autosave paths where state changes happen.
+- Policy/history: unchanged policy archive remains rendered in Archive tab.
+- Map/country: world desk now summarizes leader/country relationships while preserving Home map interaction.
+- Cabinet: cabinet desk now summarizes appointment count, average loyalty, competence and leak risk.
+- Congress: existing Congress and legislation pipeline remain intact.
+- Charts: existing chart rendering unchanged.
+- Console errors: inline JavaScript parse check passed.
+
+### Bugs found
+
+- Old saves would not have communication/covert/institutional state fields.
+- New perceptible UI could not be screenshot in this container because no browser runtime was available and `npx playwright` was blocked by registry policy.
+
+### Bugs fixed
+
+- Added migration defaults for all new state fields.
+- Expanded smoke check to catch missing new UI anchors/functions in future runs.
+
+### Known risks
+
+- Communication replies are deterministic templates unless connected through the existing AI command pipeline in a richer runtime.
+- Covert-operation mechanics are intentionally abstract and need balancing after playtesting.
+- The single `index.html` is now large; a future cycle should split modules into `src/` files.
+
+### What was deliberately avoided
+
+- Did not add real-world illegal instructions; covert actions remain abstract fictional simulation mechanics.
+- Did not hardwire API keys or weaken the Claude artifact AI-first direction.
+- Did not migrate to a framework during this feature pass.
+
+### Next recommended task
+
+Split the growing single-file app into modules (`src/state.js`, `src/communications.js`, `src/covert.js`, `src/ui.js`) and add browser-level smoke tests when a browser binary is available.
